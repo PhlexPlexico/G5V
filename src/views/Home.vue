@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <p>Place messages here for the home page. Should be match table, maybe.</p>
     <MatchesTable :user="user" />
   </div>
 </template>

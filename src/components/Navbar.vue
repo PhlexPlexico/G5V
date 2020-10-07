@@ -29,19 +29,19 @@
             <v-list-item-title>My Matches</v-list-item-title>
           </v-list-item>
 
-          <v-list-item index="match_create" to="/creatematch">
+          <v-list-item v-if="user" index="match_create" :to="'/creatematch'">
             <v-list-item-title>Create A Match</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user" to="/myteams">
+          <v-list-item v-if="user" :to="'/myteams'">
             <v-list-item-title>My Teams</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/myservers">
+          <v-list-item v-if="user" :to="'/myservers'">
             <v-list-item-title>My Servers</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/createserver">
+          <v-list-item v-if="user" :to="'/createserver'">
             <v-list-item-title>Add Server</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
