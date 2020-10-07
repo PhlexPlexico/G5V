@@ -21,11 +21,11 @@
           v-model="group"
           active-class="light-blue--text text--accent-4"
         >
-          <v-list-item index="Home" to="/">
+          <v-list-item index="Home" :to="'/'">
             <v-list-item-title>All Matches</v-list-item-title>
           </v-list-item>
 
-          <v-list-item index="mymatches" to="/mymatches">
+          <v-list-item v-if="user" index="mymatches" :to="'/mymatches'">
             <v-list-item-title>My Matches</v-list-item-title>
           </v-list-item>
 
@@ -33,7 +33,7 @@
             <v-list-item-title>Create A Match</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/myteams">
+          <v-list-item v-if="user" to="/myteams">
             <v-list-item-title>My Teams</v-list-item-title>
           </v-list-item>
 
