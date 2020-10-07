@@ -8,14 +8,14 @@ export default {
     // },
     async GetUserData (userid) {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}${userid}`)
+        const res = await this.axios.get(`/api/users/${userid}`)
         resolve(res.data)
       })
     },
     async GetTeamData (teamid) {
       return new Promise(async (resolve, reject) => {
         try {
-          const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}${teamid}`)
+          const res = await this.axios.get(`/api/teams/${teamid}`)
           resolve(res.data)
         } catch (err) {
           resolve({
@@ -33,19 +33,19 @@ export default {
     },
     async GetServerData (serverid) {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}${serverid}/`)
+        const res = await this.axios.get(`/api/servers${serverid}/`)
         resolve(res.data)
       })
     },
     async GetMatchData (matchid) {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}${matchid}`)
+        const res = await this.axios.get(`/api/matches${matchid}`)
         resolve(res.data)
       })
     },
     async GetRecentMatches (teamid) {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}${teamid}`)
+        const res = await this.axios.get(`/api/teams/${teamid}/recent`)
         resolve(res.data)
       })
     },
@@ -80,6 +80,12 @@ export default {
       }
       // return `<img src="/img/valve_flags/${team.flag}"  width="24" height="16">`
       return `/img/valve_flags/${team.flag}.png`
+    },
+    GetMatchResult: function (team, match) {
+      return new Promise(async (resolve, reject) => {
+        const res = await this.axios.get(`/api/teams/${teamid}/result/${match}`)
+        resolve(res.data)
+      })
     },
     score_symbol: function (score1, score2) {
       if (score1 > score2) {
@@ -134,13 +140,13 @@ export default {
     },
     async GetTeams () {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}teams`)
+        const res = await this.axios.get(`/api/teams`)
         resolve(res.data)
       })
     },
     async GetServers () {
       return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`${process.env.VUE_APP_VUE_APP_API_URL}servers`)
+        const res = await this.axios.get(`/api/servers`)
         resolve(res.data)
       })
     }
