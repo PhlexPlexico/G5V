@@ -11,7 +11,7 @@
       <v-btn rounded color="grey darken-2" href="/api/logout" v-if="user">
         Logout<v-icon right>mdi-logout-variant</v-icon>
       </v-btn>
-      <v-btn :href="`/api/users/${user.id}`" v-if="user" fab small>
+      <v-btn to="/user" v-if="user" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
     </v-app-bar>
