@@ -38,5 +38,12 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 - [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go.
 - [Sean Lewis](https://github.com/splewis) for the creation of get5.
 
+### Screenshots  
+![](./screenshots/MainPage.png)  
+![](./screenshots/MainPageLoggedIn.png)  
+![](./screenshots/SideMenuLoggedOut.png)  
+![](./screenshots/SideMenuLoggedIn.png)  
+![](./screenshots/TeamPage.png)
+
 # License
 This project is licensed under [MIT License](http://opensource.org/licenses/MIT). A copy of this license **must be included with the software**.
