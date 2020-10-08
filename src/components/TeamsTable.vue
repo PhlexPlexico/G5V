@@ -20,10 +20,7 @@
       </a>
     </template>
     <template v-slot:item.flag="{ item }">
-      <img
-        :src="`/img/valve_flags/${item.flag.toLowerCase()}.png`"
-        style="border-radius: 15px;"
-      />
+      <img :src="get_flag_link(item)" style="border-radius: 15px;" />
     </template>
   </v-data-table>
 </template>

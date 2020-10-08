@@ -7,15 +7,15 @@ export default {
     //   this.$message(this.$t('lang.LanguageChanged'))
     // },
     async GetUserData(userid) {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/users/${userid}`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/users/${userid}`);
         resolve(res.data);
       });
     },
     async GetTeamData(teamid) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(resolve => {
         try {
-          const res = await this.axios.get(`/api/teams/${teamid}`);
+          const res = this.axios.get(`/api/teams/${teamid}`);
           resolve(res.data);
         } catch (err) {
           resolve({
@@ -32,26 +32,26 @@ export default {
       });
     },
     async GetServerData(serverid) {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/servers${serverid}/`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/servers${serverid}/`);
         resolve(res.data);
       });
     },
     async GetMatchData(matchid) {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/matches/${matchid}`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/matches/${matchid}`);
         resolve(res.data);
       });
     },
     async GetRecentMatches(teamid) {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/teams/${teamid}/recent`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/teams/${teamid}/recent`);
         resolve(res.data);
       });
     },
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {
-    //     const res = await this.axios.get(`/api/v1/GetMapList`)
+    //     const res = this.axios.get(`/api/v1/GetMapList`)
     //     resolve(res.data)
     //   })
     // },
@@ -72,9 +72,6 @@ export default {
         };
       }
     },
-    get_logo_html: function(team) {
-      // TODO...
-    },
     get_flag_link: function(team) {
       if (team.flag === "") {
         return `/img/_unknown.png`;
@@ -83,17 +80,14 @@ export default {
       return `/img/valve_flags/${team.flag}.png`;
     },
     GetMatchResult: function(team, match) {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(
-          `/api/teams/${teamid}/result/${match}`
-        );
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/teams/${team}/result/${match}`);
         resolve(res.data);
       });
     },
     score_symbol: function(score1, score2) {
       if (score1 > score2) {
         return ">";
-      } else {
       }
       if (score1 < score2) {
         return "<";
@@ -144,14 +138,14 @@ export default {
       return false;
     },
     async GetTeams() {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/teams`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/teams`);
         resolve(res.data);
       });
     },
     async GetServers() {
-      return new Promise(async (resolve, reject) => {
-        const res = await this.axios.get(`/api/servers`);
+      return new Promise(resolve => {
+        const res = this.axios.get(`/api/servers`);
         resolve(res.data);
       });
     }

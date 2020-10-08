@@ -4,9 +4,10 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
+import api from "./utils/api.vue";
 
 Vue.config.productionTip = false;
-
+Vue.mixin(api);
 new Vue({
   router,
   store,
