@@ -1,7 +1,7 @@
-# Vue5 - Front-end website for G5API
+# Get5Vue - Front-end website for G5API
 _**Status: Early Alpha. Under active development.**_
 
-Vue5 is going to be a replacement for the get5-webpanel. _Currently_ this is a basic implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
+Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ this is a basic implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
 
 
 ## What does it do?
@@ -32,7 +32,7 @@ Spins up a development server where you can make all your calls.
 This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled.
 
 ## Contribution
-Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/vue5/issues) page to track what calls still need to be completed. This project won't be finished anytime soon, as I'm still learning on how to use various front-end tools. But feel free to start working on some routes/new pages and submit them!
+Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed. This project won't be finished anytime soon, as I'm still learning on how to use various front-end tools. But feel free to start working on some routes/new pages and submit them!
 
 ### Special Thanks
 - [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go.
