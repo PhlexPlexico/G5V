@@ -74,7 +74,6 @@ export default {
       await res.data.teams.forEach(async team => {
         const ownerRes = await axios.get(`/api/users/${team.user_id}`);
         team.owner = ownerRes.data.user.name;
-        console.log(this.user);
         if (team.public_team == 1) {
           this.teams.push(team);
         } else if (
