@@ -34,10 +34,11 @@
 
 <script>
 import axios from "axios";
+
 export default {
+  props: ["user"],
   data() {
     return {
-      user: false,
       headers: [
         {
           text: "Match ID",

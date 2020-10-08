@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <MatchesTable :user="user" />
+    <TeamsTable :user="user" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import MatchesTable from "../components/MatchesTable";
+import TeamsTable from "../components/TeamsTable";
 import axios from "axios";
 export default {
-  name: "Home",
+  name: "Teams",
   components: {
-    MatchesTable
+    TeamsTable
   },
   data() {
     return {

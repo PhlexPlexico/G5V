@@ -37,6 +37,10 @@
             <v-list-item-title>My Teams</v-list-item-title>
           </v-list-item>
 
+          <v-list-item :to="'/teams'">
+            <v-list-item-title>All Teams</v-list-item-title>
+          </v-list-item>
+
           <v-list-item v-if="user" :to="'/myservers'">
             <v-list-item-title>My Servers</v-list-item-title>
           </v-list-item>

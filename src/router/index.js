@@ -14,18 +14,24 @@ const routes = [
     path: "/teams",
     name: "Teams",
     // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
+    // this generates a separate chunk (teams.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
+      import(/* webpackChunkName: "Teams" */ "../views/Teams.vue")
   },
   {
     path: "/mymatches",
     name: "My Matches",
-    component: Home,
-    meta: {
-      reload: true
-    }
+    component: Home
+  },
+  {
+    path: "/myteams",
+    name: "Teams",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Teams" */ "../views/Teams.vue")
   }
 ];
 
