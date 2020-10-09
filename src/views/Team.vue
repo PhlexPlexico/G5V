@@ -29,7 +29,7 @@ export default {
     };
   },
   async mounted() {
-    this.user = this.IsLoggedIn().data;
+    this.user = await this.IsLoggedIn();
   }
 };
 </script>

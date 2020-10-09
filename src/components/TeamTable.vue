@@ -29,7 +29,14 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
+            <v-btn
+              :disabled="isDisabled"
+              color="primary"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+            >
               Edit Team Info
             </v-btn>
           </template>
@@ -119,9 +126,12 @@ export default {
         logo: "",
         tag: "",
         public: 0,
-        owner: ""
+        owner: "",
+        owner_id: ""
       },
-      isLoading: true
+      isLoading: true,
+      isDisabled: true,
+      dialog: false
     };
   },
   computed: {
@@ -129,8 +139,8 @@ export default {
       return "Edit Team Info";
     }
   },
-  mounted() {
-    this.GetTeamInfo();
+  async created() {
+    await this.GetTeamInfo();
   },
   methods: {
     async GetTeamInfo() {
@@ -144,7 +154,8 @@ export default {
           logo: res.logo,
           tag: res.tag,
           public: res.public,
-          owner: userData.name
+          owner: userData.name,
+          owner_id: userData.id
         };
         await Object.keys(teamInfo).map(async steam_id => {
           let indTeamMember = {
@@ -154,6 +165,7 @@ export default {
           };
           this.teamAuth.push(indTeamMember);
         });
+        this.isDisabled = !(await this.IsAnyAdmin(this.user));
       } catch (err) {
         //console.log(err);
       } finally {

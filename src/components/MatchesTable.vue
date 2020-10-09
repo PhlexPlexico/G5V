@@ -34,7 +34,6 @@
 
 <script>
 export default {
-  props: ["user"],
   data() {
     return {
       headers: [
@@ -70,19 +69,23 @@ export default {
   },
   methods: {
     async GetMatches() {
-      const res =
-        this.$route.path == "/"
-          ? await this.GetAllMatches()
-          : await this.GetMyMatches();
-      await res.forEach(async match => {
-        const ownerRes = await this.GetUserData(match.user_id);
-        const statusRes = await this.GetMatchResult(match.team1_id, match.id);
-        match.owner = ownerRes.name;
-        match.match_status = statusRes;
-        this.matches.push(match);
-      });
-
-      this.isLoading = false;
+      try {
+        const res =
+          this.$route.path == "/"
+            ? await this.GetAllMatches()
+            : await this.GetMyMatches();
+        await res.forEach(async match => {
+          const ownerRes = await this.GetUserData(match.user_id);
+          const statusRes = await this.GetMatchResult(match.team1_id, match.id);
+          match.owner = ownerRes.name;
+          match.match_status = statusRes;
+          this.matches.push(match);
+        });
+      } catch (error) {
+        //console.log(err);
+      } finally {
+        this.isLoading = false;
+      }
       return;
     }
   }

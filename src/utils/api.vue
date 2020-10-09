@@ -18,7 +18,8 @@ export default {
     //   this.$message(this.$t('lang.LanguageChanged'))
     // },
     async IsLoggedIn() {
-      return await this.axioCall.get("/api/isLoggedIn");
+      const res = await this.axioCall.get("/api/isLoggedIn");
+      return res.data;
     },
     async GetUserData(userid) {
       let res;
@@ -134,7 +135,7 @@ export default {
     async GetMyTeams() {
       let res;
       try {
-        res = await this.axioCall.get("/api/myteams");
+        res = await this.axioCall.get("/api/teams/myteams");
         return res.data.teams;
       } catch (err) {
         console.log(err);
@@ -167,10 +168,10 @@ export default {
     async GetMyMatches() {
       let res;
       try {
-        res = await this.axioCall.get("/api/mymatches");
+        res = await this.axioCall.get("/api/matches/mymatches");
         return res.data.matches;
       } catch (err) {
-        console.log(err);
+        //console.log(err);
         res = "Error retreiving matches.";
       }
       return res;
@@ -238,6 +239,14 @@ export default {
         return true;
       }
       return false;
+    },
+    IsAnyAdmin: function(user) {
+      let adminCheck = user.admin + user.super_admin;
+      if (adminCheck > 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
