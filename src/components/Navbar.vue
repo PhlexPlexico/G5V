@@ -54,7 +54,6 @@
   </v-card>
 </template>
 <script>
-import axios from "axios";
 export default {
   name: "Navbar",
   data() {
@@ -74,9 +73,7 @@ export default {
     };
   },
   async mounted() {
-    let apiUrl = "/api/isLoggedIn";
-    let LoggedIn = await axios.get(apiUrl, { withCredentials: true });
-    this.user = LoggedIn.data;
+    this.user = this.IsLoggedIn().data;
   },
   methods: {
     handleLanguage: function(command) {

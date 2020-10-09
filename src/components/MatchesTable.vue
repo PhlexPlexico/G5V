@@ -7,7 +7,7 @@
     :headers="headers"
     :items="matches"
     :sort-by="['id']"
-    ref="MatchTable"
+    ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
       <a :href="`/matches/${item.id}`">
@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   props: ["user"],
   data() {
@@ -74,15 +72,13 @@ export default {
     async GetMatches() {
       const res =
         this.$route.path == "/"
-          ? await axios.get("/api/matches")
-          : await axios.get("/api/matches/mymatches");
-      await res.data.matches.forEach(async match => {
-        const ownerRes = await axios.get(`/api/users/${match.user_id}`);
-        const statusRes = await axios.get(
-          `/api/teams/${match.team1_id}/result/${match.id}`
-        );
-        match.owner = ownerRes.data.user.name;
-        match.match_status = statusRes.data.result;
+          ? await this.GetAllMatches()
+          : await this.GetMyMatches();
+      await res.forEach(async match => {
+        const ownerRes = await this.GetUserData(match.user_id);
+        const statusRes = await this.GetMatchResult(match.team1_id, match.id);
+        match.owner = ownerRes.name;
+        match.match_status = statusRes;
         this.matches.push(match);
       });
 

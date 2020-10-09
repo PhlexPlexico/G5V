@@ -1,53 +1,179 @@
 <script>
+import axios from "axios";
 export default {
   name: "api",
+  data() {
+    return {
+      axioCall: axios.create({
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: true
+      })
+    };
+  },
   methods: {
     // ChangeLanguage: function (lang) {
     //   this.$i18n.locale = lang
     //   this.$message(this.$t('lang.LanguageChanged'))
     // },
+    async IsLoggedIn() {
+      return await this.axioCall.get("/api/isLoggedIn");
+    },
     async GetUserData(userid) {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/users/${userid}`);
-        resolve(res.data);
-      });
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/users/${userid}`);
+        return res.data.user;
+      } catch (err) {
+        //console.log(err)
+        res = {
+          id: 0,
+          steam_id: "",
+          name: "ERROR",
+          admin: 0,
+          super_admin: 0
+        };
+      }
+      return res;
     },
     async GetTeamData(teamid) {
-      return new Promise(resolve => {
-        try {
-          const res = this.axios.get(`/api/teams/${teamid}`);
-          resolve(res.data);
-        } catch (err) {
-          resolve({
-            id: 0,
-            user_id: 0,
-            name: "DELETED TEAM",
-            tag: "",
-            flag: "",
-            logo: "",
-            steamids: [],
-            public_team: false
-          });
-        }
-      });
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}`);
+        return res.data.team;
+      } catch (err) {
+        res = {
+          id: 0,
+          user_id: 0,
+          name: "NON EXISTANT TEAM",
+          tag: "",
+          flag: "",
+          logo: "",
+          auth_name: {},
+          public_team: false
+        };
+      }
+      return res;
     },
     async GetServerData(serverid) {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/servers${serverid}/`);
-        resolve(res.data);
-      });
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/servers/${serverid}`);
+        return res.data.server;
+      } catch (err) {
+        //console.log(err)
+        res = {
+          id: 0,
+          in_use: 0,
+          ip_string: "",
+          port: 0,
+          rcon_password: null,
+          display_name: "ERROR RETREIVING SERVER",
+          public_server: 0,
+          name: "ERROR"
+        };
+        return res;
+      }
     },
     async GetMatchData(matchid) {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/matches/${matchid}`);
-        resolve(res.data);
-      });
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/matches/${matchid}`);
+        return res.data.match;
+      } catch (err) {
+        //console.log(err);
+        res = {
+          id: 0,
+          user_id: null,
+          server_id: null,
+          team1_id: null,
+          team2_id: null,
+          winner: null,
+          team1_score: 0,
+          team2_score: null,
+          cancelled: 0,
+          title: "ERROR"
+        };
+      }
+      return res;
     },
     async GetRecentMatches(teamid) {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/teams/${teamid}/recent`);
-        resolve(res.data);
-      });
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
+        return res.data.matches;
+      } catch (err) {
+        //console.log(err)
+        res = [];
+      }
+      return res;
+    },
+    async GetMatchResult(team, match) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${team}/result/${match}`);
+        return res.data.result;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving result.";
+      }
+      return res;
+    },
+    async GetAllTeams() {
+      let res;
+      try {
+        res = await this.axioCall.get("/api/teams");
+        return res.data.teams;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving teams.";
+      }
+      return res;
+    },
+    async GetMyTeams() {
+      let res;
+      try {
+        res = await this.axioCall.get("/api/myteams");
+        return res.data.teams;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving teams.";
+      }
+      return res;
+    },
+    async GetAllServers() {
+      let res;
+      try {
+        res = await this.axioCall.get("/api/servers");
+        return res.data.servers;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving servers.";
+      }
+      return res;
+    },
+    async GetAllMatches() {
+      let res;
+      try {
+        res = await this.axioCall.get("/api/matches");
+        return res.data.matches;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving matches.";
+      }
+      return res;
+    },
+    async GetMyMatches() {
+      let res;
+      try {
+        res = await this.axioCall.get("/api/mymatches");
+        return res.data.matches;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving matches.";
+      }
+      return res;
     },
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {
@@ -76,34 +202,7 @@ export default {
       if (team.flag === "") {
         return `/img/_unknown.png`;
       }
-      // return `<img src="/img/valve_flags/${team.flag}"  width="24" height="16">`
       return `/img/valve_flags/${team.flag}.png`;
-    },
-    GetMatchResult: function(team, match) {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/teams/${team}/result/${match}`);
-        resolve(res.data);
-      });
-    },
-    score_symbol: function(score1, score2) {
-      if (score1 > score2) {
-        return ">";
-      }
-      if (score1 < score2) {
-        return "<";
-      } else {
-        return "==";
-      }
-    },
-    get_loser: function(matchdata) {
-      // returns loser's teamname
-      if (matchdata.team1_score > matchdata.team2_score) {
-        return matchdata.team2.name;
-      } else if (matchdata.team1_score < matchdata.team2_score) {
-        return matchdata.team1.name;
-      } else {
-        return "";
-      }
     },
     GetKDR: function(playerstat) {
       if (playerstat.deaths === 0) {
@@ -130,24 +229,15 @@ export default {
       return playerstat.kills / playerstat.roundsplayed;
     },
     AdminToolsAvailable: function() {
-      if (this.user.isAdmin && this.matchdata.live) {
+      if ((this.user.admin || this.user.super_admin) && this.matchdata.live) {
         return true;
-      } else if (this.user.isAdmin && this.matchdata.pending) {
+      } else if (
+        (this.user.admin || this.user.super_admin) &&
+        this.matchdata.pending
+      ) {
         return true;
       }
       return false;
-    },
-    async GetTeams() {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/teams`);
-        resolve(res.data);
-      });
-    },
-    async GetServers() {
-      return new Promise(resolve => {
-        const res = this.axios.get(`/api/servers`);
-        resolve(res.data);
-      });
     }
   }
 };

@@ -7,7 +7,7 @@
     :headers="headers"
     :items="teams"
     :sort-by="['id']"
-    ref="MatchTable"
+    ref="TeamsTable"
   >
     <template v-slot:item.id="{ item }">
       <a :href="`/teams/${item.id}`">
@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import axios from "axios";
 export default {
   props: ["user"],
   data() {
@@ -64,23 +63,28 @@ export default {
   },
   methods: {
     async GetTeams() {
-      const res =
-        this.$route.path == "/teams"
-          ? await axios.get("/api/teams")
-          : await axios.get("/api/teams/myteams");
-      await res.data.teams.forEach(async team => {
-        const ownerRes = await axios.get(`/api/users/${team.user_id}`);
-        team.owner = ownerRes.data.user.name;
-        if (team.public_team == 1) {
-          this.teams.push(team);
-        } else if (
-          this.user != null &&
-          (this.user.admin || this.user.super_admin)
-        ) {
-          this.teams.push(team);
-        }
-      });
-      this.isLoading = false;
+      try {
+        const res =
+          this.$route.path == "/teams"
+            ? await this.GetAllTeams()
+            : await this.GetMyTeams();
+        await res.forEach(async team => {
+          const ownerRes = await this.GetUserData(team.user_id);
+          team.owner = ownerRes.name;
+          if (team.public_team == 1) {
+            this.teams.push(team);
+          } else if (
+            this.user != null &&
+            (this.user.admin || this.user.super_admin)
+          ) {
+            this.teams.push(team);
+          }
+        });
+      } catch (err) {
+        //console.log(err);
+      } finally {
+        this.isLoading = false;
+      }
       return;
     }
   }
