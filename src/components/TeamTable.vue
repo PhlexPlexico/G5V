@@ -177,6 +177,16 @@ export default {
         this.isLoading = false;
       }
       return;
+    },
+    close () {
+        this.dialog = false;
+        // this.$nextTick(() => {
+        //   this.editedItem = Object.assign({}, this.defaultItem)
+        //   this.editedIndex = -1
+        // })
+    },
+    save() {
+      this.dialog = false;
     }
   }
 };
