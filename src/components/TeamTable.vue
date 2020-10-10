@@ -40,7 +40,7 @@
               Edit Team Info
             </v-btn>
           </template>
-          <!-- <v-card>
+          <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
@@ -48,29 +48,30 @@
             <v-card-text>
               <v-container>
                 <v-row>
-                  <v-col cols="12" sm="6" md="4">
+                  <v-col cols="12" sm="6" md="8">
                     <v-text-field
-                      v-model="editedItem.name"
+                      v-model="teamInfo.name"
                       label="Team Name"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.flag"
+                  <v-col cols="12" sm="6" md="3">
+                    <v-select
+                      :items="flags"
+                      v-model="teamInfo.flag"
                       label="Team Flag"
-                    ></v-text-field>
+                    >teamInfo.flag</v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
-                      v-model="editedItem.tag"
+                      v-model="teamInfo.tag"
                       label="Team Tag"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="editedItem.public"
+                    <v-switch
+                      v-model="teamInfo.public"
                       label="Public Team?"
-                    ></v-text-field>
+                    ></v-switch>
                   </v-col>
                 </v-row>
               </v-container>
@@ -85,7 +86,7 @@
                 Save
               </v-btn>
             </v-card-actions>
-          </v-card> -->
+          </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
@@ -99,7 +100,7 @@
 
 <script>
 export default {
-  props: ["user"],
+  props: ["user", "newTeam"],
   data() {
     return {
       userAuthHeaders: [
@@ -125,13 +126,14 @@ export default {
         flag: "",
         logo: "",
         tag: "",
-        public: 0,
+        public: false,
         owner: "",
         owner_id: ""
       },
       isLoading: true,
       isDisabled: true,
-      dialog: false
+      dialog: false,
+      flags: []
     };
   },
   computed: {
@@ -140,7 +142,10 @@ export default {
     }
   },
   async created() {
-    await this.GetTeamInfo();
+    if (!this.newTeam) {
+      await this.GetTeamInfo();
+    }
+    this.flags = this.GetFlags();
   },
   methods: {
     async GetTeamInfo() {
@@ -150,10 +155,10 @@ export default {
         let teamInfo = res.auth_name;
         this.teamInfo = {
           name: res.name,
-          flag: res.flag,
+          flag: res.flag.toUpperCase(),
           logo: res.logo,
           tag: res.tag,
-          public: res.public,
+          public: new Boolean(res.public),
           owner: userData.name,
           owner_id: userData.id
         };

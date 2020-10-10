@@ -3,7 +3,7 @@
     <v-system-bar color="blue darken-3"></v-system-bar>
     <v-app-bar app color="blue" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Get5</v-toolbar-title>
+      <v-toolbar-title>Get5Vue</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn rounded href="/api/auth/steam" v-if="!user || user == false">
         <img src="/img/login_small.png" v-if="!user || user == false" />

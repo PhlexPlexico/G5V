@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <TeamTable :user="user" />
+    <TeamTable :user="user" :newTeam="false" />
   </div>
 </template>
 
