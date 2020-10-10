@@ -176,6 +176,16 @@ export default {
       }
       return res;
     },
+    UpdateTeamInfo(teamInfo) {
+      let res;
+      try {
+        res = this.axioCall.put("/api/teams/", teamInfo);
+        return res.data;
+      } catch (err) {
+        res = "Error posting data.";
+      }
+      return res;
+    },
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {
     //     const res = this.axios.get(`/api/v1/GetMapList`)

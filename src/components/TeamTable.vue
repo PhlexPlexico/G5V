@@ -163,11 +163,12 @@ export default {
         const userData = await this.GetUserData(res.user_id);
         let teamInfo = res.auth_name;
         this.teamInfo = {
+          id: res.id,
           name: res.name,
           flag: res.flag.toUpperCase(),
           logo: res.logo,
           tag: res.tag,
-          public: new Boolean(res.public),
+          public: res.public_team,
           owner: userData.name,
           owner_id: userData.id
         };
@@ -194,8 +195,17 @@ export default {
       this.dialog = false;
     },
     saveTeamInfo() {
+      let updatedTeam = [
+        {
+          id: this.teamInfo.id,
+          name: this.teamInfo.name,
+          flag: this.teamInfo.flag,
+          tag: this.teamInfo.tag,
+          public_team: this.teamInfo.public === true ? 1 : 0
+        }
+      ];
+      this.UpdateTeamInfo(updatedTeam);
       this.dialog = false;
-      //TODO: Axios calls to PUT data for general team info.
     }
   }
 };
