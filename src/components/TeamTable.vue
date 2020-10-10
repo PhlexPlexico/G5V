@@ -59,7 +59,7 @@
                       :items="flags"
                       v-model="teamInfo.flag"
                       label="Team Flag"
-                    >teamInfo.flag</v-select>
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
@@ -82,7 +82,7 @@
               <v-btn color="blue darken-1" text @click="close">
                 Cancel
               </v-btn>
-              <v-btn color="blue darken-1" text @click="save">
+              <v-btn color="blue darken-1" text @click="saveTeamInfo">
                 Save
               </v-btn>
             </v-card-actions>
@@ -141,6 +141,15 @@ export default {
       return "Edit Team Info";
     }
   },
+  watch: {
+    dialog(val) {
+      if (!val) {
+        // Only reload on close.
+        this.GetTeamInfo();
+      }
+      return val || this.close();
+    }
+  },
   async created() {
     if (!this.newTeam) {
       await this.GetTeamInfo();
@@ -162,14 +171,17 @@ export default {
           owner: userData.name,
           owner_id: userData.id
         };
-        await Object.keys(teamInfo).map(async steam_id => {
-          let indTeamMember = {
-            tag: teamInfo[steam_id].image,
-            username: teamInfo[steam_id].name,
-            steamid: steam_id
-          };
-          this.teamAuth.push(indTeamMember);
-        });
+        if (this.teamAuth.length == 0) {
+          this.isLoading = true;
+          await Object.keys(teamInfo).map(async steam_id => {
+            let indTeamMember = {
+              tag: teamInfo[steam_id].image,
+              username: teamInfo[steam_id].name,
+              steamid: steam_id
+            };
+            this.teamAuth.push(indTeamMember);
+          });
+        }
         this.isDisabled = !(await this.IsAnyAdmin(this.user));
       } catch (err) {
         //console.log(err);
@@ -178,15 +190,12 @@ export default {
       }
       return;
     },
-    close () {
-        this.dialog = false;
-        // this.$nextTick(() => {
-        //   this.editedItem = Object.assign({}, this.defaultItem)
-        //   this.editedIndex = -1
-        // })
-    },
-    save() {
+    close() {
       this.dialog = false;
+    },
+    saveTeamInfo() {
+      this.dialog = false;
+      //TODO: Axios calls to PUT data for general team info.
     }
   }
 };
