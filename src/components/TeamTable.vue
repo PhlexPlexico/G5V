@@ -98,22 +98,24 @@
               v-bind="attrs"
               v-on="on"
             >
-              New Team Member
+              New/Edit Team Member
             </v-btn>
           </template>
           <v-card>
             <v-card-title>
-              <span class="headline">{{ formIndividualTitle }}</span>
+              <span class="headline">{{ formIndTitle }}</span>
             </v-card-title>
 
             <v-card-text>
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="12" md="12">
-                    <v-text-field
+                    <v-combobox
                       v-model="newAuth.steam"
+                      :items="steamIdList"
+                      :value="newAuth.name"
                       label="Steam Identifier (URL, 64, 32, etc.)"
-                    ></v-text-field>
+                    ></v-combobox>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -171,6 +173,7 @@ export default {
         }
       ],
       teamAuth: [],
+      steamIdList: [],
       newAuth: {},
       teamInfo: {
         name: "",
@@ -185,17 +188,15 @@ export default {
       isDisabled: true,
       dialog: false,
       authDialog: false,
-      flags: []
+      flags: [],
+      formIndTitle: "New Player",
+      editInfo: false
     };
   },
   computed: {
     formTitle() {
       if (!this.newTeam) return "Edit Team Info";
       else return "New Team Info";
-    },
-    formIndividualTitle() {
-      if (!this.editInfo) return "New Player";
-      else return "Edit Player";
     }
   },
   watch: {
@@ -212,6 +213,21 @@ export default {
         this.GetTeamInfo();
       }
       return val || this.close();
+    },
+    newAuth(val) {
+      if (val) {
+        for (let key in this.teamAuth) {
+          if (this.teamAuth[key].steamid == val.steam) {
+            this.newAuth.name = this.teamAuth[key].username;
+            this.editInfo = true;
+            break;
+          }
+        }
+      }
+    },
+    editInfo(val) {
+      if (val) this.formIndTitle = "Edit Player";
+      else this.formIndTitle = "New Player";
     }
   },
   async created() {
@@ -244,6 +260,7 @@ export default {
               username: teamInfo[steam_id].name,
               steamid: steam_id
             };
+            this.steamIdList.push(steam_id);
             this.teamAuth.push(indTeamMember);
           });
         }
@@ -275,8 +292,10 @@ export default {
       this.dialog = false;
     },
     async saveTeamAuth() {
+      //TODO: Since the API will just update a user if it's provided, maybe make a dropdown with editable values...
       let newTeamMember = {
-        [this.newAuth.steam.toString()]: this.newAuth.name
+        [this.newAuth.steam.toString()]:
+          this.newAuth.name == null ? "" : this.newAuth.name
       };
       let updatedTeam = [
         {
@@ -287,6 +306,8 @@ export default {
       await this.UpdateTeamInfo(updatedTeam);
       // Reset state to force a reload on the table.
       this.teamAuth = [];
+      this.newAuth = {};
+      this.editInfo = false;
       this.isLoading = true;
       this.authDialog = false;
     }
