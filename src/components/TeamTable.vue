@@ -88,6 +88,56 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="authDialog" max-width="500px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              :disabled="isDisabled"
+              color="secondary"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+            >
+              New Team Member
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ formIndividualTitle }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-text-field
+                      v-model="newAuth.steam"
+                      label="Steam Identifier (URL, 64, 32, etc.)"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="12" sm="12" md="12">
+                    <v-text-field
+                      v-model="newAuth.name"
+                      label="Optional Nickname"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="authClose">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="saveTeamAuth">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-toolbar>
     </template>
     <template v-slot:item.actions="{ item }">
@@ -121,6 +171,7 @@ export default {
         }
       ],
       teamAuth: [],
+      newAuth: {},
       teamInfo: {
         name: "",
         flag: "",
@@ -133,16 +184,29 @@ export default {
       isLoading: true,
       isDisabled: true,
       dialog: false,
+      authDialog: false,
       flags: []
     };
   },
   computed: {
     formTitle() {
-      return "Edit Team Info";
+      if (!this.newTeam) return "Edit Team Info";
+      else return "New Team Info";
+    },
+    formIndividualTitle() {
+      if (!this.editInfo) return "New Player";
+      else return "Edit Player";
     }
   },
   watch: {
     dialog(val) {
+      if (!val) {
+        // Only reload on close.
+        this.GetTeamInfo();
+      }
+      return val || this.close();
+    },
+    authDialog(val) {
       if (!val) {
         // Only reload on close.
         this.GetTeamInfo();
@@ -194,6 +258,9 @@ export default {
     close() {
       this.dialog = false;
     },
+    authClose() {
+      this.authDialog = false;
+    },
     saveTeamInfo() {
       let updatedTeam = [
         {
@@ -206,6 +273,22 @@ export default {
       ];
       this.UpdateTeamInfo(updatedTeam);
       this.dialog = false;
+    },
+    async saveTeamAuth() {
+      let newTeamMember = {
+        [this.newAuth.steam.toString()]: this.newAuth.name
+      };
+      let updatedTeam = [
+        {
+          id: this.teamInfo.id,
+          auth_name: newTeamMember
+        }
+      ];
+      await this.UpdateTeamInfo(updatedTeam);
+      // Reset state to force a reload on the table.
+      this.teamAuth = [];
+      this.isLoading = true;
+      this.authDialog = false;
     }
   }
 };
