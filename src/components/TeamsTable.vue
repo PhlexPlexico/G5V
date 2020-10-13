@@ -1,6 +1,6 @@
 <template>
   <v-data-table
-    item-key="name"
+    item-key="id"
     class="elevation-1"
     :loading="isLoading"
     loading-text="Loading... Please wait"
@@ -20,7 +20,7 @@
       </a>
     </template>
     <template v-slot:item.flag="{ item }">
-      <img :src="get_flag_link(item)" style="border-radius: 15px;" />
+      <img :src="get_flag_link(item)" style="border-radius: 5px;" />
     </template>
   </v-data-table>
 </template>

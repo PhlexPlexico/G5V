@@ -165,6 +165,17 @@ export default {
       }
       return res;
     },
+    async GetTeamRecentMatches(teamid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
+        return res.data.matches;
+      } catch (err) {
+        console.log(err);
+        res = "Error retreiving matches.";
+      }
+      return res;
+    },
     async GetMyMatches() {
       let res;
       try {
@@ -176,10 +187,10 @@ export default {
       }
       return res;
     },
-    UpdateTeamInfo(teamInfo) {
+    async UpdateTeamInfo(teamInfo) {
       let res;
       try {
-        res = this.axioCall.put("/api/teams/", teamInfo);
+        res = await this.axioCall.put("/api/teams/", teamInfo);
         return res.data;
       } catch (err) {
         res = "Error posting data.";
@@ -196,7 +207,16 @@ export default {
           headers: { "Content-Type": "application/json" },
           withCredentials: true
         });
-        //res = await this.axioCall.delete("/api/teams/", { data: member });
+        return res.data;
+      } catch (err) {
+        res = "Error posting data.";
+      }
+      return res;
+    },
+    async InsertTeamInfo(teamInfo) {
+      let res;
+      try {
+        res = await this.axioCall.post("/api/teams/", teamInfo);
         return res.data;
       } catch (err) {
         res = "Error posting data.";

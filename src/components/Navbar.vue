@@ -48,6 +48,10 @@
           <v-list-item v-if="user" :to="'/createserver'">
             <v-list-item-title>Add Server</v-list-item-title>
           </v-list-item>
+
+          <v-list-item v-if="user" :to="'/teams/create'">
+            <v-list-item-title>Create Team</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

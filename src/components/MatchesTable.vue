@@ -70,10 +70,11 @@ export default {
   methods: {
     async GetMatches() {
       try {
-        const res =
-          this.$route.path == "/"
-            ? await this.GetAllMatches()
-            : await this.GetMyMatches();
+        let res;
+        if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
+        else if (this.$route.path.includes("team"))
+          res = await this.GetTeamRecentMatches(this.$route.params.id);
+        else res = await this.GetAllMatches();
         await res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);
           const statusRes = await this.GetMatchResult(match.team1_id, match.id);

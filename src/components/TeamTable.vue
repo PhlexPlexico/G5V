@@ -43,7 +43,7 @@
               v-bind="attrs"
               v-on="on"
             >
-              Edit Team Info
+              {{ formTitle }}
             </v-btn>
           </template>
           <v-card>
@@ -97,14 +97,14 @@
         <v-dialog v-model="authDialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
-              :disabled="isDisabled"
+              :disabled="isMembersDisabled"
               color="secondary"
               dark
               class="mb-2"
               v-bind="attrs"
               v-on="on"
             >
-              New/Edit Team Member
+              {{ memberButtonTitle }}
             </v-btn>
           </template>
           <v-card>
@@ -212,6 +212,7 @@ export default {
       },
       isLoading: true,
       isDisabled: true,
+      isMembersDisabled: true,
       dialog: false,
       authDialog: false,
       deleteDialog: false,
@@ -224,11 +225,16 @@ export default {
     formTitle() {
       if (!this.newTeam) return "Edit Team Info";
       else return "New Team Info";
+    },
+    memberButtonTitle() {
+      if (this.teamAuth.length == 0) return "New Team Member";
+      else if (this.newTeam) return "New Team Member";
+      else return "Add/Edit Team Member";
     }
   },
   watch: {
     dialog(val) {
-      if (!val) {
+      if (!val && !this.newTeam) {
         // Only reload on close.
         this.GetTeamInfo();
       }
@@ -263,8 +269,21 @@ export default {
     }
   },
   async created() {
-    if (!this.newTeam) {
+    if (this.$route.params.id != "create") {
       await this.GetTeamInfo();
+    } else {
+      this.isLoading = false;
+      this.isDisabled = false;
+      this.teamInfo = {
+        id: -1,
+        name: "New Team",
+        flag: "",
+        logo: "",
+        tag: "NEW",
+        public: 0,
+        owner: this.user.name,
+        owner_id: this.user.id
+      };
     }
     this.flags = this.GetFlags();
   },
@@ -299,6 +318,7 @@ export default {
           }
         }
         this.isDisabled = !(await this.IsAnyAdmin(this.user));
+        this.isMembersDisabled = !(await this.IsAnyAdmin(this.user));
       } catch (err) {
         //console.log(err);
       } finally {
@@ -316,17 +336,31 @@ export default {
       this.newAuth = {};
       this.editInfo = false;
     },
-    saveTeamInfo() {
-      let updatedTeam = [
-        {
-          id: this.teamInfo.id,
-          name: this.teamInfo.name,
-          flag: this.teamInfo.flag,
-          tag: this.teamInfo.tag,
-          public_team: this.teamInfo.public === true ? 1 : 0
-        }
-      ];
-      this.UpdateTeamInfo(updatedTeam);
+    async saveTeamInfo() {
+      if (this.teamInfo.id > 0) {
+        let updatedTeam = [
+          {
+            id: this.teamInfo.id,
+            name: this.teamInfo.name,
+            flag: this.teamInfo.flag,
+            tag: this.teamInfo.tag,
+            public_team: this.teamInfo.public === true ? 1 : 0
+          }
+        ];
+        this.UpdateTeamInfo(updatedTeam);
+      } else {
+        let newTeam = [
+          {
+            name: this.teamInfo.name,
+            flag: this.teamInfo.flag,
+            logo: null,
+            tag: this.teamInfo.tag,
+            public_team: this.teamInfo.public === true ? 1 : 0
+          }
+        ];
+        let newTeamId = await this.InsertTeamInfo(newTeam);
+        this.$router.push({ name: `Team`, params: { id: newTeamId.id } });
+      }
       this.dialog = false;
     },
     async saveTeamAuth() {
