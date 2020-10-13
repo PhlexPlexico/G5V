@@ -3,7 +3,7 @@
     :headers="userAuthHeaders"
     :items="teamAuth"
     sort-by="calories"
-    class="elevation-1"
+    class="elevation-4"
     :loading="isLoading"
     ref="TeamTable"
     :items-per-page="5"
@@ -25,13 +25,16 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>{{ teamInfo.name }}</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-divider class="mx-6" inset vertical></v-divider>
         <v-toolbar-title>{{ teamInfo.tag }}</v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-divider class="mx-6" inset vertical></v-divider>
         <v-toolbar-title>
           <img :src="get_flag_link(teamInfo)" style="border-radius: 5px;" />
         </v-toolbar-title>
-        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-divider class="mx-6" inset vertical></v-divider>
+        <v-icon :disabled="isDisabled" @click="deleteMember(null)">
+          mdi-delete
+        </v-icon>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
@@ -156,7 +159,7 @@
               <v-btn color="blue darken-1" text @click="closeDelete">
                 Cancel
               </v-btn>
-              <v-btn color="blue darken-1" text @click="deleteMemberConfirm">
+              <v-btn color="red darken-1" text @click="deleteMemberConfirm">
                 OK
               </v-btn>
               <v-spacer></v-spacer>
@@ -218,7 +221,8 @@ export default {
       deleteDialog: false,
       flags: [],
       formIndTitle: "New Player",
-      editInfo: false
+      editInfo: false,
+      teamDeleted: false
     };
   },
   computed: {
@@ -266,6 +270,9 @@ export default {
     editInfo(val) {
       if (val) this.formIndTitle = "Edit Player";
       else this.formIndTitle = "New Player";
+    },
+    teamDeleted(val) {
+      if (val) this.$router.push({ name: `Home` });
     }
   },
   async created() {
@@ -383,8 +390,10 @@ export default {
       this.authDialog = false;
     },
     deleteMember(item) {
-      this.removeIndex = this.teamAuth.indexOf(item);
-      this.removeAuth = Object.assign({}, item);
+      if (item != null) {
+        this.removeIndex = this.teamAuth.indexOf(item);
+        this.removeAuth = Object.assign({}, item);
+      }
       this.deleteDialog = true;
     },
     async deleteMemberConfirm() {
@@ -396,6 +405,7 @@ export default {
       ];
       await this.RemoveTeamMember(memberData);
       this.teamAuth.splice(this.removeIndex, 1);
+      this.teamDeleted = true;
       this.closeDelete();
     },
     closeDelete() {

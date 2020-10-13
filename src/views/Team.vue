@@ -1,19 +1,19 @@
 <template>
   <v-container class="team" fluid>
     <v-row class="pb-5">
-      <v-cols cols="12" class="flex-grow-1">
+      <v-col cols="12" class="flex-grow-1">
         <v-card>
           <TeamTable :user="user" :newTeam="newTeam" />
         </v-card>
-      </v-cols>
+      </v-col>
     </v-row>
     <v-row class="justify-center">
-      <v-cols cols="12">
+      <v-col cols="6">
         <v-card>
           <v-card-title>{{ title }}</v-card-title>
           <MatchTable class="justify-center" />
         </v-card>
-      </v-cols>
+      </v-col>
     </v-row>
   </v-container>
 </template>

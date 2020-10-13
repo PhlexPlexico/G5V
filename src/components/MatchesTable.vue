@@ -20,14 +20,20 @@
       </a>
     </template>
     <template v-slot:item.team1_string="{ item }">
-      <a :href="`/teams/${item.team1_id}`">
+      <a :href="`/teams/${item.team1_id}`" v-if="item.team1_id !== null">
         {{ item.team1_string }}
       </a>
+      <div v-else>
+        {{ item.team1_string }}
+      </div>
     </template>
     <template v-slot:item.team2_string="{ item }">
-      <a :href="`/teams/${item.team2_id}`">
+      <a :href="`/teams/${item.team2_id}`" v-if="item.team2_id !== null">
         {{ item.team2_string }}
       </a>
+      <div v-else>
+        {{ item.team2_string }}
+      </div>
     </template>
   </v-data-table>
 </template>
@@ -77,7 +83,8 @@ export default {
         else res = await this.GetAllMatches();
         await res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);
-          const statusRes = await this.GetMatchResult(match.team1_id, match.id);
+          let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
+          const statusRes = await this.GetMatchResult(teamId, match.id);
           match.owner = ownerRes.name;
           match.match_status = statusRes;
           this.matches.push(match);
