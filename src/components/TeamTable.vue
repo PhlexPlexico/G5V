@@ -16,6 +16,12 @@
         {{ item.username }}
       </a>
     </template>
+    <v-spacer />
+    <template v-slot:item.actions="{ item }">
+      <v-icon :disabled="isDisabled" @click="deleteMember(item)">
+        mdi-delete
+      </v-icon>
+    </template>
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>{{ teamInfo.name }}</v-toolbar-title>
@@ -113,8 +119,8 @@
                     <v-combobox
                       v-model="newAuth.steam"
                       :items="steamIdList"
-                      :value="newAuth.name"
-                      label="Steam Identifier (URL, 64, 32, etc.)"
+                      label="Steam Identifier"
+                      hint="Can be any identifier. URL/Steam64/Steam32..."
                     ></v-combobox>
                   </v-col>
                 </v-row>
@@ -140,12 +146,24 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-dialog v-model="deleteDialog" max-width="500px">
+          <v-card>
+            <v-card-title class="headline">
+              Are you sure you want to delete this item?
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="deleteMemberConfirm">
+                OK
+              </v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-toolbar>
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon small @click="deleteMember(item)">
-        mdi-delete
-      </v-icon>
     </template>
   </v-data-table>
 </template>
@@ -170,11 +188,18 @@ export default {
           align: "start",
           sortable: true,
           value: "steamid"
+        },
+        {
+          text: "",
+          value: "actions",
+          sortable: false
         }
       ],
       teamAuth: [],
       steamIdList: [],
       newAuth: {},
+      removeAuth: {},
+      removeIndex: -1,
       teamInfo: {
         name: "",
         flag: "",
@@ -182,12 +207,14 @@ export default {
         tag: "",
         public: false,
         owner: "",
-        owner_id: ""
+        owner_id: "",
+        id: -1
       },
       isLoading: true,
       isDisabled: true,
       dialog: false,
       authDialog: false,
+      deleteDialog: false,
       flags: [],
       formIndTitle: "New Player",
       editInfo: false
@@ -208,22 +235,27 @@ export default {
       return val || this.close();
     },
     authDialog(val) {
-      if (!val) {
-        // Only reload on close.
-        this.GetTeamInfo();
-      }
+      if (!val) this.GetTeamInfo();
       return val || this.close();
     },
-    newAuth(val) {
-      if (val) {
-        for (let key in this.teamAuth) {
-          if (this.teamAuth[key].steamid == val.steam) {
-            this.newAuth.name = this.teamAuth[key].username;
-            this.editInfo = true;
-            break;
+    deleteDialog(val) {
+      return val || this.close();
+    },
+    newAuth: {
+      handler(val) {
+        if (val) {
+          for (let key in this.teamAuth) {
+            if (this.teamAuth[key].steamid == val.steam) {
+              this.newAuth.name = this.teamAuth[key].username;
+              this.editInfo = true;
+              break;
+            }
+            this.editInfo = false;
+            this.newAuth.name = "";
           }
         }
-      }
+      },
+      deep: true
     },
     editInfo(val) {
       if (val) this.formIndTitle = "Edit Player";
@@ -241,7 +273,6 @@ export default {
       try {
         const res = await this.GetTeamData(this.$route.params.id);
         const userData = await this.GetUserData(res.user_id);
-        let teamInfo = res.auth_name;
         this.teamInfo = {
           id: res.id,
           name: res.name,
@@ -253,16 +284,19 @@ export default {
           owner_id: userData.id
         };
         if (this.teamAuth.length == 0) {
+          let mainTeamInfo = res.auth_name;
           this.isLoading = true;
-          await Object.keys(teamInfo).map(async steam_id => {
-            let indTeamMember = {
-              tag: teamInfo[steam_id].image,
-              username: teamInfo[steam_id].name,
-              steamid: steam_id
-            };
-            this.steamIdList.push(steam_id);
-            this.teamAuth.push(indTeamMember);
-          });
+          if (mainTeamInfo != "") {
+            await Object.keys(mainTeamInfo).map(async steam_id => {
+              let indTeamMember = {
+                tag: mainTeamInfo[steam_id].image,
+                username: mainTeamInfo[steam_id].name,
+                steamid: steam_id
+              };
+              this.steamIdList.push(steam_id);
+              this.teamAuth.push(indTeamMember);
+            });
+          }
         }
         this.isDisabled = !(await this.IsAnyAdmin(this.user));
       } catch (err) {
@@ -273,10 +307,14 @@ export default {
       return;
     },
     close() {
+      this.newAuth = {};
+      this.editInfo = false;
       this.dialog = false;
     },
     authClose() {
       this.authDialog = false;
+      this.newAuth = {};
+      this.editInfo = false;
     },
     saveTeamInfo() {
       let updatedTeam = [
@@ -292,7 +330,6 @@ export default {
       this.dialog = false;
     },
     async saveTeamAuth() {
-      //TODO: Since the API will just update a user if it's provided, maybe make a dropdown with editable values...
       let newTeamMember = {
         [this.newAuth.steam.toString()]:
           this.newAuth.name == null ? "" : this.newAuth.name
@@ -310,6 +347,29 @@ export default {
       this.editInfo = false;
       this.isLoading = true;
       this.authDialog = false;
+    },
+    deleteMember(item) {
+      this.removeIndex = this.teamAuth.indexOf(item);
+      this.removeAuth = Object.assign({}, item);
+      this.deleteDialog = true;
+    },
+    async deleteMemberConfirm() {
+      let memberData = [
+        {
+          team_id: this.teamInfo.id,
+          steam_id: this.removeAuth.steamid
+        }
+      ];
+      await this.RemoveTeamMember(memberData);
+      this.teamAuth.splice(this.removeIndex, 1);
+      this.closeDelete();
+    },
+    closeDelete() {
+      this.deleteDialog = false;
+      this.$nextTick(() => {
+        this.removeAuth = {};
+        this.removeIndex = -1;
+      });
     }
   }
 };

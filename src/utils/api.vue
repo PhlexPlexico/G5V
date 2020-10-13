@@ -186,6 +186,23 @@ export default {
       }
       return res;
     },
+    async RemoveTeamMember(member) {
+      let res;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/teams/",
+          data: member,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        //res = await this.axioCall.delete("/api/teams/", { data: member });
+        return res.data;
+      } catch (err) {
+        res = "Error posting data.";
+      }
+      return res;
+    },
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {
     //     const res = this.axios.get(`/api/v1/GetMapList`)
