@@ -405,7 +405,8 @@ export default {
       ];
       await this.RemoveTeamMember(memberData);
       this.teamAuth.splice(this.removeIndex, 1);
-      this.teamDeleted = true;
+      if(this.removeIndex == -1)
+        this.teamDeleted = true;
       this.closeDelete();
     },
     closeDelete() {
