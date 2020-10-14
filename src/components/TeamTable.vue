@@ -403,7 +403,7 @@ export default {
           steam_id: this.removeAuth.steamid
         }
       ];
-      await this.RemoveTeamMember(memberData);
+      await this.DeleteFromTeam(memberData);
       this.teamAuth.splice(this.removeIndex, 1);
       if(this.removeIndex == -1)
         this.teamDeleted = true;

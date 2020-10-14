@@ -197,7 +197,7 @@ export default {
       }
       return res;
     },
-    async RemoveTeamMember(member) {
+    async DeleteFromTeam(member) {
       let res;
       try {
         res = await axios({
