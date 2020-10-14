@@ -3,7 +3,7 @@
     <v-row class="pb-5">
       <v-col cols="12" class="flex-grow-1">
         <v-card>
-          <TeamTable :user="user" :newTeam="newTeam" />
+          <TeamTable :newTeam="newTeam" />
         </v-card>
       </v-col>
     </v-row>

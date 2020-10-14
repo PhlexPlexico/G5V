@@ -57,6 +57,25 @@ export default {
       }
       return res;
     },
+    async GetTeamName(teamid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}/basic`);
+        return res.data.team.name;
+      } catch (err) {
+        res = {
+          id: 0,
+          user_id: 0,
+          name: "NON EXISTANT TEAM",
+          tag: "",
+          flag: "",
+          logo: "",
+          auth_name: {},
+          public_team: false
+        };
+      }
+      return res;
+    },
     async GetServerData(serverid) {
       let res;
       try {
@@ -222,6 +241,15 @@ export default {
         res = "Error posting data.";
       }
       return res;
+    },
+    async GetPlayerStats(matchid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/playerstats/match/${matchid}`);
+        return res.data.playerstats;
+      } catch (err) {
+        res = "Error getting data.";
+      }
     },
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {

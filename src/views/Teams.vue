@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <v-container class="teams" fluid>
     <TeamsTable :user="user" />
-  </div>
+  </v-container>
 </template>
 
 <script>

@@ -10,7 +10,7 @@
     ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
-      <a :href="`/matches/${item.id}`">
+      <a :href="`/match/${item.id}`">
         {{ item.id }}
       </a>
     </template>

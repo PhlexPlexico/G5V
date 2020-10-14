@@ -1,16 +1,17 @@
 <template>
-  <v-container class="home" fluid>
-    <MatchesTable :user="user" />
+  <v-container class="match" fluid>
+    <PlayerStats :user="user" :match_id="this.$route.params.id" />
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import MatchesTable from "../components/MatchesTable";
+import PlayerStats from "../components/PlayerStatTable";
+// TODO: Imports of all values for this view.
 export default {
-  name: "Home",
+  name: "Match",
   components: {
-    MatchesTable
+    PlayerStats
   },
   data() {
     return {
