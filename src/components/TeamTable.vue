@@ -275,9 +275,9 @@ export default {
       if (val) this.$router.push({ name: `Home` });
     }
   },
-  async created() {
+  mounted() {
     if (this.$route.params.id != "create") {
-      await this.GetTeamInfo();
+      this.GetTeamInfo();
     } else {
       this.isLoading = false;
       this.isDisabled = false;

@@ -1,6 +1,12 @@
 <template>
   <v-container class="match" fluid>
-    <PlayerStats :user="user" :match_id="this.$route.params.id" />
+    <v-row class="pb-5">
+      <v-col cols="12" class="flex-grow-1">
+        <v-card>
+          <PlayerStats :user="user" :match_id="this.$route.params.id" />
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

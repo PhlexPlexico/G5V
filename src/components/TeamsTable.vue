@@ -71,6 +71,7 @@ export default {
         await res.forEach(async team => {
           const ownerRes = await this.GetUserData(team.user_id);
           team.owner = ownerRes.name;
+          console.log(this.user);
           if (team.public_team == 1 || (await this.IsAnyAdmin(this.user))) {
             this.teams.push(team);
           }

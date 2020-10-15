@@ -3,7 +3,7 @@
     <v-row class="pb-5">
       <v-col cols="12" class="flex-grow-1">
         <v-card>
-          <TeamTable :newTeam="newTeam" />
+          <TeamTable v-if="user" :user="user" :newTeam="newTeam" />
         </v-card>
       </v-col>
     </v-row>
@@ -32,6 +32,8 @@ export default {
     return {
       drawer: false,
       group: null,
+      newTeam: false,
+      title: "Recent Matches",
       user: {
         admin: false,
         steam_id: "",
@@ -41,9 +43,7 @@ export default {
         small_image: "",
         medium_image: "",
         large_image: ""
-      }, // should be object from JSON response
-      newTeam: false,
-      title: "Recent Matches"
+      }
     };
   },
   async mounted() {

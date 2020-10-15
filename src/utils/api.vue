@@ -19,6 +19,18 @@ export default {
     // },
     async IsLoggedIn() {
       const res = await this.axioCall.get("/api/isLoggedIn");
+      if (res.data == false) {
+        return {
+          admin: false,
+          steam_id: "",
+          id: null,
+          super_admin: false,
+          name: "",
+          small_image: "",
+          medium_image: "",
+          large_image: ""
+        };
+      }
       return res.data;
     },
     async GetUserData(userid) {
@@ -251,6 +263,7 @@ export default {
         res = "Error getting data.";
       }
     },
+    // TODO: Make this retrieve possible images on front-end to display map banner?
     // async GetMapList () {
     //   return new Promise(async (resolve, reject) => {
     //     const res = this.axios.get(`/api/v1/GetMapList`)
@@ -317,6 +330,7 @@ export default {
     },
     IsAnyAdmin: function(user) {
       let adminCheck = user.admin + user.super_admin;
+      console.log(adminCheck);
       if (adminCheck > 0) {
         return true;
       } else {

@@ -1,6 +1,5 @@
 <template>
-  <!-- Separate the player stats into specific map_ids.
-  Once done, use v-for to create some flexbox/area tables. -->
+  <!-- TODO: Add in match final score as a header, send in as prop. -->
   <v-container class="statistics" fluid>
     <v-container
       :class="playerMapStats.id"
@@ -20,7 +19,7 @@
         group-by="Team"
         show-group-by
         hide-default-footer
-        :expanded.sync="expanded"
+        :expanded="[]"
         show-expand
       >
         <template v-slot:item.name="{ item }">
@@ -29,20 +28,20 @@
           </a>
         </template>
         <template v-slot:expanded-item="{ item }" class="text-center">
-        <td :colspan="headers.length">
-          <v-data-table
-            item-key="id"
-            class="elevation-1"
-            :headers="additionalHeaders"
-            hide-default-footer
-            dense
-            :items=[item]
-            disable-sort
-            :colspan="headers.length"
-          />
-        </td>
+          <td :colspan="headers.length">
+            <v-data-table
+              item-key="id"
+              class="elevation-1"
+              :headers="additionalHeaders"
+              hide-default-footer
+              dense
+              :key="item.id"
+              :items="[item]"
+              disable-sort
+              :colspan="headers.length"
+            />
+          </td>
         </template>
-      
       </v-data-table>
     </v-container>
   </v-container>
@@ -96,7 +95,7 @@ export default {
           value: "data-table-expand",
           groupable: false,
           align: "end"
-        },
+        }
       ],
       additionalHeaders: [
         {
@@ -105,32 +104,30 @@ export default {
         },
         {
           text: "Average Damage Per Round",
-          value: "adr",
+          value: "adr"
         },
         {
           text: "Bomb Plants",
-          value: "bomb_plants",
+          value: "bomb_plants"
         },
         {
           text: "Bomb Defuses",
-          value: "bomb_defuses",
+          value: "bomb_defuses"
         },
         {
           text: "Headshot%",
-          value: "hsp",
+          value: "hsp"
         },
         {
           text: "KDR",
-          value: "kdr",
-        }
-        ,
+          value: "kdr"
+        },
         {
           text: "Frags Per Round",
-          value: "fpr",
+          value: "fpr"
         }
       ],
       playerstats: [],
-      expanded: [],
       isLoading: true
     };
   },
@@ -142,10 +139,8 @@ export default {
     async GetMapPlayerStats() {
       try {
         let res = await this.GetPlayerStats(this.match_id);
-        console.log(res);
         let allMapIds = [];
         let totalMatchTeam = [];
-        //let totalMatchTeam2 = [];
         let allTeamIds = [];
         res.filter(item => {
           let i = allMapIds.findIndex(x => x == item.map_id);
@@ -157,12 +152,12 @@ export default {
         allMapIds.forEach(map_id => {
           totalMatchTeam.push(
             res.filter(stats => {
-              // This goes through each one, so let's get the team name as well.
               return stats.map_id == map_id;
             })
           );
         });
         this.playerstats = totalMatchTeam;
+        console.log(totalMatchTeam);
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
             let newName = await this.GetTeamName(player.team_id);
@@ -186,7 +181,6 @@ export default {
             this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
             this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
             this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
-            // Start getting more values for ratings.
           });
         });
       } catch (error) {
