@@ -284,13 +284,13 @@ export default {
       if (playerstat.deaths === 0) {
         return playerstat.kills;
       }
-      return playerstat.kills / playerstat.deaths;
+      return (playerstat.kills / playerstat.deaths).toFixed(2);
     },
     GetHSP: function(playerstat) {
       if (playerstat.deaths === 0) {
         return playerstat.kills;
       }
-      return (playerstat.headshot_kills / playerstat.kills) * 100;
+      return ((playerstat.headshot_kills / playerstat.kills) * 100).toFixed(2);
     },
     GetADR: function(playerstat) {
       if (playerstat.roundsplayed === 0) {
@@ -302,7 +302,7 @@ export default {
       if (playerstat.roundsplayed === 0) {
         return 0.0;
       }
-      return playerstat.kills / playerstat.roundsplayed;
+      return (playerstat.kills / playerstat.roundsplayed).toFixed(2);
     },
     AdminToolsAvailable: function() {
       if ((this.user.admin || this.user.super_admin) && this.matchdata.live) {
@@ -398,6 +398,39 @@ export default {
         "VN",
         "ZA"
       ];
+    },
+    GetRating: function(
+      kills = 0,
+      roundsplayed = 0,
+      deaths = 0,
+      k1 = 0,
+      k2 = 0,
+      k3 = 0,
+      k4 = 0,
+      k5 = 0
+    ) {
+      try {
+        let AverageKPR = 0.679;
+        let AverageSPR = 0.317;
+        let AverageRMK = 1.277;
+        let KillRating =
+          roundsplayed === 0 ? 0 : kills / roundsplayed / AverageKPR;
+        let SurvivalRating =
+          roundsplayed === 0
+            ? 0
+            : (roundsplayed - deaths) / roundsplayed / AverageSPR;
+        let killcount = k1 + 4 * k2 + 9 * k3 + 16 * k4 + 25 * k5;
+        let RoundsWithMultipleKillsRating =
+          roundsplayed === 0 ? 0 : killcount / roundsplayed / AverageRMK;
+        let rating =
+          (KillRating + 0.7 * SurvivalRating + RoundsWithMultipleKillsRating) /
+          2.7;
+
+        return rating.toFixed(2);
+      } catch (err) {
+        console.log("HELPER GetRating Failed -- " + err);
+        return 0;
+      }
     }
   }
 };

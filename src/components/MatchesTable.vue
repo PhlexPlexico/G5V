@@ -10,9 +10,12 @@
     ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
-      <a :href="`/match/${item.id}`">
+      <a :href="`/match/${item.id}`" v-if="item.match_status != 'Cancelled'">
         {{ item.id }}
       </a>
+      <div v-else>
+        {{ item.id }}
+      </div>
     </template>
     <template v-slot:item.owner="{ item }">
       <a :href="`/users/${item.user_id}`">

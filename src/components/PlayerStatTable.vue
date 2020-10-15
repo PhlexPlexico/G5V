@@ -16,11 +16,33 @@
         :items="playerMapStats"
         sort-by="kills"
         sort-desc
-        group-by="Team Name"
         ref="PlayerStats"
+        group-by="Team"
         show-group-by
         hide-default-footer
+        :expanded.sync="expanded"
+        show-expand
       >
+        <template v-slot:item.name="{ item }">
+          <a :href="`/users/${item.steam_id}`">
+            {{ item.name }}
+          </a>
+        </template>
+        <template v-slot:expanded-item="{ item }" class="text-center">
+        <td :colspan="headers.length">
+          <v-data-table
+            item-key="id"
+            class="elevation-1"
+            :headers="additionalHeaders"
+            hide-default-footer
+            dense
+            :items=[item]
+            disable-sort
+            :colspan="headers.length"
+          />
+        </td>
+        </template>
+      
       </v-data-table>
     </v-container>
   </v-container>
@@ -65,17 +87,50 @@ export default {
           groupable: false
         },
         {
-          text: "",
-          value: "data-table-expand",
-          groupable: false
+          text: "Team",
+          value: "Team",
+          align: "right"
         },
         {
-          text: "Team Name",
-          value: "Team Name",
-          align: "right"
+          text: "",
+          value: "data-table-expand",
+          groupable: false,
+          align: "end"
+        },
+      ],
+      additionalHeaders: [
+        {
+          text: "Suicides",
+          value: "suicides"
+        },
+        {
+          text: "Average Damage Per Round",
+          value: "adr",
+        },
+        {
+          text: "Bomb Plants",
+          value: "bomb_plants",
+        },
+        {
+          text: "Bomb Defuses",
+          value: "bomb_defuses",
+        },
+        {
+          text: "Headshot%",
+          value: "hsp",
+        },
+        {
+          text: "KDR",
+          value: "kdr",
+        }
+        ,
+        {
+          text: "Frags Per Round",
+          value: "fpr",
         }
       ],
       playerstats: [],
+      expanded: [],
       isLoading: true
     };
   },
@@ -87,12 +142,11 @@ export default {
     async GetMapPlayerStats() {
       try {
         let res = await this.GetPlayerStats(this.match_id);
+        console.log(res);
         let allMapIds = [];
-        let totalMatch = [];
-        //let newMapStats = [];
+        let totalMatchTeam = [];
+        //let totalMatchTeam2 = [];
         let allTeamIds = [];
-        //let teamNames = [];
-        //let newTest = [];
         res.filter(item => {
           let i = allMapIds.findIndex(x => x == item.map_id);
           let j = allTeamIds.findIndex(x => x == item.team_id);
@@ -101,21 +155,40 @@ export default {
           return null;
         });
         allMapIds.forEach(map_id => {
-          totalMatch.push(
+          totalMatchTeam.push(
             res.filter(stats => {
               // This goes through each one, so let's get the team name as well.
               return stats.map_id == map_id;
             })
           );
         });
-        this.playerstats = totalMatch;
+        this.playerstats = totalMatchTeam;
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
             let newName = await this.GetTeamName(player.team_id);
-            this.$set(this.playerstats[idx][pIdx], "Team Name", newName);
+            let getRating = this.GetRating(
+              player.kills,
+              player.roundsplayed,
+              player.deaths,
+              player.k1,
+              player.k2,
+              player.k3,
+              player.k4,
+              player.k5
+            );
+            let adr = this.GetADR(player);
+            let hsp = this.GetHSP(player);
+            let kdr = this.GetKDR(player);
+            let fpr = this.GetFPR(player);
+            this.$set(this.playerstats[idx][pIdx], "Team", newName);
+            this.$set(this.playerstats[idx][pIdx], "rating", getRating);
+            this.$set(this.playerstats[idx][pIdx], "adr", adr);
+            this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
+            this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
+            this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
+            // Start getting more values for ratings.
           });
         });
-        //console.log(teamNames);
       } catch (error) {
         console.log("Our error: " + error);
       } finally {
