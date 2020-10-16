@@ -7,33 +7,43 @@
     :headers="headers"
     :items="matches"
     :sort-by="['id']"
+    sort-desc
     ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
-      <a :href="`/match/${item.id}`" v-if="item.match_status != 'Cancelled'">
+      <router-link
+        :to="{ path: '/match/' + item.id }"
+        v-if="item.match_status != 'Cancelled'"
+      >
         {{ item.id }}
-      </a>
+      </router-link>
       <div v-else>
         {{ item.id }}
       </div>
     </template>
     <template v-slot:item.owner="{ item }">
-      <a :href="`/users/${item.user_id}`">
+      <router-link :to="{ path: '/users/' + item.user_id }">
         {{ item.owner }}
-      </a>
+      </router-link>
     </template>
     <template v-slot:item.team1_string="{ item }">
-      <a :href="`/teams/${item.team1_id}`" v-if="item.team1_id !== null">
+      <router-link
+        :to="{ path: '/teams/' + item.team1_id }"
+        v-if="item.team1_id !== null"
+      >
         {{ item.team1_string }}
-      </a>
+      </router-link>
       <div v-else>
         {{ item.team1_string }}
       </div>
     </template>
     <template v-slot:item.team2_string="{ item }">
-      <a :href="`/teams/${item.team2_id}`" v-if="item.team2_id !== null">
+      <router-link
+        :to="{ path: '/teams/' + item.team2_id }"
+        v-if="item.team2_id !== null"
+      >
         {{ item.team2_string }}
-      </a>
+      </router-link>
       <div v-else>
         {{ item.team2_string }}
       </div>

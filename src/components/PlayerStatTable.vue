@@ -2,10 +2,34 @@
   <!-- TODO: Add in match final score as a header, send in as prop. -->
   <v-container class="statistics" fluid>
     <v-container
-      :class="playerMapStats.id"
-      v-for="playerMapStats of playerstats"
-      :key="playerMapStats.id"
+      v-for="(playerMapStats, index) in playerstats"
+      :key="playerMapStats[0].id"
     >
+      <v-container class="mapinfo" fluid>
+        <div
+          class="text-subtitle-2 mapInfo"
+          v-if="arrMapString[index] != null"
+          align="center"
+        >
+          {{ arrMapString[index].score }} - {{ arrMapString[index].map }}
+        </div>
+        <div
+          class="text-subtitle-2 mapInfo"
+          v-if="
+            arrMapString[index] != null && arrMapString[index].start != null
+          "
+          align="center"
+        >
+          {{ arrMapString[index].start }}
+        </div>
+        <div
+          class="text-subtitle-2 mapInfo"
+          v-if="arrMapString[index] != null && arrMapString[index].end != null"
+          align="center"
+        >
+          {{ arrMapString[index].end }}
+        </div>
+      </v-container>
       <v-data-table
         item-key="id"
         class="elevation-1"
@@ -23,9 +47,12 @@
         show-expand
       >
         <template v-slot:item.name="{ item }">
-          <a :href="`/users/${item.steam_id}`">
+          <router-link :to="{ path: '/users/' + item.steam_id }">
             {{ item.name }}
-          </a>
+          </router-link>
+        </template>
+        <template v-slot:item.Team="{ item }">
+          {{ item.Team.slice(2) }}
         </template>
         <template v-slot:expanded-item="{ item }" class="text-center">
           <td :colspan="headers.length">
@@ -128,12 +155,14 @@ export default {
         }
       ],
       playerstats: [],
-      isLoading: true
+      isLoading: true,
+      arrMapString: [{}]
     };
   },
   created() {
     // Template will contain v-rows/etc like on main Team page.
     this.GetMapPlayerStats();
+    this.getMapString();
   },
   methods: {
     async GetMapPlayerStats() {
@@ -157,7 +186,6 @@ export default {
           );
         });
         this.playerstats = totalMatchTeam;
-        console.log(totalMatchTeam);
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
             let newName = await this.GetTeamName(player.team_id);
@@ -175,7 +203,12 @@ export default {
             let hsp = this.GetHSP(player);
             let kdr = this.GetKDR(player);
             let fpr = this.GetFPR(player);
-            this.$set(this.playerstats[idx][pIdx], "Team", newName);
+            let teamNum = pIdx < 5 ? 1 : 2;
+            this.$set(
+              this.playerstats[idx][pIdx],
+              "Team",
+              teamNum + " " + newName
+            );
             this.$set(this.playerstats[idx][pIdx], "rating", getRating);
             this.$set(this.playerstats[idx][pIdx], "adr", adr);
             this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
@@ -189,6 +222,31 @@ export default {
         this.isLoading = false;
       }
       return;
+    },
+    async getMapString() {
+      try {
+        let mapStats = await this.GetMapStats(this.match_id);
+        mapStats.forEach((singleMapStat, index) => {
+          this.arrMapString[index] = {};
+          this.arrMapString[index].score =
+            "Score: " +
+            singleMapStat.team1_score +
+            " " +
+            this.GetScoreSymbol(
+              singleMapStat.team1_score,
+              singleMapStat.team2_score
+            ) +
+            " " +
+            singleMapStat.team2_score;
+          this.arrMapString[index].start =
+            "Map Start: " + new Date(singleMapStat.start_time);
+          this.arrMapString[index].end =
+            "Map End: " + new Date(singleMapStat.start_time);
+          this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
+        });
+      } catch (error) {
+        console.log("String error " + error);
+      }
     }
   }
 };

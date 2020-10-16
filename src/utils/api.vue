@@ -88,6 +88,25 @@ export default {
       }
       return res;
     },
+    async GetBasicTeamInfo(teamid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}/basic`);
+        return res.data.team;
+      } catch (err) {
+        res = {
+          id: 0,
+          user_id: 0,
+          name: "NON EXISTANT TEAM",
+          tag: "",
+          flag: "",
+          logo: "",
+          auth_name: {},
+          public_team: false
+        };
+      }
+      return res;
+    },
     async GetServerData(serverid) {
       let res;
       try {
@@ -270,6 +289,24 @@ export default {
     //     resolve(res.data)
     //   })
     // },
+    async GetSingleMapStat(matchid, mapid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapid}`);
+        return res.data.mapstat;
+      } catch (error) {
+        res = "Error getting data.";
+      }
+    },
+    async GetMapStats(matchid) {
+      let res;
+      try {
+        res = await this.axioCall.get(`/api/mapstats/${matchid}`);
+        return res.data.mapstats;
+      } catch (error) {
+        res = "Error getting data.";
+      }
+    },
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
     },
@@ -309,7 +346,7 @@ export default {
       if (playerstat.roundsplayed === 0) {
         return 0.0;
       }
-      return playerstat.damage / playerstat.roundsplayed;
+      return (playerstat.damage / playerstat.roundsplayed).toFixed(2);
     },
     GetFPR: function(playerstat) {
       if (playerstat.roundsplayed === 0) {
@@ -336,6 +373,11 @@ export default {
       } else {
         return false;
       }
+    },
+    GetScoreSymbol: function(score1, score2) {
+      if (score1 > score2) return ">";
+      else if (score1 < score2) return "<";
+      else return "==";
     },
     GetFlags: function() {
       return [

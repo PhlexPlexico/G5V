@@ -31,7 +31,7 @@
           </v-list-item>
 
           <v-list-item
-            v-if="user.id == null"
+            v-if="user.id != null"
             index="mymatches"
             :to="'/mymatches'"
           >
@@ -39,14 +39,14 @@
           </v-list-item>
 
           <v-list-item
-            v-if="user.id == null"
+            v-if="user.id != null"
             index="match_create"
             :to="'/creatematch'"
           >
             <v-list-item-title>Create A Match</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id == null" :to="'/myteams'">
+          <v-list-item v-if="user.id != null" :to="'/myteams'">
             <v-list-item-title>My Teams</v-list-item-title>
           </v-list-item>
 
@@ -54,15 +54,15 @@
             <v-list-item-title>All Teams</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id == null" :to="'/myservers'">
+          <v-list-item v-if="user.id != null" :to="'/myservers'">
             <v-list-item-title>My Servers</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id == null" :to="'/createserver'">
+          <v-list-item v-if="user.id != null" :to="'/server/create'">
             <v-list-item-title>Add Server</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id == null" :to="'/teams/create'">
+          <v-list-item v-if="user.id != null" :to="'/teams/create'">
             <v-list-item-title>Create Team</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
@@ -73,25 +73,12 @@
 <script>
 export default {
   name: "Navbar",
+  props: ["user"],
   data() {
     return {
       drawer: false,
-      group: null,
-      user: {
-        admin: false,
-        steam_id: "",
-        id: "",
-        super_admin: false,
-        name: "",
-        small_image: "",
-        medium_image: "",
-        large_image: ""
-      } // should be object from JSON response
+      group: null
     };
-  },
-  async mounted() {
-    this.user = await this.IsLoggedIn();
-    console.log(this.user);
   },
   methods: {
     handleLanguage: function(command) {

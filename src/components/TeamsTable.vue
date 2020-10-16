@@ -10,14 +10,14 @@
     ref="TeamsTable"
   >
     <template v-slot:item.id="{ item }">
-      <a :href="`/teams/${item.id}`">
+      <router-link :to="{ path: '/teams/' + item.id }">
         {{ item.id }}
-      </a>
+      </router-link>
     </template>
     <template v-slot:item.owner="{ item }">
-      <a :href="`/users/${item.user_id}`">
+      <router-link :to="{ path: '/users/' + item.user_id }">
         {{ item.owner }}
-      </a>
+      </router-link>
     </template>
     <template v-slot:item.flag="{ item }">
       <img :src="get_flag_link(item)" style="border-radius: 5px;" />

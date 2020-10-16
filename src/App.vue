@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar />
+    <Navbar :user="user" />
     <v-main>
       <router-view :key="$route.path" />
     </v-main>
@@ -11,8 +11,25 @@
 import Navbar from "./components/Navbar";
 export default {
   name: "App",
+  data() {
+    return {
+      user: {
+        admin: false,
+        steam_id: "",
+        id: "",
+        super_admin: false,
+        name: "",
+        small_image: "",
+        medium_image: "",
+        large_image: ""
+      } // should be object from JSON response
+    };
+  },
   components: {
     Navbar
+  },
+  async mounted() {
+    this.user = await this.IsLoggedIn();
   }
 };
 </script>

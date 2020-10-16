@@ -3,6 +3,10 @@
     <v-row class="pb-5">
       <v-col cols="12" class="flex-grow-1">
         <v-card>
+          <MatchInfo
+            v-if="this.$route.params.id != null"
+            :match_id="this.$route.params.id"
+          />
           <PlayerStats :user="user" :match_id="this.$route.params.id" />
         </v-card>
       </v-col>
@@ -13,11 +17,13 @@
 <script>
 // @ is an alias to /src
 import PlayerStats from "../components/PlayerStatTable";
+import MatchInfo from "../components/MatchInfo";
 // TODO: Imports of all values for this view.
 export default {
   name: "Match",
   components: {
-    PlayerStats
+    PlayerStats,
+    MatchInfo
   },
   data() {
     return {
