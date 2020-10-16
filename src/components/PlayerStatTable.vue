@@ -241,7 +241,7 @@ export default {
           this.arrMapString[index].start =
             "Map Start: " + new Date(singleMapStat.start_time);
           this.arrMapString[index].end =
-            "Map End: " + new Date(singleMapStat.start_time);
+            "Map End: " + new Date(singleMapStat.end_time);
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
         });
       } catch (error) {

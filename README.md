@@ -5,11 +5,11 @@ Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ th
 
 
 ## What does it do?
-Currently, it displays data loaded from the API. You can login through steam and see current matches, and all teams. That's it for now.
+Currently, it displays data loaded from the API. You can login through steam and see current matches, and all teams, as well as edit, delete, and add new teams/members.
 
 
 ## What does it NOT do?
-Literally everything you want it to. This is just a basic foray into working with an API and learning to proxy from one server to another.
+Literally everything you want it to. This is just a basic foray into working with an API and learning to proxy from one server to another. Eventually it should be a good replacement for the old Get5-Web that's built in Python.
 
 ## Why?
 [Get5-webpanel](https://github.com/phlexplexico/get5-webpanel) is a now out-dated webpanel, with python2.7 being officially EOL. Being built all on Flask, with ORM (SQLAlchemy), and Jinja2, its tech spans more than a few years old. While it works really well for now, it is becoming increasingly harder to deploy to more modern hardware/software (such as Ubuntu 19) to ensure easy setup.
@@ -45,6 +45,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 ![](./screenshots/SideMenuLoggedIn.png)  
 ![](./screenshots/TeamPage.png)
 ![](./screenshots/TeamSpecificPage.png)
+![](./screenshots/MatchInfo.png)
 
 # License
 This project is licensed under [MIT License](http://opensource.org/licenses/MIT). A copy of this license **must be included with the software**.
