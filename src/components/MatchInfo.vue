@@ -1,8 +1,11 @@
 <template>
   <v-container class="mapstatsinfo" fluid>
+    <v-flex class="text-right" v-if="AdminToolsAvailable()">
+      <AdminButton />
+    </v-flex>
     <div class="text-h4 names" align="center">
       <router-link v-if="team1_id != null" :to="{ path: '/teams/' + team1_id }">
-        <img :src="get_flag_link(team1)" style="border-radius: 5px;" /> 
+        <img :src="get_flag_link(team1)" style="border-radius: 5px;" />
         {{ team1_name }}
       </router-link>
       <div v-else>
@@ -10,7 +13,7 @@
       </div>
       vs
       <router-link v-if="team1_id != null" :to="{ path: '/teams/' + team2_id }">
-        <img :src="get_flag_link(team2)" style="border-radius: 5px;" /> 
+        <img :src="get_flag_link(team2)" style="border-radius: 5px;" />
         {{ team2_name }}
       </router-link>
       <div v-else>
@@ -34,8 +37,12 @@
 </template>
 
 <script>
+import AdminButton from "./MatchAdminButton";
 export default {
-  props: ["match_id"],
+  components: {
+    AdminButton
+  },
+  props: ["match_id", "user"],
   data() {
     return {
       team1_name: "",
@@ -49,7 +56,9 @@ export default {
       team2_score: 0,
       team1: {},
       team2: {},
-      symbol: ""
+      symbol: "",
+      cancelled: 0,
+      forfeit: 0
     };
   },
   created() {
@@ -72,6 +81,8 @@ export default {
         this.symbol = this.GetScoreSymbol(this.team1_score, this.team2_score);
         this.team1 = team1Res;
         this.team2 = team2Res;
+        this.cancelled = matchRes.cancelled;
+        this.forfeit = matchRes.forfeit;
       } catch (error) {
         console.log(error);
       }

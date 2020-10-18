@@ -355,19 +355,17 @@ export default {
       return (playerstat.kills / playerstat.roundsplayed).toFixed(2);
     },
     AdminToolsAvailable: function() {
-      if ((this.user.admin || this.user.super_admin) && this.matchdata.live) {
+      if (
+        this.IsAnyAdmin(this.user) &&
+        this.end_time == null &&
+        this.cancelled == 0 &&
+        this.forfeit == 0
+      )
         return true;
-      } else if (
-        (this.user.admin || this.user.super_admin) &&
-        this.matchdata.pending
-      ) {
-        return true;
-      }
       return false;
     },
     IsAnyAdmin: function(user) {
       let adminCheck = user.admin + user.super_admin;
-      console.log(adminCheck);
       if (adminCheck > 0) {
         return true;
       } else {

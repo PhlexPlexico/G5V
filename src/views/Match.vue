@@ -6,6 +6,7 @@
           <MatchInfo
             v-if="this.$route.params.id != null"
             :match_id="this.$route.params.id"
+            :user="user"
           />
           <PlayerStats :user="user" :match_id="this.$route.params.id" />
         </v-card>
