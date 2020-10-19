@@ -166,6 +166,17 @@ export default {
       }
       return message;
     },
+    async GetUserRecentMatches(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/users/${userid}/recent`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMatchResult(team, match) {
       let res;
       let message;
@@ -454,6 +465,17 @@ export default {
         return res.data.vetoes;
       } catch (error) {
         message = error.response.data.message;
+      }
+      return message;
+    },
+    async UpdateMatchInfo(matchInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/matches/", matchInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
       }
       return message;
     },

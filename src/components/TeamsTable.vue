@@ -15,7 +15,7 @@
       </router-link>
     </template>
     <template v-slot:item.owner="{ item }">
-      <router-link :to="{ path: '/users/' + item.user_id }">
+      <router-link :to="{ path: '/user/' + item.user_id }">
         {{ item.owner }}
       </router-link>
     </template>

@@ -2,7 +2,7 @@
   <v-container class="admin-button">
     <v-menu bottom offset-y open-on-hover>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="ma-2" v-bind="attrs" v-on="on">
+        <v-btn class="primary darken-1" v-bind="attrs" v-on="on">
           Admin Actions
         </v-btn>
       </template>
@@ -216,6 +216,52 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog shake v-model="serverChangeDialog" persistent max-width="600px">
+      <v-card color="warning lighten-4">
+        <v-card-title>
+          <span class="headline">
+            Change Match Server
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="serverForm">
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-card-text class="font-weight-bold">
+                    Please note that when you change the server you will have to
+                    go grab the latest backup from the old server and then
+                    restore if you do not want to start from scratch!! Only
+                    super admins are allowed to do this.
+                  </v-card-text>
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    v-model="selectedServer"
+                    :items="servers"
+                    item-text="display_name"
+                    item-value="id"
+                    :rules="[v => !!v || 'Server selection is required.']"
+                    label="Server"
+                    required
+                    ref="newServer"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="darken-1" text @click="serverChangeDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="red darken-1" text @click="sendServerChange()">
+            Restore
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 <script>
@@ -230,11 +276,14 @@ export default {
       forfeitDialog: false,
       rconDialog: false,
       backupDialog: false,
+      serverChangeDialog: false,
       rconCommand: "",
       steamID: "",
       nickname: "",
       backups: [],
       selectedBackup: "",
+      selectedServer: "",
+      servers: [],
       items: [
         {
           title: "Pause Match",
@@ -286,6 +335,19 @@ export default {
           apiCall: () => {
             this.rconDialog = true;
           }
+        },
+        {
+          title: "Change match server",
+          apiCall: async () => {
+            let res = await this.GetAllAvailableServers();
+            if (Array.isArray(res)) {
+              this.servers = res;
+              this.serverChangeDialog = true;
+            } else {
+              this.response = res.message;
+              this.responseSheet = true;
+            }
+          }
         }
       ]
     };
@@ -309,6 +371,12 @@ export default {
       this.$nextTick(() => {
         this.selectedBackup = "";
         this.$refs.backupForm.resetValidation();
+      });
+    },
+    serverChangeDialog() {
+      this.$nextTick(() => {
+        this.selectedServer = "";
+        this.$refs.serverForm.resetValidation();
       });
     }
   },
@@ -386,6 +454,22 @@ export default {
         this.response =
           backupRes.response == null ? backupRes.message : backupRes.response;
         this.backupDialog = false;
+        this.responseSheet = true;
+      }
+    },
+    async sendServerChange() {
+      if (this.$refs.serverForm.validate()) {
+        let serverRes;
+        let matchObject = [
+          {
+            match_id: this.matchInfo.id,
+            server_id: this.selectedServer
+          }
+        ];
+        serverRes = await this.UpdateMatchInfo(matchObject);
+        this.response =
+          serverRes.response == null ? serverRes.message : serverRes.response;
+        this.serverChangeDialog = false;
         this.responseSheet = true;
       }
     }

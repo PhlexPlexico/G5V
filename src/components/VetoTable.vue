@@ -7,7 +7,6 @@
       :sort-by="['id']"
       hide-default-footer
       no-data-text="No veto data available."
-      height="390px"
     >
       <template v-slot:item.map="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
@@ -78,7 +77,6 @@ export default {
     async getVetoInfo() {
       try {
         let vetoRes = await this.GetVetoesOfMatch(this.match_id);
-        console.log(vetoRes);
         this.vetoInfo = vetoRes;
       } catch (error) {
         console.log(error);

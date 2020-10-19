@@ -22,7 +22,7 @@
       </div>
     </template>
     <template v-slot:item.owner="{ item }">
-      <router-link :to="{ path: '/users/' + item.user_id }">
+      <router-link :to="{ path: '/user/' + item.user_id }">
         {{ item.owner }}
       </router-link>
     </template>
@@ -92,6 +92,8 @@ export default {
         let res;
         if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
         else if (this.$route.path.includes("team"))
+          res = await this.GetTeamRecentMatches(this.$route.params.id);
+        else if (this.$route.path.includes("user"))
           res = await this.GetTeamRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
         res.forEach(async match => {
