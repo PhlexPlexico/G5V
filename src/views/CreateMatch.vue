@@ -1,16 +1,21 @@
 <template>
-  <v-container class="home" fluid>
-    <MatchesTable :user="user" />
+  <v-container class="match" fluid>
+    <v-row class="pb-5">
+      <v-col cols="12" class="flex-grow-1">
+        <v-card>
+          <NewMatchForm />
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-// @ is an alias to /src
-import MatchesTable from "../components/MatchesTable";
+import NewMatchForm from "../components/NewMatch";
 export default {
-  name: "Home",
+  name: "Match",
   components: {
-    MatchesTable
+    NewMatchForm
   },
   data() {
     return {

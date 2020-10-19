@@ -220,7 +220,6 @@
 </template>
 <script>
 export default {
-  //TODO: @click directives for items.
   props: ["matchInfo"],
   data() {
     return {

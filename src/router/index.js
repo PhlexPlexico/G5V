@@ -43,6 +43,16 @@ const routes = [
     component: () => import(/* webpackChunkName: "Teams" */ "../views/Team.vue")
   },
   {
+    path: "/match/create",
+    name: "New Match",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Teams" */ "../views/CreateMatch.vue") //,
+    //children: [{ path: "/create", component: MatchCreate }]
+  },
+  {
     path: "/match/:id",
     name: "Match",
     // route level code-splitting

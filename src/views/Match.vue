@@ -8,6 +8,7 @@
             :match_id="this.$route.params.id"
             :user="user"
           />
+          <VetoInfo :match_id="this.$route.params.id" />
           <PlayerStats :user="user" :match_id="this.$route.params.id" />
         </v-card>
       </v-col>
@@ -19,17 +20,17 @@
 // @ is an alias to /src
 import PlayerStats from "../components/PlayerStatTable";
 import MatchInfo from "../components/MatchInfo";
+import VetoInfo from "../components/VetoTable";
 // TODO: Imports of all values for this view.
 export default {
   name: "Match",
   components: {
     PlayerStats,
-    MatchInfo
+    MatchInfo,
+    VetoInfo
   },
   data() {
     return {
-      drawer: false,
-      group: null,
       user: {
         admin: false,
         steam_id: "",

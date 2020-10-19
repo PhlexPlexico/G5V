@@ -30,8 +30,6 @@ export default {
   },
   data() {
     return {
-      drawer: false,
-      group: null,
       newTeam: false,
       title: "Recent Matches",
       user: {

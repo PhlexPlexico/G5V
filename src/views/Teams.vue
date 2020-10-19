@@ -14,8 +14,6 @@ export default {
   },
   data() {
     return {
-      drawer: false,
-      group: null,
       user: {
         admin: false,
         steam_id: "",

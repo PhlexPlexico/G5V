@@ -210,6 +210,17 @@ export default {
       }
       return message;
     },
+    async GetAllAvailableServers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/servers/available");
+        return res.data.servers;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetAllMatches() {
       let res;
       let message;
@@ -432,6 +443,17 @@ export default {
         message = res.data;
       } catch (error) {
         message = error.response.data;
+      }
+      return message;
+    },
+    async GetVetoesOfMatch(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/vetoes/${matchid}`);
+        return res.data.vetoes;
+      } catch (error) {
+        message = error.response.data.message;
       }
       return message;
     },

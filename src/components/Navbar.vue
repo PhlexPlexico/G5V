@@ -41,7 +41,7 @@
           <v-list-item
             v-if="user.id != null"
             index="match_create"
-            :to="'/creatematch'"
+            :to="'/match/create'"
           >
             <v-list-item-title>Create A Match</v-list-item-title>
           </v-list-item>
