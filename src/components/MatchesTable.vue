@@ -94,7 +94,7 @@ export default {
         else if (this.$route.path.includes("team"))
           res = await this.GetTeamRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
-        await res.forEach(async match => {
+        res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);
           let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
           const statusRes = await this.GetMatchResult(teamId, match.id);

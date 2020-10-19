@@ -35,12 +35,13 @@ export default {
     },
     async GetUserData(userid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/users/${userid}`);
-        return res.data.user;
+        message = res.data.user;
       } catch (err) {
         //console.log(err)
-        res = {
+        message = {
           id: 0,
           steam_id: "",
           name: "ERROR",
@@ -48,15 +49,16 @@ export default {
           super_admin: 0
         };
       }
-      return res;
+      return message;
     },
     async GetTeamData(teamid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}`);
-        return res.data.team;
+        message = res.data.team;
       } catch (err) {
-        res = {
+        message = {
           id: 0,
           user_id: 0,
           name: "NON EXISTANT TEAM",
@@ -67,15 +69,16 @@ export default {
           public_team: false
         };
       }
-      return res;
+      return message;
     },
     async GetTeamName(teamid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}/basic`);
-        return res.data.team.name;
+        message = res.data.team.name;
       } catch (err) {
-        res = {
+        message = {
           id: 0,
           user_id: 0,
           name: "NON EXISTANT TEAM",
@@ -86,15 +89,16 @@ export default {
           public_team: false
         };
       }
-      return res;
+      return message;
     },
     async GetBasicTeamInfo(teamid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}/basic`);
-        return res.data.team;
+        message = res.data.team;
       } catch (err) {
-        res = {
+        message = {
           id: 0,
           user_id: 0,
           name: "NON EXISTANT TEAM",
@@ -105,16 +109,17 @@ export default {
           public_team: false
         };
       }
-      return res;
+      return message;
     },
     async GetServerData(serverid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/servers/${serverid}`);
-        return res.data.server;
+        message = res.data.server;
       } catch (err) {
         //console.log(err)
-        res = {
+        message = {
           id: 0,
           in_use: 0,
           ip_string: "",
@@ -124,17 +129,18 @@ export default {
           public_server: 0,
           name: "ERROR"
         };
-        return res;
+        return message;
       }
     },
     async GetMatchData(matchid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/matches/${matchid}`);
-        return res.data.match;
+        message = res.data.match;
       } catch (err) {
         //console.log(err);
-        res = {
+        message = {
           id: 0,
           user_id: null,
           server_id: null,
@@ -147,108 +153,110 @@ export default {
           title: "ERROR"
         };
       }
-      return res;
+      return message;
     },
     async GetRecentMatches(teamid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
-        return res.data.matches;
-      } catch (err) {
-        //console.log(err)
-        res = [];
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetMatchResult(team, match) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${team}/result/${match}`);
-        return res.data.result;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving result.";
+        message = res.data.result;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetAllTeams() {
       let res;
+      let message;
       try {
         res = await this.axioCall.get("/api/teams");
-        return res.data.teams;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving teams.";
+        message = res.data.teams;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetMyTeams() {
       let res;
+      let message;
       try {
         res = await this.axioCall.get("/api/teams/myteams");
-        return res.data.teams;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving teams.";
+        message = res.data.teams;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetAllServers() {
       let res;
+      let message;
       try {
         res = await this.axioCall.get("/api/servers");
         return res.data.servers;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving servers.";
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetAllMatches() {
       let res;
+      let message;
       try {
         res = await this.axioCall.get("/api/matches");
-        return res.data.matches;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving matches.";
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetTeamRecentMatches(teamid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
-        return res.data.matches;
-      } catch (err) {
-        console.log(err);
-        res = "Error retreiving matches.";
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetMyMatches() {
       let res;
+      let message;
       try {
         res = await this.axioCall.get("/api/matches/mymatches");
-        return res.data.matches;
-      } catch (err) {
-        //console.log(err);
-        res = "Error retreiving matches.";
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async UpdateTeamInfo(teamInfo) {
       let res;
+      let message;
       try {
         res = await this.axioCall.put("/api/teams/", teamInfo);
-        return res.data;
-      } catch (err) {
-        res = "Error posting data.";
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
       }
-      return res;
+      return message;
     },
     async DeleteFromTeam(member) {
       let res;
+      let message;
       try {
         res = await axios({
           method: "delete",
@@ -257,30 +265,33 @@ export default {
           headers: { "Content-Type": "application/json" },
           withCredentials: true
         });
-        return res.data;
-      } catch (err) {
-        res = "Error posting data.";
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
       }
-      return res;
+      return message;
     },
     async InsertTeamInfo(teamInfo) {
       let res;
+      let message;
       try {
         res = await this.axioCall.post("/api/teams/", teamInfo);
-        return res.data;
-      } catch (err) {
-        res = "Error posting data.";
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
       }
-      return res;
+      return message;
     },
     async GetPlayerStats(matchid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/playerstats/match/${matchid}`);
-        return res.data.playerstats;
-      } catch (err) {
-        res = "Error getting data.";
+        message = res.data.playerstats;
+      } catch (error) {
+        message = error.response.data.message;
       }
+      return message;
     },
     // TODO: Make this retrieve possible images on front-end to display map banner?
     // async GetMapList () {
@@ -291,21 +302,69 @@ export default {
     // },
     async GetSingleMapStat(matchid, mapid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapid}`);
-        return res.data.mapstat;
+        message = res.data.mapstat;
       } catch (error) {
-        res = "Error getting data.";
+        message = error.response.data.message;
       }
+      return message;
     },
     async GetMapStats(matchid) {
       let res;
+      let message;
       try {
         res = await this.axioCall.get(`/api/mapstats/${matchid}`);
-        return res.data.mapstats;
+        message = res.data.mapstats;
       } catch (error) {
-        res = "Error getting data.";
+        message = error.response.data.message;
       }
+      return message;
+    },
+    async PauseMatch(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/${matchid}/pause`);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async UnpauseMatch(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/${matchid}/unpause`);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetMatchBackups(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/${matchid}/backup`);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async CancelMatch(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/${matchid}/cancel`);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
     },
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
