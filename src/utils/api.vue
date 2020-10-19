@@ -366,6 +366,75 @@ export default {
       }
       return message;
     },
+    async AddUserToSpectator(matchid, matchObject) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put(
+          `/api/matches/${matchid}/addspec`,
+          matchObject
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async AddUserToTeam(matchid, matchObject) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put(
+          `/api/matches/${matchid}/adduser`,
+          matchObject
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async ForfeitMatch(matchid, winner) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `/api/matches/${matchid}/forfeit/${winner}`
+        );
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async SendRconCommandToMatch(matchid, rconBody) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put(
+          `/api/matches/${matchid}/rcon/`,
+          rconBody
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async RestoreFromBackup(matchid, backupBody) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `/api/matches/${matchid}/backup/`,
+          backupBody
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
     },

@@ -1,6 +1,6 @@
 <template>
   <v-container class="mapstatsinfo" fluid>
-    <v-flex class="text-right" v-if="!AdminToolsAvailable()">
+    <v-flex class="text-right" v-if="AdminToolsAvailable()">
       <AdminButton :matchInfo="matchInfo" />
     </v-flex>
     <div class="text-h4 names" align="center">
