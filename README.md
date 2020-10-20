@@ -46,6 +46,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 ![](./screenshots/TeamPage.png)
 ![](./screenshots/TeamSpecificPage.png)
 ![](./screenshots/MatchInfo.png)
+![](./screenshots/ProfilePage.png)
 
 # License
 This project is licensed under [MIT License](http://opensource.org/licenses/MIT). A copy of this license **must be included with the software**.
