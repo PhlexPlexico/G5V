@@ -90,7 +90,11 @@ export default {
   },
   computed: {
     myMatches() {
-      return this.$route.path != "/mymatches" && this.$route.path != "/";
+      return (
+        this.$route.path != "/mymatches" &&
+        this.$route.path != "/" &&
+        !this.$route.path.toString().includes("season")
+      );
     }
   },
   methods: {
@@ -104,6 +108,8 @@ export default {
           if (this.$route.params.id == undefined) {
             res = await this.GetUserRecentMatches(this.user.id);
           } else res = await this.GetUserRecentMatches(this.$route.params.id);
+        else if (this.$route.path.includes("season"))
+          res = await this.GetSeasonRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
         res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);

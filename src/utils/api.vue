@@ -254,11 +254,33 @@ export default {
       }
       return message;
     },
+    async GetAllSeasons() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/seasons");
+        message = res.data.seasons;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetTeamRecentMatches(teamid) {
       let res;
       let message;
       try {
         res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetSeasonRecentMatches(seasonid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/seasons/${seasonid}`);
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -271,6 +293,45 @@ export default {
       try {
         res = await this.axioCall.get("/api/matches/mymatches");
         message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetMySeasons() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/seasons/myseasons");
+        message = res.data.seasons;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetSeasonInfo(seasonid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/seasons/${seasonid}`);
+        message = res.data.season;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async DeleteSeason(seasonData) {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/seasons/",
+          data: seasonData,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
       }

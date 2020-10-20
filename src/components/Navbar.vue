@@ -65,6 +65,14 @@
           <v-list-item v-if="user.id != null" :to="'/server/create'">
             <v-list-item-title>Add Server</v-list-item-title>
           </v-list-item>
+
+          <v-list-item :to="'/seasons'">
+            <v-list-item-title>All Seasons</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item v-if="user.id != null" :to="'/myseasons'">
+            <v-list-item-title>My Seasons</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
