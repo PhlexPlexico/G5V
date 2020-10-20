@@ -16,7 +16,7 @@
       >
         Logout<v-icon right>mdi-logout-variant</v-icon>
       </v-btn>
-      <v-btn :to="'/user/'+user.id" v-if="user.id !== null" fab small>
+      <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
     </v-app-bar>
@@ -54,16 +54,16 @@
             <v-list-item-title>All Teams</v-list-item-title>
           </v-list-item>
 
+          <v-list-item v-if="user.id != null" :to="'/teams/create'">
+            <v-list-item-title>Create Team</v-list-item-title>
+          </v-list-item>
+
           <v-list-item v-if="user.id != null" :to="'/myservers'">
             <v-list-item-title>My Servers</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" :to="'/server/create'">
             <v-list-item-title>Add Server</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item v-if="user.id != null" :to="'/teams/create'">
-            <v-list-item-title>Create Team</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
