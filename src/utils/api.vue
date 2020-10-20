@@ -188,6 +188,17 @@ export default {
       }
       return message;
     },
+    async GetUserPlayerStats(steamid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/playerstats/${steamid}`);
+        message = res.data.playerstats;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetAllTeams() {
       let res;
       let message;
@@ -479,6 +490,17 @@ export default {
       }
       return message;
     },
+    async UpdateUserInfo(userInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/users/", userInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
     },
@@ -509,7 +531,7 @@ export default {
       return (playerstat.kills / playerstat.deaths).toFixed(2);
     },
     GetHSP: function(playerstat) {
-      if (playerstat.deaths === 0) {
+      if (playerstat.kills === 0) {
         return playerstat.kills;
       }
       return ((playerstat.headshot_kills / playerstat.kills) * 100).toFixed(2);

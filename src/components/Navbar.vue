@@ -16,7 +16,7 @@
       >
         Logout<v-icon right>mdi-logout-variant</v-icon>
       </v-btn>
-      <v-btn to="/user" v-if="user.id !== null" fab small>
+      <v-btn :to="'/user/'+user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
     </v-app-bar>

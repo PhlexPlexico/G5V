@@ -70,6 +70,15 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "Teams" */ "../views/User.vue") //,
     //children: [{ path: "/create", component: MatchCreate }]
+  },
+  {
+    path: "/user",
+    name: "My User",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "Teams" */ "../views/User.vue") //,
+    //children: [{ path: "/create", component: MatchCreate }]
   }
 ];
 

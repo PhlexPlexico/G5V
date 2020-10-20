@@ -9,6 +9,7 @@
     :sort-by="['id']"
     sort-desc
     ref="MatchesTable"
+    :hide-default-footer="myMatches"
   >
     <template v-slot:item.id="{ item }">
       <router-link
@@ -53,6 +54,7 @@
 
 <script>
 export default {
+  props: ["user"],
   data() {
     return {
       headers: [
@@ -86,6 +88,11 @@ export default {
   created() {
     this.GetMatches();
   },
+  computed: {
+    myMatches() {
+      return this.$route.path != "/mymatches" && this.$route.path != "/";
+    }
+  },
   methods: {
     async GetMatches() {
       try {
@@ -94,7 +101,9 @@ export default {
         else if (this.$route.path.includes("team"))
           res = await this.GetTeamRecentMatches(this.$route.params.id);
         else if (this.$route.path.includes("user"))
-          res = await this.GetTeamRecentMatches(this.$route.params.id);
+          if (this.$route.params.id == undefined) {
+            res = await this.GetUserRecentMatches(this.user.id);
+          } else res = await this.GetUserRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
         res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);
@@ -105,7 +114,7 @@ export default {
           this.matches.push(match);
         });
       } catch (error) {
-        //console.log(err);
+        console.log(error);
       } finally {
         this.isLoading = false;
       }
