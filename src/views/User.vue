@@ -3,6 +3,14 @@
     <v-container>
       <v-card-title v-if="retrievedUser.id != 0">
         {{ retrievedUser.name }}
+        <a
+          :href="
+            `https://steamcommunity.com/profiles/${retrievedUser.steam_id}`
+          "
+          target="_blank"
+        >
+          <v-icon>mdi-steam</v-icon>
+        </a>
         <v-spacer />
         <img style="border-radius: 15px;" :src="retrievedUser.medium_image" />
       </v-card-title>
