@@ -15,7 +15,9 @@
         <v-toolbar flat>
           Seasons/Tournaments
           <v-spacer />
-          test
+          <v-btn color="primary" @click="newDialog = true">
+            New Season
+          </v-btn>
         </v-toolbar>
       </template>
       <template v-slot:item.id="{ item }">
@@ -81,6 +83,60 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog shake v-model="newDialog" persistent max-width="800px">
+      <v-card color="lighten-4">
+        <v-card-title>
+          <span class="headline">
+            New Season
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="newSeasonForm">
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="newSeason.name"
+                      label="Name"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="6">
+                    <div class="text-h4">
+                      Start Date
+                    </div>
+                    <v-date-picker
+                      v-model="newSeason.start_date"
+                      label="Start Date"
+                      required
+                    />
+                  </v-col>
+                  <v-col cols="6">
+                    <div class="text-h4">
+                      End Date
+                    </div>
+                    <v-date-picker
+                      v-model="newSeason.end_date"
+                      label="End Date"
+                    />
+                  </v-col>
+                  <!-- TODO: Add in combobox with chips. Key value is based on space in between. -->
+                </v-row>
+              </v-container>
+            </v-card-text>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="darken-1" text @click="newDialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="primary" text @click="saveNewSeason()">
+            Save
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -124,7 +180,14 @@ export default {
       response: "",
       responseSheet: false,
       removeIndex: -1,
-      removeSeason: {}
+      removeSeason: {},
+      newDialog: false,
+      newSeason: {
+        name: "",
+        start_date: new Date().toISOString().substr(0, 10),
+        end_date: null,
+        cvars: {}
+      }
     };
   },
   created() {
@@ -179,6 +242,17 @@ export default {
         this.removeSeason = {};
         this.removeIndex = -1;
       });
+    },
+    async saveNewSeason() {
+      if (this.$refs.newSeasonForm.validate()) {
+        // let serverRes;
+        // let serverObj = [
+        //   {
+
+        //   }
+        // ];
+        return true;
+      }
     }
   }
 };

@@ -117,7 +117,6 @@ export default {
   methods: {
     async resetApiKey() {
       this.apiResetLoading = true;
-      console.log(this.retrievedUser.steam_id);
       let renewKey = [
         {
           steam_id: this.retrievedUser.steam_id,
