@@ -320,6 +320,17 @@ export default {
       }
       return message;
     },
+    async GetSeasonCVARs(seasonid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/seasons/${seasonid}/cvar`);
+        message = res.data.cvars;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async DeleteSeason(seasonData) {
       let res;
       let message;
@@ -334,6 +345,28 @@ export default {
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
+      }
+      return message;
+    },
+    async InsertSeason(seasonInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/seasons/", seasonInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async UpdateSeasonInfo(seasonInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/seasons/", seasonInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
       }
       return message;
     },

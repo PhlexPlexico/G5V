@@ -15,7 +15,11 @@
         <v-toolbar flat>
           Seasons/Tournaments
           <v-spacer />
-          <v-btn color="primary" @click="newDialog = true">
+          <v-btn
+            color="primary"
+            @click="newDialog = true"
+            v-if="user.id != null"
+          >
             New Season
           </v-btn>
         </v-toolbar>
@@ -38,10 +42,19 @@
           {{ item.end_date }}
         </div>
       </template>
-      <template v-slot:item.actions="{ item }" v-if="user.super_admin == 1">
-        <v-icon @click="deleteSelectedSeason(item)">
-          mdi-delete
-        </v-icon>
+      <template v-slot:item.actions="{ item }">
+        <div
+          v-if="
+            user.super_admin == 1 || user.admin == 1 || item.user_id == user.id
+          "
+        >
+          <v-icon @click="deleteSelectedSeason(item)">
+            mdi-delete
+          </v-icon>
+          <v-icon @click="editSelectedSeason(item)">
+            mdi-pencil
+          </v-icon>
+        </div>
       </template>
     </v-data-table>
     <v-bottom-sheet v-model="responseSheet" inset persistent>
@@ -87,7 +100,7 @@
       <v-card color="lighten-4">
         <v-card-title>
           <span class="headline">
-            New Season
+            {{ formTitle }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -98,29 +111,35 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="newSeason.name"
+                      ref="SeasonName"
                       label="Name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="6">
-                    <div class="text-h4">
-                      Start Date
-                    </div>
-                    <v-date-picker
-                      v-model="newSeason.start_date"
-                      label="Start Date"
                       required
+                      :rules="[
+                        () => !!newSeason.name || 'This field is required'
+                      ]"
                     />
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="12" sm="12" md="12" lg="12">
                     <div class="text-h4">
-                      End Date
+                      Date Range
                     </div>
                     <v-date-picker
-                      v-model="newSeason.end_date"
-                      label="End Date"
+                      v-model="newSeason.dates"
+                      label="Season Dates"
+                      ref="DateRange"
+                      range
                     />
                   </v-col>
-                  <!-- TODO: Add in combobox with chips. Key value is based on space in between. -->
+                  <v-col cols="12" sm="12" md="12" lg="12">
+                    <v-combobox
+                      v-model="newSeason.cvars"
+                      label="CVARs"
+                      ref="CVARs"
+                      hint="These values will be brought as defaults in EVERY match."
+                      multiple
+                      chips
+                    />
+                  </v-col>
                 </v-row>
               </v-container>
             </v-card-text>
@@ -184,14 +203,19 @@ export default {
       newDialog: false,
       newSeason: {
         name: "",
-        start_date: new Date().toISOString().substr(0, 10),
-        end_date: null,
-        cvars: {}
-      }
+        dates: [],
+        cvars: []
+      },
+      formTitle: "Create New Season/Tournament"
     };
   },
   created() {
     this.GetSeasons();
+  },
+  watch: {
+    newDialog(val) {
+      if(!val) this.formTitle = "New Season";
+    }
   },
   methods: {
     async GetSeasons() {
@@ -245,14 +269,85 @@ export default {
     },
     async saveNewSeason() {
       if (this.$refs.newSeasonForm.validate()) {
-        // let serverRes;
-        // let serverObj = [
-        //   {
-
-        //   }
-        // ];
-        return true;
+        let serverRes;
+        const splitStr = x => {
+          const y = x.split(" ");
+          let retVal;
+          try {
+            retVal = { [y[0].trim()]: y[1].trim() };
+          } catch (error) {
+            retVal = { [y[0].trim()]: "" };
+          }
+          return retVal;
+        };
+        let newCvar = Object.assign({}, ...this.newSeason.cvars.map(splitStr));
+        if (this.newSeason.id == null) {
+          let serverObj = [
+            {
+              name: this.newSeason.name,
+              start_date: this.newSeason.dates[0],
+              end_date:
+                this.newSeason.dates[1] == undefined
+                  ? null
+                  : this.newSeason.dates[1],
+              season_cvar: newCvar
+            }
+          ];
+          serverRes = await this.InsertSeason(serverObj);
+        } else {
+          let updateObj = [
+            {
+              season_id: this.newSeason.id,
+              name: this.newSeason.name,
+              start_date: this.newSeason.dates[0],
+              end_date:
+                this.newSeason.dates[1] == undefined
+                  ? null
+                  : this.newSeason.dates[1],
+              season_cvar: newCvar
+            }
+          ];
+          serverRes = await this.UpdateSeasonInfo(updateObj);
+        }
+        this.response = serverRes.message;
+        this.responseSheet = true;
+        this.newDialog = false;
+        this.seasons = [];
+        this.GetSeasons();
+        this.formTitle = "New Season/Tournament";
+        this.$nextTick(() => {
+          this.newSeason = {
+            name: "",
+            dates: [new Date().toISOString().substr(0, 10)],
+            cvars: []
+          };
+          this.$refs.newSeasonForm.resetValidation();
+        });
+        return;
       }
+    },
+    async editSelectedSeason(item) {
+      this.formTitle = "Edit Season/Tournament Info";
+      let dateArray = [];
+      dateArray.push(new Date(item.start_date).toISOString().substr(0, 10));
+      if (item.end_date != null)
+        dateArray.push(new Date(item.end_date).toISOString().substr(0, 10));
+      let seasonCvars = await this.GetSeasonCVARs(item.id);
+      if (typeof seasonCvars == "string") seasonCvars = null;
+      else
+        seasonCvars = JSON.stringify(seasonCvars)
+          .replace("{", "")
+          .replace("}", "")
+          .replace(/"/g, "")
+          .replace(/:/g, " ")
+          .split(",");
+      this.newSeason = {
+        id: item.id,
+        dates: dateArray,
+        cvars: seasonCvars,
+        name: item.name
+      };
+      this.newDialog = true;
     }
   }
 };
