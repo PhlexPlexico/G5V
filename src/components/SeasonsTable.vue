@@ -214,7 +214,7 @@ export default {
   },
   watch: {
     newDialog(val) {
-      if(!val) this.formTitle = "New Season";
+      if (!val) this.formTitle = "New Season";
     }
   },
   methods: {

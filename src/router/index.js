@@ -2,8 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Team from "../views/Team.vue";
-import Season from "../views/Season.vue";
 import Seasons from "../views/Seasons.vue";
+import Servers from "../views/Servers.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -40,6 +40,11 @@ const routes = [
     path: "/myseasons",
     name: "My Seasons",
     component: Seasons
+  },
+  {
+    path: "/myservers",
+    name: "My Servers",
+    component: Servers
   },
   {
     path: "/teams/:id",
@@ -94,8 +99,7 @@ const routes = [
     // this generates a separate chunk (teams.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "Teams" */ "../views/Seasons.vue"),
-    children: [{ path: "/create", component: Season }]
+      import(/* webpackChunkName: "Teams" */ "../views/Seasons.vue")
   },
   {
     path: "/season/:id",
@@ -105,6 +109,15 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "Teams" */ "../views/Season.vue")
+  },
+  {
+    path: "/servers",
+    name: "Servers",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Teams" */ "../views/Servers.vue")
   }
 ];
 
