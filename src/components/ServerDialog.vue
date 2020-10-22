@@ -154,7 +154,10 @@ export default {
             port: this.serverInfo.port,
             display_name: this.serverInfo.display_name,
             rcon_password: this.serverInfo.rcon_password,
-            public_server: this.serverInfo.public_server
+            public_server:
+              this.serverInfo.public_server == null
+                ? false
+                : this.serverInfo.public_server
           }
         ];
         if (this.serverInfo.id == null)

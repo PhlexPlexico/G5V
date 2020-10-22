@@ -291,7 +291,6 @@ export default {
       } finally {
         server.isLoading = false;
       }
-      
     }
   }
 };
