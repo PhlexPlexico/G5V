@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="500">
+  <v-card class="mx-auto" fluid>
     <v-card-title class="title font-weight-regular justify-space-between">
       <span>{{ currentTitle }}</span>
       <v-avatar
@@ -12,11 +12,46 @@
 
     <v-window v-model="step">
       <v-window-item :value="1">
-        <v-card-text> </v-card-text>
+        <v-col cols="12">
+          <v-select
+            v-model="selectedServer"
+            :items="servers"
+            item-text="display"
+            item-value="id"
+            :rules="[v => !!v || 'Server selection is required.']"
+            label="Server"
+            required
+            ref="newServer"
+          >
+            <template v-slot:item="{ item }">
+              {{ (item.display = item.display_name) }}
+            </template>
+          </v-select>
+        </v-col>
+        <v-card-text>
+          Not finding what you're looking for? Create it then select it!
+        </v-card-text>
+        <v-col cols="12">
+          <v-btn color="primary" @click="newDialog = true">
+            Create Server
+          </v-btn>
+        </v-col>
       </v-window-item>
 
       <v-window-item :value="2">
-        <v-card-text> </v-card-text>
+        <v-col cols="12">
+          <v-select
+            v-model="selectedSeason"
+            :items="seasons"
+            item-text="name"
+            item-value="id"
+            :rules="[v => !!v || 'Server selection is required.']"
+            label="Season"
+            required
+            ref="newServer"
+          />
+        </v-col>
+        <v-card-text>No season to select? Then carry on!</v-card-text>
       </v-window-item>
 
       <v-window-item :value="3">
@@ -35,31 +70,68 @@
         Next
       </v-btn>
     </v-card-actions>
+    <ServerDialog
+      v-model="newDialog"
+      :serverInfo="newServer"
+      title="New Server"
+      @is-new-server="ReloadServers"
+    />
   </v-card>
 </template>
 
 <script>
+import ServerDialog from "./ServerDialog";
 export default {
+  props: ["user"],
+  name: "CreateMatch",
+  components: {
+    ServerDialog
+  },
   data: () => ({
     step: 1,
     servers: [],
-    teams: []
+    teams: [],
+    seasons: [],
+    selectedServer: {},
+    newServer: {},
+    selectedSeason: {},
+    selectedTeams: [],
+    newDialog: false
   }),
   computed: {
     currentTitle() {
       switch (this.step) {
         case 1:
-          return "Sign-up";
+          return "Select a Server";
         case 2:
-          return "Create a password";
+          return "Select A Season";
         default:
-          return "Account created";
+          return "Fill Out Match Details";
       }
     }
   },
   async created() {
     this.servers = await this.GetAllAvailableServers();
     this.teams = await this.GetAllTeams();
+    this.seasons = await this.GetMySeasons();
+  },
+  methods: {
+    async ReloadServers() {
+      this.servers = await this.GetAllAvailableServers();
+      let arrIndex = this.servers
+        .map(obj => {
+          return obj.ip_string + " " + obj.port + " " + obj.user_id;
+        })
+        .indexOf(
+          this.newServer.ip_string +
+            " " +
+            this.newServer.port +
+            " " +
+            this.user.id
+        );
+      this.selectedServer = this.servers[arrIndex];
+      this.newServer = {};
+    }
   }
 };
 </script>

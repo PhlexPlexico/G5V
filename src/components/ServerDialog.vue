@@ -43,7 +43,10 @@
                       ref="Port"
                       type="number"
                       :rules="[
-                        () => !!serverInfo.port || 'A port is required.'
+                        () => !!serverInfo.port || 'A port is required.',
+                        () =>
+                          (serverInfo.port > 0 && serverInfo.port < 65536) ||
+                          'Please input a port between 0 and 65536.'
                       ]"
                     />
                   </v-col>
