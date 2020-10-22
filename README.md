@@ -5,16 +5,17 @@ Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ th
 
 
 ## What does it do?
-Currently, it displays data loaded from the API. You can login through steam and see current matches, and all teams, as well as edit, delete, and add new teams/members.
+Currently, it displays data loaded from the API. You can login through steam and see current matches, and all teams, as well as edit, delete, and add new teams/members, servers, and seasons.  
+There are a few new features that come with this front-end, such as the ability to have default match convars set per season, and status check on servers.
 
 
 ## What does it NOT do?
-Literally everything you want it to. This is just a basic foray into working with an API and learning to proxy from one server to another. Eventually it should be a good replacement for the old Get5-Web that's built in Python.
+Right now the only thing it does not do is create matches. This will be implemented eventually. There are a few things that will have to be adjusted on the match page, such a connection strings and launching games through the page.
 
 ## Why?
 [Get5-webpanel](https://github.com/phlexplexico/get5-webpanel) is a now out-dated webpanel, with python2.7 being officially EOL. Being built all on Flask, with ORM (SQLAlchemy), and Jinja2, its tech spans more than a few years old. While it works really well for now, it is becoming increasingly harder to deploy to more modern hardware/software (such as Ubuntu 19) to ensure easy setup.
 
-The intent will to be provide similar functionality with the use of [G5API](https://github.com/phlexplexico/G5API) and Vue (with vuetify!), so it is a more responsive, mobile-friendly website, as opposed to the old one. 
+The intent will to be provide similar functionality with the use of [G5API](https://github.com/phlexplexico/G5API) and Vue (with vuetify!), so it is a more responsive, ~~mobile-friendly website~~ (this is a WIP I *swear*), as opposed to the old one. 
 
 ## Building
 In order to build this application, I've opted to use [Yarn](https://yarnpkg.com/lang/en/).
@@ -47,6 +48,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 ![](./screenshots/TeamSpecificPage.png)
 ![](./screenshots/MatchInfo.png)
 ![](./screenshots/ProfilePage.png)
+![](./screenshots/ServersPage.png)
 
 # License
 This project is licensed under [MIT License](http://opensource.org/licenses/MIT). A copy of this license **must be included with the software**.

@@ -232,6 +232,34 @@ export default {
       }
       return message;
     },
+    async GetMyServers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/servers/myservers");
+        return res.data.servers;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async DeleteServer(serverData) {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/servers/",
+          data: serverData,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetAllAvailableServers() {
       let res;
       let message;
@@ -356,6 +384,39 @@ export default {
         message = res.data;
       } catch (error) {
         message = error.response.data;
+      }
+      return message;
+    },
+    async InsertServer(serverInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/servers/", serverInfo);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetServerStatus(serverId) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/servers/${serverId}/status`);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async UpdateServer(serverInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/servers/", serverInfo);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
       }
       return message;
     },

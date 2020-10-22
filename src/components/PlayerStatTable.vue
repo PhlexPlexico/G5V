@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: Add in match final score as a header, send in as prop. -->
   <v-container class="statistics" fluid>
     <v-container
       v-for="(playerMapStats, index) in playerstats"

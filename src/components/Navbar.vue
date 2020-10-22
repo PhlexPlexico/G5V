@@ -62,7 +62,7 @@
             <v-list-item-title>My Servers</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id != null" :to="'/server/create'">
+          <v-list-item v-if="user.id != null" @click="newDialog = true">
             <v-list-item-title>Add Server</v-list-item-title>
           </v-list-item>
 
@@ -76,16 +76,22 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
+    <ServerDialog v-model="newDialog" :serverInfo="{}" title="New Server" />
   </v-card>
 </template>
 <script>
+import ServerDialog from "./ServerDialog";
 export default {
   name: "Navbar",
   props: ["user"],
+  components: {
+    ServerDialog
+  },
   data() {
     return {
       drawer: false,
-      group: null
+      group: null,
+      newDialog: false
     };
   },
   methods: {

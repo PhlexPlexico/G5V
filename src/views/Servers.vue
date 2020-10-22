@@ -1,12 +1,6 @@
 <template>
   <v-container class="servers" fluid>
-    <v-row class="pb-5">
-      <v-col cols="12" class="flex-grow-1">
-        <v-card>
-          <ServersTable />
-        </v-card>
-      </v-col>
-    </v-row>
+    <ServersTable :user="user" />
   </v-container>
 </template>
 
