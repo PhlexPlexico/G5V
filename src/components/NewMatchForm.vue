@@ -407,7 +407,7 @@ export default {
             server_id: this.selectedServer,
             team1_id: this.newMatchData.team1_id,
             team2_id: this.newMatchData.team2_id,
-            season_id: this.selectedSeason,
+            season_id: this.selectedSeason == -1 ? null : this.selectedSeason,
             start_time: new Date()
               .toISOString()
               .slice(0, 19)
