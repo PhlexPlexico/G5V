@@ -273,10 +273,15 @@ export default {
         const splitStr = x => {
           const y = x.split(" ");
           let retVal;
+          let key;
+          let val;
           try {
-            retVal = { [y[0].trim()]: y[1].trim() };
+            key = y[0].trim();
+            y.splice(0, 1);
+            val = y.join(" ").trim()
+            retVal = { [key]: val };
           } catch (error) {
-            retVal = { [y[0].trim()]: "" };
+            retVal = { [key]: "" };
           }
           return retVal;
         };
@@ -333,18 +338,14 @@ export default {
       if (item.end_date != null)
         dateArray.push(new Date(item.end_date).toISOString().substr(0, 10));
       let seasonCvars = await this.GetSeasonCVARs(item.id);
+      let tmpArr = [];
       if (typeof seasonCvars == "string") seasonCvars = null;
       else
-        seasonCvars = JSON.stringify(seasonCvars)
-          .replace("{", "")
-          .replace("}", "")
-          .replace(/"/g, "")
-          .replace(/:/g, " ")
-          .split(",");
+        for (var obj in seasonCvars) tmpArr.push(obj + " " + seasonCvars[obj]);
       this.newSeason = {
         id: item.id,
         dates: dateArray,
-        cvars: seasonCvars,
+        cvars: seasonCvars == null ? seasonCvars : tmpArr,
         name: item.name
       };
       this.newDialog = true;
