@@ -92,9 +92,11 @@ export default {
     servers: [],
     teams: [],
     seasons: [],
-    selectedServer: {},
+    selectedServer: -1,
+    selectedServerObject: {},
     newServer: {},
-    selectedSeason: {},
+    selectedSeason: -1,
+    newMatchData: {},
     selectedTeams: [],
     newDialog: false
   }),
@@ -110,10 +112,27 @@ export default {
       }
     }
   },
+  watch: {
+    selectedSeason(val) {
+      let arrIndex = this.seasons
+        .map(obj => {
+          return obj.id;
+        })
+        .indexOf(val);
+      this.selectedServerObject = this.seasons[arrIndex];
+    },
+    step(val) {
+      if (val == 3) {
+        if (this.selectedServerObject.cvars != null) {
+          console.log("TODO: Now we autofill whatever CVARs are needed.");
+        }
+      }
+    }
+  },
   async created() {
     this.servers = await this.GetAllAvailableServers();
     this.teams = await this.GetAllTeams();
-    this.seasons = await this.GetMySeasons();
+    this.seasons = await this.GetMyAvailableSeasons();
   },
   methods: {
     async ReloadServers() {

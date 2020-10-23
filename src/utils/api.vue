@@ -337,6 +337,17 @@ export default {
       }
       return message;
     },
+    async GetMyAvailableSeasons() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/seasons/myseasons/available");
+        message = res.data.seasons;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetSeasonInfo(seasonid) {
       let res;
       let message;
