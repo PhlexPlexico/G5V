@@ -81,7 +81,7 @@
               ref="teamTwo"
             />
             <v-divider />
-            <v-row>
+            <v-row class="justify-center">
               <v-col cols="12">
                 <strong>Series Length</strong>
               </v-col>
@@ -102,12 +102,17 @@
             </v-row>
             <v-divider />
             <div><strong>Map Pool</strong></div>
-            <v-row>
+            <v-row class="justify-center">
               <v-col lg="1" sm="12">
                 <v-checkbox
                   v-model="newMatchData.map_pool"
                   label="Dust 2"
                   value="de_dust2"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -115,6 +120,11 @@
                   v-model="newMatchData.map_pool"
                   label="Mirage"
                   value="de_mirage"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -122,6 +132,11 @@
                   v-model="newMatchData.map_pool"
                   label="Inferno"
                   value="de_inferno"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -129,6 +144,11 @@
                   v-model="newMatchData.map_pool"
                   label="Overpass"
                   value="de_overpass"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -136,6 +156,11 @@
                   v-model="newMatchData.map_pool"
                   label="Train"
                   value="de_train"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -143,6 +168,11 @@
                   v-model="newMatchData.map_pool"
                   label="Nuke"
                   value="de_nuke"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
               <v-col lg="1" sm="12">
@@ -150,17 +180,28 @@
                   v-model="newMatchData.map_pool"
                   label="Vertigo"
                   value="de_vertigo"
+                  :rules="[
+                    () =>
+                      newMatchData.map_pool.length > 0 ||
+                      'At least one map is required.'
+                  ]"
                 />
               </v-col>
             </v-row>
             <v-divider />
-            <v-combobox
-              v-model="newMatchData.cvars"
-              label="CVARs"
-              ref="CVARs"
-              multiple
-              chips
-            />
+            <v-row>
+              <v-col cols="12">
+                <strong>Match ConVars</strong>
+              </v-col>
+              <v-combobox
+                v-model="newMatchData.cvars"
+                label="CVARs"
+                ref="CVARs"
+                multiple
+                chips
+                deletable-chips
+              />
+            </v-row>
           </div>
         </v-window-item>
       </v-form>
@@ -174,7 +215,7 @@
       <v-btn
         color="primary"
         depressed
-        @click="checkValidation"
+        @click="callCreateMatch"
         v-if="step === 3"
       >
         Create
@@ -195,6 +236,16 @@
       title="New Server"
       @is-new-server="ReloadServers"
     />
+    <v-bottom-sheet v-model="responseSheet" inset persistent>
+      <v-sheet class="text-center" height="200px">
+        <v-btn class="mt-6" text color="success" @click="GoToMatch">
+          close
+        </v-btn>
+        <div class="my-3">
+          {{ response }}
+        </div>
+      </v-sheet>
+    </v-bottom-sheet>
   </v-card>
 </template>
 
@@ -222,11 +273,14 @@ export default {
       maps_to_win: 1,
       skip_veto: 0,
       map_pool: [],
-      cvars: []
+      cvars: [],
+      veto_first: "team1"
     },
     selectedTeams: [],
     newDialog: false,
-    teamRules: []
+    response: "",
+    responseSheet: false,
+    newMatchId: null
   }),
   computed: {
     currentTitle() {
@@ -235,8 +289,10 @@ export default {
           return "Select a Server";
         case 2:
           return "Select A Season";
-        default:
+        case 3:
           return "Fill Out Match Details";
+        default:
+          return "You should not be here!";
       }
     }
   },
@@ -277,7 +333,6 @@ export default {
             seasonCvars.map_pool == null
               ? []
               : seasonCvars.map_pool.trim().split(", ");
-          console.log(seasonCvars.map_pool.trim().split(", "));
           //Delete all used get prepare custom CVARs.
           delete seasonCvars.min_players_to_ready;
           delete seasonCvars.min_spectators_to_ready;
@@ -321,6 +376,61 @@ export default {
         if (moveForward) this.step++;
         else this.step--;
       }
+    },
+    async callCreateMatch() {
+      if (this.$refs.newMatchForm.validate()) {
+        const splitStr = x => {
+          const y = x.split(" ");
+          let retVal;
+          let key;
+          let val;
+          try {
+            key = y[0].trim();
+            y.splice(0, 1);
+            val = y.join(" ").trim();
+            retVal = { [key]: val };
+          } catch (error) {
+            retVal = { [key]: "" };
+          }
+          return retVal;
+        };
+        let newCvar = Object.assign(
+          {},
+          ...this.newMatchData.cvars.map(splitStr)
+        );
+        let matchInsertObj = [
+          {
+            server_id: this.selectedServer,
+            team1_id: this.newMatchData.team1_id,
+            team2_id: this.newMatchData.team2_id,
+            season_id: this.selectedSeason,
+            start_time: new Date(),
+            max_maps: this.newMatchData.maps_to_win,
+            side_type: this.newMatchData.side_type,
+            veto_mappool: this.newMatchData.map_pool.join(", "),
+            match_cvars: newCvar //,
+            //ignore_server: true
+          }
+        ];
+        try {
+          let serverRes = await this.InsertMatch(matchInsertObj);
+          this.response = serverRes.message;
+          this.newMatchId = serverRes.id;
+        } catch (error) {
+          this.response = error.message;
+          this.newMatchId = null;
+        }
+        this.responseSheet = true;
+        return;
+      }
+    },
+    GoToMatch() {
+      this.responseSheet = !this.responseSheet;
+      this.response = "";
+      console.log(this.newMatchId);
+      if (this.newMatchId != null)
+        this.$router.push({ name: `Match`, params: { id: this.newMatchId } });
+      else this.$router.push({ name: `New Match` });
     }
   }
 };

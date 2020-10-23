@@ -409,6 +409,17 @@ export default {
       }
       return message;
     },
+    async InsertMatch(matchInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/matches/", matchInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
     async GetServerStatus(serverId) {
       let res;
       let message;

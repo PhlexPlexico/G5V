@@ -138,6 +138,7 @@
                       hint="These values will be brought as defaults in EVERY match."
                       multiple
                       chips
+                      deletable-chips
                     />
                   </v-col>
                 </v-row>
@@ -278,7 +279,7 @@ export default {
           try {
             key = y[0].trim();
             y.splice(0, 1);
-            val = y.join(" ").trim()
+            val = y.join(" ").trim();
             retVal = { [key]: val };
           } catch (error) {
             retVal = { [key]: "" };
