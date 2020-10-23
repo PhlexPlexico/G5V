@@ -111,7 +111,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -123,7 +127,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -135,7 +143,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -147,7 +159,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -159,7 +175,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -171,7 +191,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>
@@ -183,7 +207,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.'
+                      'At least one map is required.',
+                    () =>
+                      (newMatchData.map_pool.length >
+                          newMatchData.maps_to_win-1) ||
+                      'You must add more maps if you wish to participate in a series this large!'
                   ]"
                 />
               </v-col>

@@ -728,7 +728,7 @@ export default {
     AdminToolsAvailable: function(match) {
       if (
         this.IsAnyAdmin(this.user) &&
-        match.end_time == null &&
+        (match.end_time == null || match.end_time == "") &&
         match.cancelled == 0 &&
         match.forfeit == 0
       )
