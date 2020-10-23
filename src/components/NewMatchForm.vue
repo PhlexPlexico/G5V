@@ -412,8 +412,7 @@ export default {
             max_maps: this.newMatchData.maps_to_win,
             side_type: this.newMatchData.side_type,
             veto_mappool: this.newMatchData.map_pool.join(", "),
-            match_cvars: newCvar,
-            ignore_server: true
+            match_cvars: newCvar
           }
         ];
         try {
