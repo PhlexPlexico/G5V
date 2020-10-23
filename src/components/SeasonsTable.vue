@@ -324,7 +324,13 @@ export default {
         this.$nextTick(() => {
           this.newSeason = {
             name: "",
-            dates: [new Date().toISOString().substr(0, 10)],
+            dates: [
+              new Date()
+                .toISOString()
+                .substr(0, 10)
+                .slice(0, 19)
+                .replace("T", " ")
+            ],
             cvars: []
           };
           this.$refs.newSeasonForm.resetValidation();

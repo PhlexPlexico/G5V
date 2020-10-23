@@ -94,10 +94,17 @@ export default {
         this.matchInfo.team2_name = matchRes.team2_string;
         this.matchInfo.team1_id = matchRes.team1_id;
         this.matchInfo.team2_id = matchRes.team2_id;
-        this.matchInfo.start_time = new Date(matchRes.start_time).toISOString();
-        this.matchInfo.end_time = matchRes.end_time == null 
-          ? null
-          : new Date(matchRes.end_time).toISOString();
+        this.matchInfo.start_time = new Date(matchRes.start_time)
+          .toISOString()
+          .slice(0, 19)
+          .replace("T", " ");
+        this.matchInfo.end_time =
+          matchRes.end_time == null
+            ? null
+            : new Date(matchRes.end_time)
+                .toISOString()
+                .slice(0, 19)
+                .replace("T", " ");
         this.matchInfo.team1_score = matchRes.team1_score;
         this.matchInfo.team2_score = matchRes.team2_score;
         this.matchInfo.symbol = this.GetScoreSymbol(
