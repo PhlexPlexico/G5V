@@ -68,19 +68,19 @@ export default {
   async created() {
     this.user = await this.IsLoggedIn();
     this.seasonData = await this.GetSeasonInfo(this.$route.params.id);
-    this.seasonData.start_date = new Date(this.seasonData.start_date);
+    this.seasonData.start_date = new Date(this.seasonData.start_date).toISOString();
     if (this.seasonData.end_date != null)
-      this.seasonData.end_date = new Date(this.seasonData.end_date);
+      this.seasonData.end_date = new Date(this.seasonData.end_date).toISOString();
   },
   computed: {
     isStarted() {
-      if (this.seasonData.start_date >= new Date()) return "Starting";
+      if (this.seasonData.start_date >= new Date().toISOString()) return "Starting";
       else return "Started";
     },
     isEnding() {
       if (
         this.seasonData.end_date != null &&
-        this.seasonData.end_date < new Date()
+        this.seasonData.end_date < new Date().toISOString()
       )
         return "Ended";
       else return "Ends";

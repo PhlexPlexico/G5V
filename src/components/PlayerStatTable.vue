@@ -238,9 +238,9 @@ export default {
             " " +
             singleMapStat.team2_score;
           this.arrMapString[index].start =
-            "Map Start: " + new Date(singleMapStat.start_time);
+            "Map Start: " + new Date(singleMapStat.start_time).toISOString();
           this.arrMapString[index].end =
-            "Map End: " + new Date(singleMapStat.end_time);
+            "Map End: " + new Date(singleMapStat.end_time).toISOString();
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
         });
       } catch (error) {
