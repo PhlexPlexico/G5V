@@ -217,6 +217,7 @@
         depressed
         @click="callCreateMatch"
         v-if="step === 3"
+        :loading="isLoading"
       >
         Create
       </v-btn>
@@ -280,7 +281,8 @@ export default {
     newDialog: false,
     response: "",
     responseSheet: false,
-    newMatchId: null
+    newMatchId: null,
+    isLoading: false
   }),
   computed: {
     currentTitle() {
@@ -379,6 +381,7 @@ export default {
     },
     async callCreateMatch() {
       if (this.$refs.newMatchForm.validate()) {
+        this.isLoading = true;
         const splitStr = x => {
           const y = x.split(" ");
           let retVal;
@@ -388,6 +391,7 @@ export default {
             key = y[0].trim();
             y.splice(0, 1);
             val = y.join(" ").trim();
+            if (!isNaN(val)) val = parseInt(val);
             retVal = { [key]: val };
           } catch (error) {
             retVal = { [key]: "" };
@@ -408,8 +412,8 @@ export default {
             max_maps: this.newMatchData.maps_to_win,
             side_type: this.newMatchData.side_type,
             veto_mappool: this.newMatchData.map_pool.join(", "),
-            match_cvars: newCvar //,
-            //ignore_server: true
+            match_cvars: newCvar,
+            ignore_server: true
           }
         ];
         try {
@@ -421,6 +425,7 @@ export default {
           this.newMatchId = null;
         }
         this.responseSheet = true;
+        this.isLoading = false;
         return;
       }
     },
