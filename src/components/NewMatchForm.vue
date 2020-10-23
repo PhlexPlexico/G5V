@@ -408,7 +408,7 @@ export default {
             team1_id: this.newMatchData.team1_id,
             team2_id: this.newMatchData.team2_id,
             season_id: this.selectedSeason,
-            start_time: new Date(),
+            start_time: new Date().toISOString(),
             max_maps: this.newMatchData.maps_to_win,
             side_type: this.newMatchData.side_type,
             veto_mappool: this.newMatchData.map_pool.join(", "),
