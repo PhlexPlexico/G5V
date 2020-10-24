@@ -729,8 +729,8 @@ export default {
       if (
         this.IsAnyAdmin(this.user) &&
         (match.end_time == null || match.end_time == "") &&
-        match.cancelled == 0 &&
-        match.forfeit == 0
+        (match.cancelled == 0 || match.cancelled == null) &&
+        (match.forfeit == 0 || match.forfeit == null)
       )
         return true;
       return false;
