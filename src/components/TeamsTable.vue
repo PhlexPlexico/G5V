@@ -3,7 +3,7 @@
     item-key="id"
     class="elevation-1"
     :loading="isLoading"
-    loading-text="Loading... Please wait"
+    :loading-text="$t('misc.LoadText')"
     :headers="headers"
     :items="teams"
     :sort-by="['id']"
@@ -32,25 +32,25 @@ export default {
     return {
       headers: [
         {
-          text: "Team ID",
+          text: this.$t("Team.ID"),
           align: "start",
           sortable: true,
           value: "id"
         },
         {
-          text: "Name",
+          text: this.$t("Team.Name"),
           value: "name"
         },
         {
-          text: "Tag",
+          text: this.$t("Team.TeamTag"),
           value: "tag"
         },
         {
-          text: "Flag",
+          text: this.$t("Team.Flag"),
           value: "flag"
         },
         {
-          text: "Owner",
+          text: this.$t("Team.Owner"),
           value: "owner"
         }
       ],

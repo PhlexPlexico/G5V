@@ -695,8 +695,18 @@ export default {
         };
       }
     },
+    get_loser: function(matchdata) {
+      // returns loser's teamname
+      if (matchdata.team1_score > matchdata.team2_score) {
+        return matchdata.team2_string;
+      } else if (matchdata.team1_score < matchdata.team2_score) {
+        return matchdata.team2_string;
+      } else {
+        return "";
+      }
+    },
     get_flag_link: function(team) {
-      if (team.flag === "") {
+      if (team.flag === "" || team.flag == null) {
         return `/img/_unknown.png`;
       }
       return `/img/valve_flags/${team.flag}.png`;

@@ -4,7 +4,7 @@
       item-key="id"
       class="elevation-1"
       :loading="isLoading"
-      loading-text="Loading... Please wait"
+      :loading-text="$t('misc.LoadText')"
       :headers="headers"
       :items="servers"
       :sort-by="['id']"
@@ -12,14 +12,14 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          Servers
+          {{ $t("MyServers.Title") }}
           <v-spacer />
           <v-btn
             color="primary"
             @click="newDialog = true"
             v-if="user.id != null"
           >
-            New Server
+            {{ $t("MyServers.New") }}
           </v-btn>
         </v-toolbar>
       </template>
@@ -57,7 +57,7 @@
             user.id != null && (IsAnyAdmin(user) || item.user_id == user.id)
           "
         >
-          Status
+          {{ $t("MyServers.Status") }}
         </v-btn>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -74,6 +74,9 @@
           </v-icon>
         </div>
       </template>
+      <template v-slot:item.flag="{ item }">
+        <img :src="get_flag_link(item)" style="border-radius: 5px;" />
+      </template>
     </v-data-table>
     <v-bottom-sheet v-model="responseSheet" inset persistent>
       <v-sheet class="text-center" height="200px">
@@ -86,7 +89,7 @@
             response = '';
           "
         >
-          close
+          {{ $t("misc.Close") }}
         </v-btn>
         <div class="my-3">
           {{ response }}
@@ -97,16 +100,16 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Are you sure you wish to delete this server?
+            {{ $t("MyServers.DeleteConfirmation") }}
           </span>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="deleteDialog = false">
-            No
+            {{ $t("misc.No") }}
           </v-btn>
           <v-btn color="red darken-1" text @click="deleteServerConfirm()">
-            Yes
+            {{ $t("misc.Yes") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -132,34 +135,38 @@ export default {
     return {
       headers: [
         {
-          text: "Server ID",
+          text: this.$t("MyServers.ID"),
           align: "start",
           sortable: true,
           value: "id"
         },
         {
-          text: "Name",
+          text: this.$t("MyServers.Name"),
           value: "display_name"
         },
         {
-          text: "Hostname",
+          text: this.$t("MyServers.Host"),
           value: "ip_string"
         },
         {
-          text: "Port #",
+          text: this.$t("MyServers.Port"),
           value: "port"
         },
         {
-          text: "RCON Password",
+          text: this.$t("MyServers.RCONPass"),
           value: "rcon_password"
         },
         {
-          text: "Public Server",
+          text: this.$t("MyServers.IsPublic"),
           value: "public_server"
         },
         {
-          text: "Owner",
+          text: this.$t("MyServers.Owner"),
           value: "name"
+        },
+        {
+          text: this.$t("MyServers.Flag"),
+          value: "flag"
         },
         {
           text: "",
@@ -186,9 +193,10 @@ export default {
         ip_string: "",
         port: 0,
         rcon_password: "",
-        public_server: 0
+        public_server: 0,
+        flag: ""
       },
-      formTitle: "Create New Server"
+      formTitle: this.$t("MyServers.FormTitleNew")
     };
   },
   created() {
@@ -197,7 +205,7 @@ export default {
   watch: {
     newDialog(val) {
       if (!val) {
-        this.formTitle = "Create New Server";
+        this.formTitle = this.$t("MyServers.FormTitleNew");
         this.newServer = {};
       }
     }
@@ -274,7 +282,7 @@ export default {
       });
     },
     async editSelectedServer(item) {
-      this.formTitle = "Edit Server Info";
+      this.formTitle = this.$t("MyServers.FormTitleEdit");
       this.newServer = item;
       this.newDialog = true;
       return;

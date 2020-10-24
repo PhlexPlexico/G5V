@@ -36,7 +36,7 @@ This will generate a minified and buildable version of the website in the `dist`
 Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed. This project won't be finished anytime soon, as I'm still learning on how to use various front-end tools. But feel free to start working on some routes/new pages and submit them!
 
 ### Special Thanks
-- [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go.
+- [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go, and the initial translations!
 - [Sean Lewis](https://github.com/splewis) for the creation of get5.
 
 ### Screenshots  

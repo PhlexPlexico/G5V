@@ -15,45 +15,44 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="serverInfo.display_name"
-                      ref="SeasonName"
-                      label="Name"
+                      ref="ServerName"
+                      :label="$t('ServerCreate.FormDisplayName')"
                       required
                       :rules="[
-                        () =>
-                          !!serverInfo.display_name || 'This field is required'
+                        () => !!serverInfo.display_name || $t('misc.Required')
                       ]"
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="8">
                     <v-text-field
                       v-model="serverInfo.ip_string"
-                      label="Host Name"
-                      hint="Can be a URL as well."
+                      :label="$t('ServerCreate.FormServerIP')"
+                      :hint="$t('ServerCreate.FormServerHint')"
                       ref="HostName"
                       required
                       :rules="[
-                        () => !!serverInfo.ip_string || 'This field is required'
+                        () => !!serverInfo.ip_string || $t('misc.Required')
                       ]"
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="4">
                     <v-text-field
                       v-model="serverInfo.port"
-                      label="Port"
+                      :label="$t('ServerCreate.FormServerPort')"
                       ref="Port"
                       type="number"
                       :rules="[
-                        () => !!serverInfo.port || 'A port is required.',
+                        () => !!serverInfo.port || $t('misc.Required'),
                         () =>
                           (serverInfo.port > 0 && serverInfo.port < 65536) ||
-                          'Please input a port between 0 and 65536.'
+                          $t('ServerCreate.PortRangeIncorrect')
                       ]"
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="10">
                     <v-text-field
                       v-model="serverInfo.rcon_password"
-                      label="RCON Password"
+                      :label="$t('ServerCreate.FormRCONPassword')"
                       :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                       :type="showPass ? 'text' : 'password'"
                       name="rcon_password"
@@ -64,8 +63,21 @@
                   <v-col cols="12" sm="12" md="12" lg="2">
                     <v-switch
                       v-model="serverInfo.public_server"
-                      label="Public Server?"
+                      :label="$t('ServerCreate.FormPublicServer')"
                       ref="public_server"
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="12" md="12" lg="2">
+                    <v-select
+                      :items="flags"
+                      v-model="serverInfo.flag"
+                      :label="$t('MyServers.Flag')"
+                    />
+                  </v-col>
+                  <v-col cols="1" align-self="center">
+                    <img
+                      :src="get_flag_link(serverInfo)"
+                      style="border-radius: 5px;"
                     />
                   </v-col>
                 </v-row>
@@ -81,7 +93,7 @@
             @click.stop="show = false"
             :disabled="serverLoading"
           >
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn
             color="primary"
@@ -90,7 +102,7 @@
             :loading="serverLoading"
             :disabled="serverLoading"
           >
-            Save
+            {{ $t("misc.Save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -106,7 +118,7 @@
             response = '';
           "
         >
-          close
+          {{ $t("misc.Close") }}
         </v-btn>
         <div class="my-3">
           {{ response }}
@@ -143,8 +155,12 @@ export default {
       showPass: false,
       response: "",
       responseSheet: false,
-      serverLoading: false
+      serverLoading: false,
+      flags: []
     };
+  },
+  created() {
+    this.flags = this.GetFlags();
   },
   methods: {
     async saveServer() {
@@ -160,7 +176,8 @@ export default {
             public_server:
               this.serverInfo.public_server == null
                 ? false
-                : this.serverInfo.public_server
+                : this.serverInfo.public_server,
+            flag: this.serverInfo.flag
           }
         ];
         if (this.serverInfo.id == null)
@@ -169,7 +186,11 @@ export default {
           serverObj[0].server_id = this.serverInfo.id;
           serverRes = await this.UpdateServer(serverObj);
         }
-        this.response = serverRes;
+        if (serverRes.includes("inserted"))
+          this.response = this.$t("ServerCreate.MessageRegisterSuccess");
+        else if (serverRes.includes("updated"))
+          this.response = this.$t("ServerCreate.MessageeEditSuccess");
+        else this.response = serverRes;
         this.responseSheet = true;
         this.show = false;
         this.$emit("is-new-server", true);

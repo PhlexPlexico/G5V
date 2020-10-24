@@ -14,7 +14,8 @@
         href="/api/logout"
         v-if="user.id !== null"
       >
-        Logout<v-icon right>mdi-logout-variant</v-icon>
+        {{ $t("Navbar.Logout") }}
+        <v-icon right>mdi-logout-variant</v-icon>
       </v-btn>
       <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
@@ -27,7 +28,7 @@
           active-class="light-blue--text text--accent-4"
         >
           <v-list-item index="Home" :to="'/'">
-            <v-list-item-title>All Matches</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.AllMatches") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item
@@ -35,7 +36,7 @@
             index="mymatches"
             :to="'/mymatches'"
           >
-            <v-list-item-title>My Matches</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.MyMatches") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item
@@ -43,35 +44,37 @@
             index="match_create"
             :to="'/match/create'"
           >
-            <v-list-item-title>Create A Match</v-list-item-title>
+            <v-list-item-title>{{
+              $t("Navbar.CreateMatch")
+            }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" :to="'/myteams'">
-            <v-list-item-title>My Teams</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.MyTeams") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item :to="'/teams'">
-            <v-list-item-title>All Teams</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.AllTeams") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" :to="'/teams/create'">
-            <v-list-item-title>Create Team</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.CreateTeam") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" :to="'/myservers'">
-            <v-list-item-title>My Servers</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.MyServers") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" @click="newDialog = true">
-            <v-list-item-title>Add Server</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.AddServer") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item :to="'/seasons'">
-            <v-list-item-title>All Seasons</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.AllSeasons") }}</v-list-item-title>
           </v-list-item>
 
           <v-list-item v-if="user.id != null" :to="'/myseasons'">
-            <v-list-item-title>My Seasons</v-list-item-title>
+            <v-list-item-title>{{ $t("Navbar.MySeasons") }}</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>

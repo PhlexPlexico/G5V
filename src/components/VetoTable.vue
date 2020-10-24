@@ -6,7 +6,7 @@
       class="elevation-1"
       :sort-by="['id']"
       hide-default-footer
-      no-data-text="No veto data available."
+      :no-data-text="$t('Veto.NoData')"
     >
       <template v-slot:item.map="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
@@ -18,15 +18,20 @@
       </template>
       <template v-slot:item.pick_or_veto="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
-          {{ item.pick_or_veto }}
+          {{ $t("Veto.VetoPick") }}
         </b>
         <div v-else>
-          {{ item.pick_or_veto }}
+          {{ $t("Veto.VetoBan") }}
         </div>
       </template>
       <template v-slot:item.team_name="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
-          {{ item.team_name }}
+          <div v-if="item.team_name === 'Decider'">
+            {{ $t("Veto.DeciderTeam") }}
+          </div>
+          <div v-else>
+            {{ item.team_name }}
+          </div>
         </b>
         <div v-else>
           {{ item.team_name }}
@@ -43,18 +48,18 @@ export default {
     return {
       headers: [
         {
-          text: "Team",
+          text: this.$t("Veto.TeamHeader"),
           sortable: false,
           align: "start",
           value: "team_name"
         },
         {
-          text: "Map",
+          text: this.$t("Veto.MapHeader"),
           sortable: false,
           value: "map"
         },
         {
-          text: "Pick or Ban?",
+          text: this.$t("Veto.PickBan"),
           sortable: false,
           value: "pick_or_veto"
         }

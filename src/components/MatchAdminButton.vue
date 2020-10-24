@@ -9,7 +9,7 @@
           :loading="isLoading"
           :disabled="isLoading"
         >
-          Admin Actions
+          {{ $t("MatchAdmin.AdminTools") }}
         </v-btn>
       </template>
       <v-list>
@@ -44,16 +44,16 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Are you sure you wish to cancel the match?
+            {{ $t("MatchAdmin.CancelMatchConfirm") }}
           </span>
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="cancelDialog = false">
-            No
+            {{ $t("misc.No") }}
           </v-btn>
           <v-btn color="red darken-1" text @click="cancelCurrentMatch()">
-            Yes
+            {{ $t("misc.Yes") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -71,25 +71,26 @@
               <v-row>
                 <v-col cols="12">
                   <v-text-field
-                    label="Steam ID (64,32, ID3)"
-                    hint="Can even be a steam URL!"
+                    :label="$t('MatchAdmin.SteamLabel')"
+                    :hint="$t('MatchAdmin.SteamHint')"
                     placeholder="7656..."
                     ref="steamID"
                     v-model="steamID"
                     required
-                    :rules="[() => !!steamID || 'This field is required']"
+                    :rules="[
+                      () => !!steamID || $t('MatchAdmin.SteamRuleRequired')
+                    ]"
                   />
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
                     label="Nickname"
                     ref="nickname"
-                    hint="Feel free to be whoever you want them to be!"
+                    :hint="$t('MatchAdmin.SteamNicknameHint')"
                     v-model="nickname"
                     :rules="[
                       () =>
-                        nickname.length <= 40 ||
-                        'Nickname must be less than 40 characters'
+                        nickname.length <= 40 || $t('MatchAdmin.SteamNickRule')
                     ]"
                     counter="40"
                   />
@@ -100,21 +101,21 @@
         </v-card-text>
         <v-card-actions>
           <v-btn color="darken-1" text @click="addDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="addPlayerToServer('spec')">
-            Add to Spectators
+            {{ $t("MatchAdmin.AddToSpec") }}
           </v-btn>
           <v-btn color="blue darken-1" text @click="addPlayerToServer('team1')">
-            Add to Team 1
+            {{ $t("MatchAdmin.AddTeam1") }}
           </v-btn>
           <v-btn
             color="yellow darken-1"
             text
             @click="addPlayerToServer('team2')"
           >
-            Add to Team 2
+            {{ $t("MatchAdmin.AddTeam2") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -123,14 +124,14 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Forfeit Match?
+            {{ $t("MatchAdmin.ForfeitConfirm") }}
           </span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-row>
               <v-col cols="12">
-                Choose either Team 1 or Team 2 to be the victor.
+                {{ $t("MatchAdmin.ForfeitChoice") }}
               </v-col>
             </v-row>
           </v-container>
@@ -138,13 +139,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="forfeitDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn color="blue darken-1" text @click="forfeitCurrentMatch(1)">
-            Team 1 Winner
+            {{ $t("MatchAdmin.ForfeitWinner1") }}
           </v-btn>
           <v-btn color="yellow darken-1" text @click="forfeitCurrentMatch(2)">
-            Team 2 Winner
+            {{ $t("MatchAdmin.ForfeitWinner2") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -153,7 +154,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Send RCON Command to Server
+            {{ $t("MatchAdmin.RCONDialog") }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -162,13 +163,13 @@
               <v-row>
                 <v-col cols="12">
                   <v-text-field
-                    label="RCON Command"
-                    hint="Like working in the console!"
+                    :label="$t('MatchAdmin.RCONCommand')"
+                    :hint="$t('MatchAdmin.RCONHint')"
                     placeholder="status"
                     ref="rconCommand"
                     v-model="rconCommand"
                     required
-                    :rules="[() => !!rconCommand || 'This field is required']"
+                    :rules="[() => !!rconCommand || $t('misc.Required')]"
                   />
                 </v-col>
               </v-row>
@@ -178,10 +179,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="rconDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn color="primary darken-1" text @click="sendRconCommand()">
-            Send RCON Command
+            {{ $t("MatchAdmin.SendRCON") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -190,7 +191,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Restore a Backup
+            {{ $t("MatchAdmin.LoadBackupFile") }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -201,8 +202,8 @@
                   <v-select
                     v-model="selectedBackup"
                     :items="backups"
-                    :rules="[v => !!v || 'Backup item is required.']"
-                    label="Backup"
+                    :rules="[v => !!v || $t('misc.Required')]"
+                    :label="$t('MatchAdmin.Backup')"
                     required
                     ref="currentBackup"
                   />
@@ -214,10 +215,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="backupDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn color="primary darken-1" text @click="sendBackupRestore()">
-            Restore
+            {{ $t("MatchAdmin.Restore") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -226,7 +227,7 @@
       <v-card color="warning lighten-4">
         <v-card-title>
           <span class="headline">
-            Change Match Server
+            {{ $t("MatchAdmin.ChangeServer") }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -235,10 +236,7 @@
               <v-row>
                 <v-col cols="12">
                   <v-card-text class="font-weight-bold">
-                    Please note that when you change the server you will have to
-                    go grab the latest backup from the old server and then
-                    restore if you do not want to start from scratch!! Only
-                    super admins are allowed to do this.
+                    {{ $t("MatchAdmin.ServerChangeNote") }}
                   </v-card-text>
                 </v-col>
                 <v-col cols="12">
@@ -247,8 +245,8 @@
                     :items="servers"
                     item-text="display_name"
                     item-value="id"
-                    :rules="[v => !!v || 'Server selection is required.']"
-                    label="Server"
+                    :rules="[v => !!v || $t('misc.Required')]"
+                    :label="$t('CreateMatch.ServerLabel')"
                     required
                     ref="newServer"
                   />
@@ -260,10 +258,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="serverChangeDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn color="red darken-1" text @click="sendServerChange()">
-            Restore
+            {{ $t("misc.Change") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -293,7 +291,7 @@ export default {
       isLoading: false,
       items: [
         {
-          title: "Pause Match",
+          title: this.$t("MatchAdmin.PauseMatch"),
           apiCall: async () => {
             this.isLoading = true;
             this.response = await this.PauseMatch(this.matchInfo.id);
@@ -302,7 +300,7 @@ export default {
           }
         },
         {
-          title: "Resume Match",
+          title: this.$t("MatchAdmin.UnpauseMatch"),
           apiCall: async () => {
             this.isLoading = true;
             this.response = await this.UnpauseMatch(this.matchInfo.id);
@@ -311,13 +309,13 @@ export default {
           }
         },
         {
-          title: "Add Player to Server",
+          title: this.$t("MatchAdmin.AddPlayerToServer"),
           apiCall: () => {
             this.addDialog = true;
           }
         },
         {
-          title: "List Backups",
+          title: this.$t("MatchAdmin.ListBackups"),
           apiCall: async () => {
             let res = await this.GetMatchBackups(this.matchInfo.id);
             if (res.response) {
@@ -330,25 +328,25 @@ export default {
           }
         },
         {
-          title: "Cancel Match",
+          title: this.$t("MatchAdmin.CancelMatch"),
           apiCall: () => {
             this.cancelDialog = true;
           }
         },
         {
-          title: "Forfeit Match",
+          title: this.$t("MatchAdmin.ForfeitMatch"),
           apiCall: () => {
             this.forfeitDialog = true;
           }
         },
         {
-          title: "Send RCON Command",
+          title: this.$t("MatchAdmin.SendRCON"),
           apiCall: () => {
             this.rconDialog = true;
           }
         },
         {
-          title: "Change match server",
+          title: this.$t("MatchAdmin.ChangeServer"),
           apiCall: async () => {
             let res = await this.GetAllAvailableServers();
             if (Array.isArray(res)) {

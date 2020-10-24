@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="12" lg="2">
       <v-card elevation="3">
         <v-card-title class="headline text--secondary">
-          Kills
+          {{ $t("PlayerStats.Kills") }}
         </v-card-title>
         <v-skeleton-loader
           class="mx-auto"
@@ -19,7 +19,7 @@
     <v-col cols="12" sm="12" md="12" lg="2">
       <v-card elevation="3">
         <v-card-title class="headline text--secondary">
-          Deaths
+          {{ $t("PlayerStats.Deaths") }}
         </v-card-title>
         <v-skeleton-loader
           class="mx-auto"
@@ -35,7 +35,7 @@
     <v-col cols="12" sm="12" md="12" lg="2">
       <v-card elevation="3">
         <v-card-title class="headline text--secondary">
-          Headshot
+          {{ $t("PlayerStats.Headshot") }}
         </v-card-title>
         <v-skeleton-loader class="mx-auto" :loading="isHSPLoading" type="text">
           <v-card-text class="headline text--primary">
@@ -47,7 +47,7 @@
     <v-col cols="12" sm="12" md="12" lg="3">
       <v-card elevation="3">
         <v-card-title class="headline text--secondary">
-          Rounds Played
+          {{ $t("PlayerStats.RoundsPlayed") }}
         </v-card-title>
         <v-skeleton-loader
           class="mx-auto"
@@ -63,7 +63,7 @@
     <v-col cols="12" sm="12" md="12" lg="2">
       <v-card elevation="3">
         <v-card-title class="headline text--secondary">
-          Rating
+          {{ $t("PlayerStats.Rating") }}
         </v-card-title>
         <v-skeleton-loader
           class="mx-auto"

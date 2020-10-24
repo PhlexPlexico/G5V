@@ -18,18 +18,22 @@
               :items="servers"
               item-text="display_name"
               item-value="id"
-              :rules="[v => v != -1 || 'Server selection is required.']"
-              label="Server"
+              :rules="[v => v != -1 || $t('misc.Required')]"
+              :label="$t('CreateMatch.ServerLabel')"
               required
               ref="newServer"
-            />
+            >
+              <template v-slot:item="{ item }">
+                {{ item.display_name }} {{ item.flag }}
+              </template>
+            </v-select>
           </v-col>
           <v-card-text>
-            Not finding what you're looking for? Create it then select it!
+            {{ $t("CreateMatch.ServerNote") }}
           </v-card-text>
           <v-col cols="12">
             <v-btn color="primary" @click="newDialog = true">
-              Create Server
+              {{ $t("misc.Create") }} {{ $t("CreateMatch.ServerSelect") }}
             </v-btn>
           </v-col>
         </v-window-item>
@@ -41,11 +45,15 @@
               :items="seasons"
               item-text="name"
               item-value="id"
-              label="Season"
+              :label="$t('CreateMatch.SeasonLabel')"
               ref="newServer"
             />
           </v-col>
-          <v-card-text>No season to select? Then carry on!</v-card-text>
+          <v-card-text>
+            <strong>
+              {{ $t("CreateMatch.SeasonNote") }}
+            </strong>
+          </v-card-text>
         </v-window-item>
 
         <v-window-item :value="3">
@@ -56,12 +64,12 @@
               item-text="name"
               item-value="id"
               :rules="[
-                v => !!v || 'A team one is required.',
+                v => !!v || $t('CreateMatch.TeamRequired'),
                 () =>
                   newMatchData.team1_id != newMatchData.team2_id ||
-                  'Two teams cannot face each other!'
+                  $t('CreateMatch.TeamCannotBeEqual')
               ]"
-              label="Team 1"
+              :label="$t('CreateMatch.FormTeam1')"
               required
               ref="teamOne"
             />
@@ -71,37 +79,41 @@
               item-text="name"
               item-value="id"
               :rules="[
-                v => !!v || 'A team two is required.',
+                v => !!v || $t('CreateMatch.TeamRequired'),
                 () =>
                   newMatchData.team2_id != newMatchData.team1_id ||
-                  'Two teams cannot face each other!'
+                  $t('CreateMatch.TeamCannotBeEqual')
               ]"
-              label="Team 2"
+              :label="$t('CreateMatch.FormTeam2')"
               required
               ref="teamTwo"
             />
             <v-divider />
             <v-row class="justify-center">
               <v-col cols="12">
-                <strong>Series Length</strong>
+                <strong>{{ $t("CreateMatch.FormSeriesType") }}</strong>
               </v-col>
               <v-radio-group v-model="newMatchData.maps_to_win" row>
                 <v-col lg="3" sm="12">
-                  <v-radio label="Best of 1" :value="1" />
+                  <v-radio :label="$t('CreateMatch.BestOf') + 1" :value="1" />
                 </v-col>
                 <v-col lg="3" sm="12">
-                  <v-radio label="Best of 3" :value="3" />
+                  <v-radio :label="$t('CreateMatch.BestOf') + 3" :value="3" />
                 </v-col>
                 <v-col lg="3" sm="12">
-                  <v-radio label="Best of 5" :value="5" />
+                  <v-radio :label="$t('CreateMatch.BestOf') + 5" :value="5" />
                 </v-col>
                 <v-col lg="3" sm="12">
-                  <v-radio label="Best of 7" :value="7" />
+                  <v-radio :label="$t('CreateMatch.BestOf') + 7" :value="7" />
                 </v-col>
               </v-radio-group>
             </v-row>
             <v-divider />
-            <div><strong>Map Pool</strong></div>
+            <div>
+              <strong>
+                {{ $t("CreateMatch.FormMapPool") }}
+              </strong>
+            </div>
             <v-row class="justify-center">
               <v-col lg="1" sm="12">
                 <v-checkbox
@@ -111,11 +123,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -127,11 +139,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -143,11 +155,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -159,11 +171,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -175,11 +187,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -191,11 +203,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -207,11 +219,11 @@
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
-                      'At least one map is required.',
+                      $t('CreateMatch.MapChoiceError'),
                     () =>
-                      (newMatchData.map_pool.length >
-                          newMatchData.maps_to_win-1) ||
-                      'You must add more maps if you wish to participate in a series this large!'
+                      newMatchData.map_pool.length >
+                        newMatchData.maps_to_win - 1 ||
+                      $t('CreateMatch.MapNotEnough')
                   ]"
                 />
               </v-col>
@@ -219,11 +231,11 @@
             <v-divider />
             <v-row>
               <v-col cols="12">
-                <strong>Match ConVars</strong>
+                <strong>{{ $t("CreateMatch.ConvarTitle") }}</strong>
               </v-col>
               <v-combobox
                 v-model="newMatchData.cvars"
-                label="CVARs"
+                :label="$t('CreateMatch.FormCVARS')"
                 ref="CVARs"
                 multiple
                 chips
@@ -237,7 +249,7 @@
     <v-divider></v-divider>
     <v-card-actions>
       <v-btn :disabled="step === 1" text @click="checkValidation(false)">
-        Back
+        {{ $t("misc.Back") }}
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn
@@ -247,7 +259,7 @@
         v-if="step === 3"
         :loading="isLoading"
       >
-        Create
+        {{ $t("misc.Create") }}
       </v-btn>
       <v-btn
         v-else
@@ -256,19 +268,19 @@
         depressed
         @click="checkValidation"
       >
-        Next
+        {{ $t("misc.Next") }}
       </v-btn>
     </v-card-actions>
     <ServerDialog
       v-model="newDialog"
       :serverInfo="newServer"
-      title="New Server"
+      :title="$t('ServerCreate.NewServerTitle')"
       @is-new-server="ReloadServers"
     />
     <v-bottom-sheet v-model="responseSheet" inset persistent>
       <v-sheet class="text-center" height="200px">
         <v-btn class="mt-6" text color="success" @click="GoToMatch">
-          close
+          {{ $t("misc.Close") }}
         </v-btn>
         <div class="my-3">
           {{ response }}
@@ -316,13 +328,13 @@ export default {
     currentTitle() {
       switch (this.step) {
         case 1:
-          return "Select a Server";
+          return this.$t("CreateMatch.FormServer");
         case 2:
-          return "Select A Season";
+          return this.$t("CreateMatch.FormSeason");
         case 3:
-          return "Fill Out Match Details";
+          return this.$t("CreateMatch.FormDetail");
         default:
-          return "You should not be here!";
+          return this.$t("CreateMatch.FormError");
       }
     }
   },
@@ -442,13 +454,14 @@ export default {
               .replace("T", " "),
             max_maps: this.newMatchData.maps_to_win,
             side_type: this.newMatchData.side_type,
-            veto_mappool: this.newMatchData.map_pool.join(", "),
+            veto_mappool: this.newMatchData.map_pool.join(" "),
             match_cvars: newCvar
           }
         ];
         try {
           let serverRes = await this.InsertMatch(matchInsertObj);
-          this.response = serverRes.message;
+          if (serverRes.id != null)
+            this.response = this.$t("CreateMatch.MessageRegisterSuccess");
           this.newMatchId = serverRes.id;
         } catch (error) {
           this.response = error.message;

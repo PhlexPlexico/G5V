@@ -3,7 +3,7 @@
     item-key="name"
     class="elevation-1"
     :loading="isLoading"
-    loading-text="Loading... Please wait"
+    :loading-text="$t('misc.LoadText')"
     :headers="headers"
     :items="matches"
     :sort-by="['id']"
@@ -59,25 +59,25 @@ export default {
     return {
       headers: [
         {
-          text: "Match ID",
+          text: this.$t("Matches.MatchID"),
           align: "start",
           sortable: true,
           value: "id"
         },
         {
-          text: "Team 1",
+          text: this.$t("Matches.Team1"),
           value: "team1_string"
         },
         {
-          text: "Team 2",
+          text: this.$t("Matches.Team2"),
           value: "team2_string"
         },
         {
-          text: "Status",
+          text: this.$t("Matches.Status"),
           value: "match_status"
         },
         {
-          text: "Owner",
+          text: this.$t("Matches.StaOwnertus"),
           value: "owner"
         }
       ],

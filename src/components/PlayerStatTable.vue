@@ -1,75 +1,84 @@
 <template>
   <v-container class="statistics" fluid>
-    <v-container
-      v-for="(playerMapStats, index) in playerstats"
-      :key="playerMapStats[0].id"
-    >
-      <v-container class="mapinfo" fluid>
-        <div
-          class="text-subtitle-2 mapInfo"
-          v-if="arrMapString[index] != null"
-          align="center"
-        >
-          {{ arrMapString[index].score }} - {{ arrMapString[index].map }}
-        </div>
-        <div
-          class="text-subtitle-2 mapInfo"
-          v-if="
-            arrMapString[index] != null && arrMapString[index].start != null
-          "
-          align="center"
-        >
-          {{ arrMapString[index].start }}
-        </div>
-        <div
-          class="text-subtitle-2 mapInfo"
-          v-if="arrMapString[index] != null && arrMapString[index].end != null"
-          align="center"
-        >
-          {{ arrMapString[index].end }}
-        </div>
-      </v-container>
-      <v-data-table
-        item-key="id"
-        class="elevation-1"
-        :loading="isLoading"
-        loading-text="Loading... Please wait"
-        :headers="headers"
-        :items="playerMapStats"
-        sort-by="kills"
-        sort-desc
-        ref="PlayerStats"
-        group-by="Team"
-        show-group-by
-        hide-default-footer
-        :expanded="[]"
-        show-expand
+    <div v-if="playerstats.length > 0">
+      <v-container
+        v-for="(playerMapStats, index) in playerstats"
+        :key="playerMapStats[0].id"
       >
-        <template v-slot:item.name="{ item }">
-          <router-link :to="{ path: '/user/' + item.steam_id }">
-            {{ item.name }}
-          </router-link>
-        </template>
-        <template v-slot:item.Team="{ item }">
-          {{ item.Team.slice(2) }}
-        </template>
-        <template v-slot:expanded-item="{ item }" class="text-center">
-          <td :colspan="headers.length">
-            <v-data-table
-              item-key="id"
-              class="elevation-1"
-              :headers="additionalHeaders"
-              hide-default-footer
-              dense
-              :key="item.id"
-              :items="[item]"
-              disable-sort
-              :colspan="headers.length"
-            />
-          </td>
-        </template>
-      </v-data-table>
-    </v-container>
+        <v-container class="mapinfo" fluid>
+          <div
+            class="text-subtitle-2 mapInfo"
+            v-if="arrMapString[index] != null"
+            align="center"
+          >
+            {{ arrMapString[index].score }} - {{ arrMapString[index].map }}
+          </div>
+          <div
+            class="text-subtitle-2 mapInfo"
+            v-if="
+              arrMapString[index] != null && arrMapString[index].start != null
+            "
+            align="center"
+          >
+            {{ arrMapString[index].start }}
+          </div>
+          <div
+            class="text-subtitle-2 mapInfo"
+            v-if="
+              arrMapString[index] != null && arrMapString[index].end != null
+            "
+            align="center"
+          >
+            {{ arrMapString[index].end }}
+          </div>
+        </v-container>
+        <v-data-table
+          item-key="id"
+          class="elevation-1"
+          :loading="isLoading"
+          :loading-text="$t('misc.LoadText')"
+          :headers="headers"
+          :items="playerMapStats"
+          sort-by="kills"
+          sort-desc
+          ref="PlayerStats"
+          group-by="Team"
+          show-group-by
+          hide-default-footer
+          :expanded="[]"
+          show-expand
+        >
+          <template v-slot:item.name="{ item }">
+            <router-link :to="{ path: '/user/' + item.steam_id }">
+              {{ item.name }}
+            </router-link>
+          </template>
+          <template v-slot:item.Team="{ item }">
+            {{ item.Team.slice(2) }}
+          </template>
+          <template v-slot:expanded-item="{ item }" class="text-center">
+            <td :colspan="headers.length">
+              <v-data-table
+                item-key="id"
+                class="elevation-1"
+                :headers="additionalHeaders"
+                hide-default-footer
+                dense
+                :key="item.id"
+                :items="[item]"
+                disable-sort
+                :colspan="headers.length"
+              />
+            </td>
+          </template>
+        </v-data-table>
+      </v-container>
+    </div>
+    <div v-else align="center">
+      <strong>
+        {{ $t("PlayerStats.NoStatFound") }}
+      </strong>
+    </div>
   </v-container>
 </template>
 
@@ -80,39 +89,39 @@ export default {
     return {
       headers: [
         {
-          text: "User",
+          text: this.$t("PlayerStats.User"),
           align: "start",
           sortable: true,
           value: "name",
           groupable: false
         },
         {
-          text: "Kills",
+          text: this.$t("PlayerStats.Kills"),
           value: "kills",
           groupable: false
         },
         {
-          text: "Deaths",
+          text: this.$t("PlayerStats.Deaths"),
           value: "deaths",
           groupable: false
         },
         {
-          text: "Assists",
+          text: this.$t("PlayerStats.Assists"),
           value: "assists",
           groupable: false
         },
         {
-          text: "Flash Assists",
+          text: this.$t("PlayerStats.FlashbangAssists"),
           value: "flashbang_assists",
           groupable: false
         },
         {
-          text: "Rating",
+          text: this.$t("PlayerStats.Rarting"),
           value: "rating",
           groupable: false
         },
         {
-          text: "Team",
+          text: this.$t("PlayerStats.TeamName"),
           value: "Team",
           align: "right"
         },
@@ -125,31 +134,31 @@ export default {
       ],
       additionalHeaders: [
         {
-          text: "Suicides",
+          text: this.$t("PlayerStats.Suicides"),
           value: "suicides"
         },
         {
-          text: "Average Damage Per Round",
+          text: this.$t("PlayerStats.ADR"),
           value: "adr"
         },
         {
-          text: "Bomb Plants",
+          text: this.$t("PlayerStats.BombPlants"),
           value: "bomb_plants"
         },
         {
-          text: "Bomb Defuses",
+          text: this.$t("PlayerStats.BombDefuses"),
           value: "bomb_defuses"
         },
         {
-          text: "Headshot%",
+          text: this.$t("PlayerStats.Headshot") + "%",
           value: "hsp"
         },
         {
-          text: "KDR",
+          text: this.$t("PlayerStats.KDR"),
           value: "kdr"
         },
         {
-          text: "Frags Per Round",
+          text: this.$t("PlayerStats.FPR"),
           value: "fpr"
         }
       ],

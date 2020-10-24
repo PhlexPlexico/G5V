@@ -41,14 +41,24 @@
       {{ matchInfo.team2_score }}
     </div>
     <div class="start-date text-subtitle-2" align="center">
-      Start: {{ matchInfo.start_time }}
+      {{ $t("Match.StartTime") }} {{ matchInfo.start_time }}
     </div>
     <div
       class="end-date text-subtitle-2"
       align="center"
       v-if="matchInfo.end_time != null"
     >
-      End: {{ matchInfo.end_time }}
+      {{ $t("Match.EndTime") }} {{ matchInfo.end_time }}
+    </div>
+    <div v-if="matchInfo.forfeit == 1" align="center">
+      <strong>
+        {{ $t("Match.MatchForfeitedBy", get_loser(matchInfo)) }}
+      </strong>
+    </div>
+    <div v-else-if="matchInfo.cancelled == 1" align="center">
+      <strong>
+        {{ $t("Match.MatchHasBeenCancelled") }}
+      </strong>
     </div>
   </v-container>
 </template>

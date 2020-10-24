@@ -5,6 +5,7 @@
     sort-by="calories"
     class="elevation-4"
     :loading="isLoading"
+    :loading-text="$t('misc.LoadText')"
     ref="TeamTable"
     :items-per-page="5"
   >
@@ -60,26 +61,26 @@
                   <v-col cols="12" sm="6" md="8">
                     <v-text-field
                       v-model="teamInfo.name"
-                      label="Team Name"
+                      :label="$t('Team.NameLabel')"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="3">
                     <v-select
                       :items="flags"
                       v-model="teamInfo.flag"
-                      label="Team Flag"
+                      :label="$t('Team.Flag')"
                     ></v-select>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-text-field
                       v-model="teamInfo.tag"
-                      label="Team Tag"
+                      :label="$t('Team.TeamTag')"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <v-switch
                       v-model="teamInfo.public"
-                      label="Public Team?"
+                      :label="$t('TeamCreate.FormPublicTeam') + '?'"
                     ></v-switch>
                   </v-col>
                 </v-row>
@@ -89,10 +90,10 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="close">
-                Cancel
+                {{ $t("misc.Cancel") }}
               </v-btn>
               <v-btn color="blue darken-1" text @click="saveTeamInfo">
-                Save
+                {{ $t("misc.Save") }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -122,8 +123,8 @@
                     <v-combobox
                       v-model="newAuth.steam"
                       :items="steamIdList"
-                      label="Steam Identifier"
-                      hint="Can be any identifier. URL/Steam64/Steam32..."
+                      :label="$t('Team.AuthLabel')"
+                      :hint="$t('Team.AuthHint')"
                     ></v-combobox>
                   </v-col>
                 </v-row>
@@ -131,7 +132,7 @@
                   <v-col cols="12" sm="12" md="12">
                     <v-text-field
                       v-model="newAuth.name"
-                      label="Optional Nickname"
+                      :label="$t('Team.NickLabel')"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -141,10 +142,10 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="authClose">
-                Cancel
+                {{ $t("misc.Cancel") }}
               </v-btn>
               <v-btn color="blue darken-1" text @click="saveTeamAuth">
-                Save
+                {{ $t("misc.Save") }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -152,15 +153,15 @@
         <v-dialog v-model="deleteDialog" max-width="500px">
           <v-card>
             <v-card-title class="headline">
-              Are you sure you want to delete this item?
+              {{ $t("Team.DeleteConfirmation") }}
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">
-                Cancel
+                {{ $t("misc.Cancel") }}
               </v-btn>
               <v-btn color="red darken-1" text @click="deleteMemberConfirm">
-                OK
+                {{ $t("misc.OK") }}
               </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -183,11 +184,11 @@ export default {
           sortable: false
         },
         {
-          text: "In-Game Name",
+          text: this.$t("Team.Username"),
           value: "username"
         },
         {
-          text: "Steam ID",
+          text: this.$t("Team.SteamIDTitle"),
           align: "start",
           sortable: true,
           value: "steamid"
@@ -231,9 +232,9 @@ export default {
       else return "New Team Info";
     },
     memberButtonTitle() {
-      if (this.teamAuth.length == 0) return "New Team Member";
-      else if (this.newTeam) return "New Team Member";
-      else return "Add/Edit Team Member";
+      if (this.teamAuth.length == 0) return this.$t("Team.NewMember");
+      else if (this.newTeam) return this.$t("Team.NewMember");
+      else return this.$t("Team.EditMember");
     }
   },
   watch: {
@@ -268,8 +269,8 @@ export default {
       deep: true
     },
     editInfo(val) {
-      if (val) this.formIndTitle = "Edit Player";
-      else this.formIndTitle = "New Player";
+      if (val) this.formIndTitle = this.$t("Team.EditPlayer");
+      else this.formIndTitle = this.$t("Team.NewPlayer");
     },
     teamDeleted(val) {
       if (val) this.$router.push({ name: `Home` });
@@ -286,7 +287,7 @@ export default {
         name: "New Team",
         flag: "",
         logo: "",
-        tag: "NEW",
+        tag: this.$t("Team.NewTag"),
         public: 0,
         owner: this.user.name,
         owner_id: this.user.id

@@ -4,7 +4,7 @@
       item-key="name"
       class="elevation-1"
       :loading="isLoading"
-      loading-text="Loading... Please wait"
+      :loading-text="$t('misc.LoadText')"
       :headers="headers"
       :items="seasons"
       :sort-by="['id']"
@@ -13,14 +13,14 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          Seasons/Tournaments
+          {{ $t("Seasons.Title") }}
           <v-spacer />
           <v-btn
             color="primary"
             @click="newDialog = true"
             v-if="user.id != null"
           >
-            New Season
+            {{ $t("Seasons.New") }}
           </v-btn>
         </v-toolbar>
       </template>
@@ -36,7 +36,7 @@
       </template>
       <template v-slot:item.end_date="{ item }">
         <div v-if="item.end_date == null">
-          Ongoing
+          {{ $t("Seasons.NotFinished") }}
         </div>
         <div v-else>
           {{ item.end_date }}
@@ -68,7 +68,7 @@
             response = '';
           "
         >
-          close
+          {{ $t("misc.Close") }}
         </v-btn>
         <div class="my-3">
           {{ response }}
@@ -79,19 +79,19 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            Are you sure you wish to delete this season?
+            {{ $t("Seasons.DeleteConfirm") }}
           </span>
         </v-card-title>
         <v-card-text>
-          This will remove all match associations to the season.
+          {{ $t("Seasons.DeleteExplain") }}
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="deleteDialog = false">
-            No
+            {{ $t("misc.No") }}
           </v-btn>
           <v-btn color="red darken-1" text @click="deleteSeasonConfirm()">
-            Yes
+            {{ $t("misc.Yes") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -112,7 +112,7 @@
                     <v-text-field
                       v-model="newSeason.name"
                       ref="SeasonName"
-                      label="Name"
+                      :label="$t('Seasons.Name')"
                       required
                       :rules="[
                         () => !!newSeason.name || 'This field is required'
@@ -121,11 +121,11 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="12">
                     <div class="text-h4">
-                      Date Range
+                      {{ $t("Seasons.Dates") }}
                     </div>
                     <v-date-picker
                       v-model="newSeason.dates"
-                      label="Season Dates"
+                      :label="$t('Seasons.DateTitle')"
                       ref="DateRange"
                       range
                     />
@@ -133,9 +133,9 @@
                   <v-col cols="12" sm="12" md="12" lg="12">
                     <v-combobox
                       v-model="newSeason.cvars"
-                      label="CVARs"
+                      :label="$t('CreateMatch.FormCVARS')"
                       ref="CVARs"
-                      hint="These values will be brought as defaults in EVERY match."
+                      :hint="$t('Seasons.CvarHint')"
                       multiple
                       chips
                       deletable-chips
@@ -149,10 +149,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="darken-1" text @click="newDialog = false">
-            Cancel
+            {{ $t("misc.Cancel") }}
           </v-btn>
           <v-btn color="primary" text @click="saveNewSeason()">
-            Save
+            {{ $t("misc.Save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -167,25 +167,25 @@ export default {
     return {
       headers: [
         {
-          text: "ID",
+          text: this.$t("Seasons.ID"),
           align: "start",
           sortable: true,
           value: "id"
         },
         {
-          text: "Name",
+          text: this.$t("Seasons.Name"),
           value: "name"
         },
         {
-          text: "Start Date (YYYY/MM/DD)",
+          text: this.$t("Seasons.StartTitle"),
           value: "start_date"
         },
         {
-          text: "End Date (YYYY/MM/DD)",
+          text: this.$t("Seasons.EndTitle"),
           value: "end_date"
         },
         {
-          text: "Owner",
+          text: this.$t("Matches.Owner"),
           value: "owner"
         },
         {
@@ -207,7 +207,7 @@ export default {
         dates: [],
         cvars: []
       },
-      formTitle: "Create New Season/Tournament"
+      formTitle: this.$t("Seasons.NewFormTitle")
     };
   },
   created() {
@@ -215,7 +215,7 @@ export default {
   },
   watch: {
     newDialog(val) {
-      if (!val) this.formTitle = "New Season";
+      if (!val) this.formTitle = this.$t("Seasons.NewFormTitle");
     }
   },
   methods: {
@@ -256,7 +256,10 @@ export default {
           season_id: this.removeSeason.id
         }
       ];
-      this.response = await this.DeleteSeason(memberData);
+      let tmpResp = await this.DeleteSeason(memberData);
+      if (tmpResp.includes("successfully!"))
+        this.response = this.$t("Seasons.SeasonDeleted");
+      else this.response = tmpResp;
       this.seasons.splice(this.removeIndex, 1);
       this.closeDelete();
     },
@@ -315,12 +318,13 @@ export default {
           ];
           serverRes = await this.UpdateSeasonInfo(updateObj);
         }
-        this.response = serverRes.message;
+        if (serverRes.id != null)
+          this.response = this.$t("Seasons.SeasonCreated");
         this.responseSheet = true;
         this.newDialog = false;
         this.seasons = [];
         this.GetSeasons();
-        this.formTitle = "New Season/Tournament";
+        this.formTitle = this.$t("Seasons.NewFormTitle");
         this.$nextTick(() => {
           this.newSeason = {
             name: "",
@@ -339,7 +343,7 @@ export default {
       }
     },
     async editSelectedSeason(item) {
-      this.formTitle = "Edit Season/Tournament Info";
+      this.formTitle = this.$t("Seasons.EditFormTitle");
       let dateArray = [];
       dateArray.push(new Date(item.start_date).toISOString().substr(0, 10));
       if (item.end_date != null)
