@@ -15,7 +15,7 @@
         <img style="border-radius: 15px;" :src="retrievedUser.medium_image" />
       </v-card-title>
       <v-card-title v-else>
-        Sign in with Steam to claim this user!
+        {{ $t("User.ClaimUser") }}
         <v-spacer />
       </v-card-title>
       <v-card-subtitle>
@@ -25,7 +25,7 @@
           v-if="retrievedUser.super_admin === 1"
           small
         >
-          Super Admin
+          {{ $t("User.SuperAdmin") }}
         </v-chip>
         <v-chip
           class="ma-2"
@@ -33,13 +33,13 @@
           v-if="retrievedUser.admin === 1"
           small
         >
-          Admin
+          {{ $t("User.Admin") }}
         </v-chip>
       </v-card-subtitle>
     </v-container>
     <v-container v-if="retrievedUser.api_key != undefined">
       <v-card-title class="headline">
-        API Key
+        {{ $t("User.API") }}
       </v-card-title>
       <v-row>
         <v-col cols="12" md="11" sm="11" lg="6">
@@ -61,20 +61,20 @@
             @click="resetApiKey"
             color="secondary"
           >
-            Reset API Key
+            {{ $t("User.ResetAPI") }}
           </v-btn>
         </v-col>
       </v-row>
     </v-container>
     <v-container>
       <v-card-title class="headline">
-        Player Statistics
+        {{ $t("User.Stats") }}
       </v-card-title>
       <PlayerStats v-if="userStats != null" :statArray="userStats" />
     </v-container>
     <v-container>
       <v-card-title class="headline">
-        Past 5 Matches
+        {{ $t("User.Past5") }}
       </v-card-title>
       <MatchesTable v-if="retrievedUser.id != ''" :user="retrievedUser" />
     </v-container>

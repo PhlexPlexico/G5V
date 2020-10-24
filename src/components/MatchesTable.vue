@@ -77,7 +77,7 @@ export default {
           value: "match_status"
         },
         {
-          text: this.$t("Matches.StaOwnertus"),
+          text: this.$t("Matches.Owner"),
           value: "owner"
         }
       ],

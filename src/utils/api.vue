@@ -9,14 +9,15 @@ export default {
           "Content-Type": "application/json"
         },
         withCredentials: true
-      })
+      }),
+      languageAlert: false
     };
   },
   methods: {
-    // ChangeLanguage: function (lang) {
-    //   this.$i18n.locale = lang
-    //   this.$message(this.$t('lang.LanguageChanged'))
-    // },
+    ChangeLanguage: function(lang) {
+      this.$i18n.locale = lang;
+      //this.$message(this.$t("lang.LanguageChanged"));
+    },
     async IsLoggedIn() {
       const res = await this.axioCall.get("/api/isLoggedIn");
       if (res.data == false) {

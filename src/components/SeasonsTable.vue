@@ -79,7 +79,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t("Seasons.DeleteConfirm") }}
+            {{ $t("MyServers.DeleteConfirmation") }}
           </span>
         </v-card-title>
         <v-card-text>

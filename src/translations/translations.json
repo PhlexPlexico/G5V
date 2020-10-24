@@ -113,7 +113,8 @@
           "NewFormTitle": "Create New Season/Tournament",
           "EditFormTitle": "Edit Season/Tournament Info",
           "SeasonCreated": "Season inserted successfully!",
-          "SeasonDeleted": "Season deleted successfully!"
+          "SeasonDeleted": "Season deleted successfully!",
+          "DeleteExplain": "This will remove all match associations to the season."
         },
         "Matches": {
           "YourMatches": "Your matches",
@@ -168,7 +169,6 @@
           "RecentMatches": "Recent Matches",
           "MessageDeleteSuccess": "Successfully deleted team.",
           "DeleteConfirm": "Are you sure you wish to delete this season?",
-          "DeleteExplain": "This will remove all match associations to the season.",
           "ID": "Team ID",
           "Name": "Name",
           "TeamTag": "Tag",
@@ -196,7 +196,14 @@
           "SteamAccount": "Steam account",
           "TeamsSaved": "Teams saved",
           "MatchesCreated": "Matches created",
-          "RecentMatches": "Recent Matches"
+          "RecentMatches": "Recent Matches",
+          "API": "API Key",
+          "ResetAPI": "Reset API Key",
+          "Stats": "Player Statistics",
+          "Past5": "Past 5 Matches",
+          "ClaimUser": "Sign in with account to claim this user!",
+          "SuperAdmin": "Super Admin",
+          "Admin": "Admin"
         },
         "TeamCreate": {
           "FormTeamName":"Team Name",
@@ -219,7 +226,7 @@
         },
         "lang": {
           "LanguageName":"English",
-          "ChangeLanguage":"Change Language",
+          "ChangeLanguage":"Language",
           "LanguageChanged": "You have changed localization."
         },
         "misc": {

@@ -77,6 +77,12 @@
             <v-list-item-title>{{ $t("Navbar.MySeasons") }}</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
+
+        <v-list-item>
+          <v-list-item-title>{{ $t("lang.ChangeLanguage") }}</v-list-item-title>
+          <!-- TODO: Move To Footer -->
+          <v-select v-model="selectedLanguage" :items="languages" />
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <ServerDialog v-model="newDialog" :serverInfo="{}" title="New Server" />
@@ -94,7 +100,9 @@ export default {
     return {
       drawer: false,
       group: null,
-      newDialog: false
+      newDialog: false,
+      languages: ["English", "French"],
+      selectedLanguage: ""
     };
   },
   methods: {
@@ -105,6 +113,10 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    },
+    selectedLanguage(val) {
+      if (val === "English") this.ChangeLanguage("en");
+      val = "";
     }
   }
 };

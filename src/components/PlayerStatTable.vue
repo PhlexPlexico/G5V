@@ -116,7 +116,7 @@ export default {
           groupable: false
         },
         {
-          text: this.$t("PlayerStats.Rarting"),
+          text: this.$t("PlayerStats.Rating"),
           value: "rating",
           groupable: false
         },
