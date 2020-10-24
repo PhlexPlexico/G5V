@@ -2,7 +2,13 @@
   <v-container class="admin-button">
     <v-menu bottom offset-y open-on-hover>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn class="primary darken-1" v-bind="attrs" v-on="on">
+        <v-btn
+          class="primary darken-1"
+          v-bind="attrs"
+          v-on="on"
+          :loading="isLoading"
+          :disabled="isLoading"
+        >
           Admin Actions
         </v-btn>
       </template>
@@ -284,18 +290,23 @@ export default {
       selectedBackup: "",
       selectedServer: "",
       servers: [],
+      isLoading: false,
       items: [
         {
           title: "Pause Match",
           apiCall: async () => {
+            this.isLoading = true;
             this.response = await this.PauseMatch(this.matchInfo.id);
             this.responseSheet = true;
+            this.isLoading = false;
           }
         },
         {
           title: "Resume Match",
           apiCall: async () => {
+            this.isLoading = true;
             this.response = await this.UnpauseMatch(this.matchInfo.id);
+            this.isLoading = false;
             this.responseSheet = true;
           }
         },
@@ -382,14 +393,17 @@ export default {
   },
   methods: {
     async cancelCurrentMatch() {
+      this.isLoading = true;
       let matchRes = await this.CancelMatch(this.matchInfo.id);
       this.response = matchRes;
       this.cancelDialog = false;
+      this.isLoading = false;
       this.responseSheet = true;
       return;
     },
     async addPlayerToServer(teamChoice) {
       if (this.$refs.addPlayerForm.validate()) {
+        this.isLoading = true;
         let addRes;
         let matchObject = [
           {
@@ -411,6 +425,7 @@ export default {
             addRes.response == null ? addRes.message : addRes.response;
         }
         this.addDialog = false;
+        this.isLoading = false;
         this.responseSheet = true;
       }
     },
@@ -423,6 +438,7 @@ export default {
     },
     async sendRconCommand() {
       if (this.$refs.rconForm.validate()) {
+        this.isLoading = true;
         let addRes;
         let matchObject = [
           {
@@ -436,11 +452,13 @@ export default {
         this.response =
           addRes.response == null ? addRes.message : addRes.response;
         this.rconDialog = false;
+        this.isLoading = false;
         this.responseSheet = true;
       }
     },
     async sendBackupRestore() {
       if (this.$refs.backupForm.validate()) {
+        this.isLoading = true;
         let backupRes;
         let backupObject = [
           {
@@ -454,11 +472,13 @@ export default {
         this.response =
           backupRes.response == null ? backupRes.message : backupRes.response;
         this.backupDialog = false;
+        this.isLoading = false;
         this.responseSheet = true;
       }
     },
     async sendServerChange() {
       if (this.$refs.serverForm.validate()) {
+        this.isLoading = true;
         let serverRes;
         let matchObject = [
           {
@@ -470,6 +490,7 @@ export default {
         this.response =
           serverRes.response == null ? serverRes.message : serverRes.response;
         this.serverChangeDialog = false;
+        this.isLoading = false;
         this.responseSheet = true;
       }
     }
