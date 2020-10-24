@@ -167,6 +167,7 @@ export default {
     async GetMapPlayerStats() {
       try {
         let res = await this.GetPlayerStats(this.match_id);
+        if (typeof res == "string") return;
         let allMapIds = [];
         let totalMatchTeam = [];
         let allTeamIds = [];
@@ -225,6 +226,7 @@ export default {
     async getMapString() {
       try {
         let mapStats = await this.GetMapStats(this.match_id);
+        if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
           this.arrMapString[index].score =

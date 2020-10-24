@@ -77,7 +77,7 @@ export default {
     async getVetoInfo() {
       try {
         let vetoRes = await this.GetVetoesOfMatch(this.match_id);
-        this.vetoInfo = vetoRes;
+        if (typeof vetoRes != "string") this.vetoInfo = vetoRes;
       } catch (error) {
         console.log(error);
       }
