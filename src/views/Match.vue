@@ -18,10 +18,9 @@
 
 <script>
 // @ is an alias to /src
-import PlayerStats from "../components/PlayerStatTable";
-import MatchInfo from "../components/MatchInfo";
-import VetoInfo from "../components/VetoTable";
-// TODO: Imports of all values for this view.
+import PlayerStats from "@/components/PlayerStatTable";
+import MatchInfo from "@/components/MatchInfo";
+import VetoInfo from "@/components/VetoTable";
 export default {
   name: "Match",
   components: {

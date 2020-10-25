@@ -174,7 +174,10 @@
 
 <script>
 export default {
-  props: ["user", "newTeam"],
+  props: {
+    user: Object,
+    newTeam: Boolean
+  },
   data() {
     return {
       userAuthHeaders: [

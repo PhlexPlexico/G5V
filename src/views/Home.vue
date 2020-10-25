@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import MatchesTable from "../components/MatchesTable";
+import MatchesTable from "@/components/MatchesTable";
 export default {
   name: "Home",
   components: {

@@ -293,7 +293,9 @@
 <script>
 import ServerDialog from "./ServerDialog";
 export default {
-  props: ["user"],
+  props: {
+    user: Object
+  },
   name: "CreateMatch",
   components: {
     ServerDialog

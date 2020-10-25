@@ -26,7 +26,8 @@
       </v-btn>
       <v-tooltip v-if="user.id !== null" bottom>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on"
+          <v-btn
+            v-on="on"
             rounded
             fab
             small
@@ -114,7 +115,9 @@
 import ServerDialog from "./ServerDialog";
 export default {
   name: "Navbar",
-  props: ["user"],
+  props: {
+    user: Object
+  },
   components: {
     ServerDialog
   },

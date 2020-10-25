@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NewMatchForm from "../components/NewMatchForm";
+import NewMatchForm from "@/components/NewMatchForm";
 export default {
   name: "Match",
   components: {

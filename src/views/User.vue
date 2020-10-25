@@ -81,8 +81,8 @@
   </v-card>
 </template>
 <script>
-import MatchesTable from "../components/MatchesTable";
-import PlayerStats from "../components/PlayerStatInfo";
+import MatchesTable from "@/components/MatchesTable";
+import PlayerStats from "@/components/PlayerStatInfo";
 export default {
   name: "User",
   components: {

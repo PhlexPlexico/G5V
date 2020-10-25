@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import SeasonsTable from "../components/SeasonsTable";
+import SeasonsTable from "@/components/SeasonsTable";
 export default {
   name: "Seasons",
   components: {

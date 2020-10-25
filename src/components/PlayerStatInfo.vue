@@ -81,7 +81,9 @@
 
 <script>
 export default {
-  props: ["statArray"],
+  props: {
+    statArray: Array
+  },
   computed: {
     totalKills() {
       let allKills = 0;

@@ -69,7 +69,10 @@ export default {
   components: {
     AdminButton
   },
-  props: ["match_id", "user"],
+  props: {
+    match_id: Number,
+    user: Object
+  },
   data() {
     return {
       matchInfo: {

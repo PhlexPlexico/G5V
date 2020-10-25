@@ -270,7 +270,9 @@
 </template>
 <script>
 export default {
-  props: ["matchInfo"],
+  props: {
+    matchInfo: Object
+  },
   data() {
     return {
       response: "",

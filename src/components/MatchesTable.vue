@@ -54,7 +54,9 @@
 
 <script>
 export default {
-  props: ["user"],
+  props: {
+    user: Object
+  },
   data() {
     return {
       headers: [

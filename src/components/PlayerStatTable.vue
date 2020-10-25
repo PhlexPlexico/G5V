@@ -84,7 +84,9 @@
 
 <script>
 export default {
-  props: ["match_id"],
+  props: {
+    match_id: Number
+  },
   data() {
     return {
       headers: [
