@@ -1,7 +1,7 @@
 {
     "en": {
         "Navbar": {
-          "title": "Get5 Web Panel",
+          "title": "Get5Vue",
           "AllMatches": "All Matches",
           "MyMatches": "My Matches",
           "MyTeams": "My Teams",
@@ -12,7 +12,8 @@
           "AddServer": "Add New Server",
           "AllSeasons": "All Seasons",
           "MySeasons": "My Seasons",
-          "Logout": "Logout"
+          "Logout": "Logout",
+          "DarkMode": "Toggle Dark Mode"
         },
         "MatchAdmin": {
           "AdminTools": "Admin Actions",

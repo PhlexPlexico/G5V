@@ -3,20 +3,42 @@
     <v-system-bar color="blue darken-3"></v-system-bar>
     <v-app-bar app color="blue" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title>Get5Vue</v-toolbar-title>
+      <v-toolbar-title>{{ $t("Navbar.title") }}</v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-tooltip v-if="!$vuetify.theme.dark" bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="info" small fab @click="darkMode">
+            <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Navbar.DarkMode") }}</span>
+      </v-tooltip>
+      <v-tooltip v-if="$vuetify.theme.dark" bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" color="info" small fab @click="darkMode">
+            <v-icon class="r-3">mdi-weather-sunny</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Navbar.DarkMode") }}</span>
+      </v-tooltip>
       <v-btn rounded href="/api/auth/steam" v-if="user.id == null">
         <img src="/img/login_small.png" v-if="user.id == null" />
       </v-btn>
-      <v-btn
-        rounded
-        color="grey darken-2"
-        href="/api/logout"
-        v-if="user.id !== null"
-      >
-        {{ $t("Navbar.Logout") }}
-        <v-icon right>mdi-logout-variant</v-icon>
-      </v-btn>
+      <v-tooltip v-if="user.id !== null" bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on"
+            rounded
+            fab
+            small
+            color="grey darken-2"
+            href="/api/logout"
+            v-if="user.id !== null"
+          >
+            <v-icon>mdi-logout-variant</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Navbar.Logout") }}</span>
+      </v-tooltip>
       <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
@@ -108,6 +130,10 @@ export default {
   methods: {
     handleLanguage: function(command) {
       this.ChangeLanguage(command);
+    },
+    darkMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("theme", this.$vuetify.theme.dark.toString());
     }
   },
   watch: {
@@ -117,6 +143,16 @@ export default {
     selectedLanguage(val) {
       if (val === "English") this.ChangeLanguage("en");
       val = "";
+    }
+  },
+  mounted() {
+    const theme = localStorage.getItem("theme");
+    if (theme) {
+      if (theme == "true") {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
     }
   }
 };
