@@ -184,6 +184,8 @@
           "SteamIDTitle": "Steam ID",
           "NewMember": "New Team Member",
           "EditMember": "Add/Edit Team Member",
+          "EditInfo": "Edit Team Info",
+          "NewInfo": "New Team Info",
           "NewPlayer": "New Player",
           "EditPlayer": "Edit Player",
           "NewTag": "NEW"

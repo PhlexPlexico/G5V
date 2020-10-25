@@ -68,8 +68,8 @@ export default {
       ],
       vetoInfo: [
         {
-          id: "",
-          match_id: "",
+          id: -1,
+          match_id: -1,
           team_name: "",
           map: "",
           pick_or_veto: ""

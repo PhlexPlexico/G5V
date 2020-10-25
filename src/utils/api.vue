@@ -747,6 +747,7 @@ export default {
       return false;
     },
     IsAnyAdmin: function(user) {
+      console.log(user);
       let adminCheck = user.admin + user.super_admin;
       if (adminCheck > 0) {
         return true;

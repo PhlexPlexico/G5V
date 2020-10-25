@@ -17,7 +17,7 @@ export default {
       user: {
         admin: false,
         steam_id: "",
-        id: "",
+        id: -1,
         super_admin: false,
         name: "",
         small_image: "",

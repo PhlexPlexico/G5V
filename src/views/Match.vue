@@ -5,11 +5,11 @@
         <v-card>
           <MatchInfo
             v-if="this.$route.params.id != null"
-            :match_id="this.$route.params.id"
+            :match_id="Number(this.$route.params.id)"
             :user="user"
           />
-          <VetoInfo :match_id="this.$route.params.id" />
-          <PlayerStats :user="user" :match_id="this.$route.params.id" />
+          <VetoInfo :match_id="Number(this.$route.params.id)" />
+          <PlayerStats :user="user" :match_id="Number(this.$route.params.id)" />
         </v-card>
       </v-col>
     </v-row>
@@ -33,7 +33,7 @@ export default {
       user: {
         admin: false,
         steam_id: "",
-        id: "",
+        id: -1,
         super_admin: false,
         name: "",
         small_image: "",

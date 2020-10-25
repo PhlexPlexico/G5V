@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
     <v-row class="justify-center">
-      <v-col cols="6">
+      <v-col lg="6" sm="12">
         <v-card>
           <v-card-title>{{ title }}</v-card-title>
           <MatchTable class="justify-center" />
@@ -35,7 +35,7 @@ export default {
       user: {
         admin: false,
         steam_id: "",
-        id: "",
+        id: -1,
         super_admin: false,
         name: "",
         small_image: "",
@@ -44,7 +44,7 @@ export default {
       }
     };
   },
-  async mounted() {
+  async created() {
     this.user = await this.IsLoggedIn();
     if (this.$route.params.id == "create") this.newTeam = true;
   }

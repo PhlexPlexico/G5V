@@ -19,9 +19,12 @@
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
-      <v-icon :disabled="isDisabled" @click="deleteMember(item)">
-        mdi-delete
-      </v-icon>
+      <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
+        <v-icon :disabled="isDisabled" @click="deleteMember(item)">
+          mdi-delete
+        </v-icon>
+      </div>
+      <div v-else />
     </template>
     <template v-slot:top>
       <v-toolbar flat>
@@ -33,28 +36,32 @@
           <img :src="get_flag_link(teamInfo)" style="border-radius: 5px;" />
         </v-toolbar-title>
         <v-divider class="mx-6" inset vertical></v-divider>
-        <v-icon :disabled="isDisabled" @click="deleteMember(null)">
-          mdi-delete
-        </v-icon>
+        <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
+          <v-icon :disabled="isDisabled" @click="deleteMember(null)">
+            mdi-delete
+          </v-icon>
+        </div>
+        <div v-else />
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              :disabled="isDisabled"
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ formTitle }}
-            </v-btn>
+            <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
+              <v-btn
+                :disabled="isDisabled"
+                color="primary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ formTitle }}
+              </v-btn>
+            </div>
+            <div v-else />
           </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formTitle }}</span>
             </v-card-title>
-
             <v-card-text>
               <v-container>
                 <v-row>
@@ -100,22 +107,23 @@
         </v-dialog>
         <v-dialog v-model="authDialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              :disabled="isMembersDisabled"
-              color="secondary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ memberButtonTitle }}
-            </v-btn>
+            <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
+              <v-btn
+                :disabled="isMembersDisabled"
+                color="secondary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+              >
+                {{ memberButtonTitle }}
+              </v-btn>
+            </div>
+            <div v-else />
           </template>
           <v-card>
             <v-card-title>
               <span class="headline">{{ formIndTitle }}</span>
             </v-card-title>
-
             <v-card-text>
               <v-container>
                 <v-row>
@@ -214,7 +222,7 @@ export default {
         tag: "",
         public: false,
         owner: "",
-        owner_id: "",
+        owner_id: -1,
         id: -1
       },
       isLoading: true,
@@ -224,15 +232,15 @@ export default {
       authDialog: false,
       deleteDialog: false,
       flags: [],
-      formIndTitle: "New Player",
+      formIndTitle: this.$t("Team.NewPlayer"),
       editInfo: false,
       teamDeleted: false
     };
   },
   computed: {
     formTitle() {
-      if (!this.newTeam) return "Edit Team Info";
-      else return "New Team Info";
+      if (!this.newTeam) return this.$t("Team.EditInfo");
+      else return this.$t("Team.NewInfo");
     },
     memberButtonTitle() {
       if (this.teamAuth.length == 0) return this.$t("Team.NewMember");
