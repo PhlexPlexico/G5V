@@ -30,6 +30,7 @@
             @click="
               responseSheet = !responseSheet;
               response = '';
+              $emit('force-the-reload', true);
             "
           >
             close
@@ -138,13 +139,31 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="darken-1" text @click="forfeitDialog = false">
+          <v-btn
+            color="darken-1"
+            text
+            @click="forfeitDialog = false"
+            :disabled="isLoading"
+            :loading="isLoading"
+          >
             {{ $t("misc.Cancel") }}
           </v-btn>
-          <v-btn color="blue darken-1" text @click="forfeitCurrentMatch(1)">
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="forfeitCurrentMatch(1)"
+            :disabled="isLoading"
+            :loading="isLoading"
+          >
             {{ $t("MatchAdmin.ForfeitWinner1") }}
           </v-btn>
-          <v-btn color="yellow darken-1" text @click="forfeitCurrentMatch(2)">
+          <v-btn
+            color="yellow darken-1"
+            text
+            @click="forfeitCurrentMatch(2)"
+            :disabled="isLoading"
+            :loading="isLoading"
+          >
             {{ $t("MatchAdmin.ForfeitWinner2") }}
           </v-btn>
         </v-card-actions>
@@ -430,10 +449,12 @@ export default {
       }
     },
     async forfeitCurrentMatch(team) {
+      this.isLoading = true;
       let matchRes = await this.ForfeitMatch(this.matchInfo.id, team);
       this.response = matchRes;
       this.forfeitDialog = false;
       this.responseSheet = true;
+      this.isLoading = false;
       return;
     },
     async sendRconCommand() {

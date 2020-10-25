@@ -1,7 +1,7 @@
 <template>
   <v-container class="mapstatsinfo" fluid>
     <v-flex class="text-right" v-if="AdminToolsAvailable(matchInfo)">
-      <AdminButton :matchInfo="matchInfo" />
+      <AdminButton :matchInfo="matchInfo" @force-the-reload="getMatchInfo()" />
     </v-flex>
     <div class="text-h4 names" align="center">
       <router-link
