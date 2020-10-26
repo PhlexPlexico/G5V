@@ -13,6 +13,16 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
+                    <v-alert
+                      border="bottom"
+                      color="secondary darken-1"
+                      dark
+                      icon="mdi-information-outline"
+                      v-html="$t('ServerCreate.Get5Help')"
+                    >
+                    </v-alert>
+                  </v-col>
+                  <v-col cols="12">
                     <v-text-field
                       v-model="serverInfo.display_name"
                       ref="ServerName"

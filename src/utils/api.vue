@@ -15,8 +15,8 @@ export default {
   },
   methods: {
     ChangeLanguage: function(lang) {
+      localStorage.setItem("language", lang);
       this.$i18n.locale = lang;
-      //this.$message(this.$t("lang.LanguageChanged"));
     },
     async IsLoggedIn() {
       const res = await this.axioCall.get("/api/isLoggedIn");

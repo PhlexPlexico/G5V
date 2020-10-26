@@ -25,6 +25,27 @@
         </v-icon>
       </div>
       <div v-else />
+      <div>
+        <v-tooltip left>
+          <template v-slot:activator="{ on, attrs }">
+            <v-icon
+              v-if="
+                teamAuth
+                  .map(obj => {
+                    return obj.steamid;
+                  })
+                  .indexOf(item.steamid) == 0
+              "
+              color="yellow darken-1"
+              v-bind="attrs"
+              v-on="on"
+            >
+              mdi-crown
+            </v-icon>
+          </template>
+          <span>{{ $t("Team.WhatIsCaptain") }}</span>
+        </v-tooltip>
+      </div>
     </template>
     <template v-slot:top>
       <v-toolbar flat>
@@ -142,6 +163,14 @@
                       v-model="newAuth.name"
                       :label="$t('Team.NickLabel')"
                     ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="2" sm="2" md="2">
+                    <v-switch
+                      v-model="newAuth.captain"
+                      :label="$t('Team.Captain')"
+                    ></v-switch>
                   </v-col>
                 </v-row>
               </v-container>
@@ -269,11 +298,14 @@ export default {
           for (let key in this.teamAuth) {
             if (this.teamAuth[key].steamid == val.steam) {
               this.newAuth.name = this.teamAuth[key].username;
+              console.log(this.teamAuth[key]);
+              this.newAuth.captain = this.teamAuth[key].captain;
               this.editInfo = true;
               break;
             }
             this.editInfo = false;
             this.newAuth.name = "";
+            this.newAuth.captain = false;
           }
         }
       },
@@ -329,7 +361,8 @@ export default {
               let indTeamMember = {
                 tag: mainTeamInfo[steam_id].image,
                 username: mainTeamInfo[steam_id].name,
-                steamid: steam_id
+                steamid: steam_id,
+                captain: mainTeamInfo[steam_id].captain
               };
               this.steamIdList.push(steam_id);
               this.teamAuth.push(indTeamMember);
@@ -384,8 +417,10 @@ export default {
     },
     async saveTeamAuth() {
       let newTeamMember = {
-        [this.newAuth.steam.toString()]:
-          this.newAuth.name == null ? "" : this.newAuth.name
+        [this.newAuth.steam.toString()]: {
+          name: this.newAuth.name == null ? "" : this.newAuth.name,
+          captain: this.newAuth.captain == null ? 0 : this.newAuth.captain
+        }
       };
       let updatedTeam = [
         {

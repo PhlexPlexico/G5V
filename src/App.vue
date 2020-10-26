@@ -4,11 +4,13 @@
     <v-main>
       <router-view :key="$route.path" />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
 <script>
-import Navbar from "./components/Navbar";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 export default {
   name: "App",
   data() {
@@ -26,7 +28,8 @@ export default {
     };
   },
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
   async mounted() {
     this.user = await this.IsLoggedIn();

@@ -4,13 +4,17 @@ _**Status: Early Alpha. Under active development.**_
 Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ this is a basic implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
 
 
-## What does it do?
-Currently, it displays data loaded from the API. You can login through steam and see current matches, and all teams, as well as edit, delete, and add new teams/members, servers, and seasons.  
-There are a few new features that come with this front-end, such as the ability to have default match convars set per season, and status check on servers.
-
+## Features
+- Add teams
+- Add seasons/tournaments to track specific stats.
+- Add servers to play on.
+- Create matches that load on selected servers.
+- Control matches with RCON Commands through the match panel.
+- Dark mode!
+- Translations!
 
 ## What does it NOT do?
-Right now the only thing it does not do is create matches. This will be implemented eventually. There are a few things that will have to be adjusted on the match page, such a connection strings and launching games through the page.
+One of the features currently missing is the ability to see leaderboards and statistics over time. You can look at individual match scores and see the way the match played out.
 
 ## Why?
 [Get5-webpanel](https://github.com/phlexplexico/get5-webpanel) is a now out-dated webpanel, with python2.7 being officially EOL. Being built all on Flask, with ORM (SQLAlchemy), and Jinja2, its tech spans more than a few years old. While it works really well for now, it is becoming increasingly harder to deploy to more modern hardware/software (such as Ubuntu 19) to ensure easy setup.

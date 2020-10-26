@@ -1,13 +1,13 @@
 <template>
   <v-card>
-    <v-system-bar color="blue darken-3"></v-system-bar>
-    <v-app-bar app color="blue" dark>
+    <v-system-bar color="primary darken-3"></v-system-bar>
+    <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ $t("Navbar.title") }}</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-tooltip v-if="!$vuetify.theme.dark" bottom>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" color="info" small fab @click="darkMode">
+          <v-btn v-on="on" color="primary" small fab @click="darkMode">
             <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
           </v-btn>
         </template>
@@ -15,7 +15,7 @@
       </v-tooltip>
       <v-tooltip v-if="$vuetify.theme.dark" bottom>
         <template v-slot:activator="{ on }">
-          <v-btn v-on="on" color="info" small fab @click="darkMode">
+          <v-btn v-on="on" color="primary" small fab @click="darkMode">
             <v-icon class="r-3">mdi-weather-sunny</v-icon>
           </v-btn>
         </template>
@@ -48,7 +48,7 @@
       <v-list nav>
         <v-list-item-group
           v-model="group"
-          active-class="light-blue--text text--accent-4"
+          active-class="primary--text text--accent-4"
         >
           <v-list-item index="Home" :to="'/'">
             <v-list-item-title>{{ $t("Navbar.AllMatches") }}</v-list-item-title>
@@ -100,12 +100,6 @@
             <v-list-item-title>{{ $t("Navbar.MySeasons") }}</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
-
-        <v-list-item>
-          <v-list-item-title>{{ $t("lang.ChangeLanguage") }}</v-list-item-title>
-          <!-- TODO: Move To Footer -->
-          <v-select v-model="selectedLanguage" :items="languages" />
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <ServerDialog v-model="newDialog" :serverInfo="{}" title="New Server" />
@@ -125,15 +119,10 @@ export default {
     return {
       drawer: false,
       group: null,
-      newDialog: false,
-      languages: ["English", "French"],
-      selectedLanguage: ""
+      newDialog: false
     };
   },
   methods: {
-    handleLanguage: function(command) {
-      this.ChangeLanguage(command);
-    },
     darkMode() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       localStorage.setItem("theme", this.$vuetify.theme.dark.toString());
@@ -142,10 +131,6 @@ export default {
   watch: {
     group() {
       this.drawer = false;
-    },
-    selectedLanguage(val) {
-      if (val === "English") this.ChangeLanguage("en");
-      val = "";
     }
   },
   mounted() {
