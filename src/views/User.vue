@@ -121,6 +121,7 @@ export default {
     if (this.$route.params.id == undefined) this.retrievedUser = this.user;
     else this.retrievedUser = await this.GetUserData(this.$route.params.id);
     this.userStats = await this.GetUserPlayerStats(this.retrievedUser.steam_id);
+    if (typeof this.userStats == "string") this.userStats = [];
   },
   methods: {
     async resetApiKey() {

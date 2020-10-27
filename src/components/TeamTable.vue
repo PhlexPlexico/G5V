@@ -356,7 +356,7 @@ export default {
         if (this.teamAuth.length == 0) {
           let mainTeamInfo = res.auth_name;
           this.isLoading = true;
-          if (mainTeamInfo != "") {
+          if (mainTeamInfo != null) {
             await Object.keys(mainTeamInfo).map(async steam_id => {
               let indTeamMember = {
                 tag: mainTeamInfo[steam_id].image,
@@ -369,8 +369,15 @@ export default {
             });
           }
         }
-        this.isDisabled = !(await this.IsAnyAdmin(this.user));
-        this.isMembersDisabled = !(await this.IsAnyAdmin(this.user));
+        this.isDisabled = !(
+          (await this.IsAnyAdmin(this.user)) ||
+          this.teamInfo.owner_id == this.user.id
+        );
+        console.log(this.isDisabled);
+        this.isMembersDisabled = !(
+          (await this.IsAnyAdmin(this.user)) ||
+          this.teamInfo.owner_id == this.user.id
+        );
       } catch (err) {
         //console.log(err);
       } finally {
