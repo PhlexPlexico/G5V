@@ -397,6 +397,7 @@ export default {
     this.servers = await this.GetAllAvailableServers();
     this.teams = await this.GetAllTeams();
     this.seasons = await this.GetMyAvailableSeasons();
+    if (typeof this.seasons == "string") this.seasons = [];
   },
   methods: {
     async ReloadServers() {
