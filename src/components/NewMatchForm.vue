@@ -314,7 +314,7 @@ export default {
       min_spectators_to_ready: 0,
       players_per_team: 5,
       maps_to_win: 1,
-      skip_veto: 0,
+      skip_veto: false,
       map_pool: [],
       cvars: [],
       veto_first: "team1"
@@ -372,7 +372,9 @@ export default {
               ? 1
               : parseInt(seasonCvars.maps_to_win);
           this.newMatchData.skip_veto =
-            seasonCvars.skip_veto == null ? 0 : parseInt(seasonCvars.skip_veto);
+            seasonCvars.skip_veto == null
+              ? false
+              : Boolean(seasonCvars.skip_veto);
           this.newMatchData.map_pool =
             seasonCvars.map_pool == null
               ? []
@@ -459,7 +461,8 @@ export default {
             side_type: this.newMatchData.side_type,
             veto_mappool: this.newMatchData.map_pool.join(" "),
             match_cvars: newCvar,
-            veto_first: this.newMatchData.veto_first
+            veto_first: this.newMatchData.veto_first,
+            skip_veto: this.newMatchData.skip_veto
           }
         ];
         try {
