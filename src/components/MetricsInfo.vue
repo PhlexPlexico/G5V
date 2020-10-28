@@ -136,7 +136,7 @@ export default {
       allMatches: [],
       allServers: [],
       allMaps: [],
-      allUniquePlayers: -1,
+      allUniquePlayers: 0,
       allSeasons: []
     };
   },
@@ -157,7 +157,7 @@ export default {
       if (typeof this.allMatches == "string") this.allMatches = [];
       if (typeof this.allServers == "string") this.allServers = [];
       if (typeof this.allMaps == "string") this.allMaps = [];
-      if (typeof this.allUniquePlayers == "string") this.allUniquePlayers = [];
+      if (typeof this.allUniquePlayers == "string") this.allUniquePlayers = 0;
       if (typeof this.allSeasons == "string") this.allSeasons = [];
     }
   },
@@ -189,35 +189,35 @@ export default {
       return this.allSeasons.length;
     },
     isUsersLoading() {
-      if (this.userCount) return false;
+      if (this.userCount >= 0) return false;
       else return true;
     },
     isTeamsLoading() {
-      if (this.teamCount) return false;
+      if (this.teamCount >= 0) return false;
       else return true;
     },
     isMatchesLoading() {
-      if (this.matchesCount) return false;
+      if (this.matchesCount >= 0) return false;
       else return true;
     },
     isCompleteLoading() {
-      if (this.matchesComplete) return false;
+      if (this.matchesComplete >= 0) return false;
       else return true;
     },
     isServersLoading() {
-      if (this.serverCount) return false;
+      if (this.serverCount >= 0) return false;
       else return true;
     },
     isMapsLoading() {
-      if (this.mapCount) return false;
+      if (this.mapCount >= 0) return false;
       else return true;
     },
     isPlayersLoading() {
-      if (this.playerCount) return false;
+      if (this.playerCount >= 0) return false;
       else return true;
     },
     isSeasonsLoading() {
-      if (this.seasonCount) return false;
+      if (this.seasonCount >= 0) return false;
       else return true;
     }
   }
