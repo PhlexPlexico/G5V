@@ -1,5 +1,5 @@
 # Get5Vue - Front-end website for G5API
-_**Status: Early Alpha. Under active development.**_
+_**Status: Beta. Under active development.**_
 
 Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ this is a basic implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
 
@@ -14,7 +14,7 @@ Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ th
 - Translations!
 
 ## What does it NOT do?
-One of the features currently missing is the ability to see leaderboards and statistics over time. You can look at individual match scores and see the way the match played out.
+One of the features currently missing is the ability to see leaderboards and statistics over time. You can look at individual match scores and see the way the match played out. Please note that the API and the panel may still be buggy. Please report any *match* issues to the [API](https://github.com/phlexplexico/G5API). Display issues, please report them here.
 
 ## Why?
 [Get5-webpanel](https://github.com/phlexplexico/get5-webpanel) is a now out-dated webpanel, with python2.7 being officially EOL. Being built all on Flask, with ORM (SQLAlchemy), and Jinja2, its tech spans more than a few years old. While it works really well for now, it is becoming increasingly harder to deploy to more modern hardware/software (such as Ubuntu 19) to ensure easy setup.

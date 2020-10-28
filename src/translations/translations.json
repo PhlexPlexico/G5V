@@ -128,7 +128,15 @@
       "Owner": "Owner"
     },
     "Metrics": {
-      "Get5Metrics": "Get5 Metrics"
+      "Get5Metrics": "Get5 Metrics",
+      "Users": "Registered Users",
+      "Teams": "Saved Teams",
+      "Matches": "Matches Created",
+      "Complete": "Matches Completed",
+      "Servers": "Public Servers added",
+      "Maps": "Maps with stats saved",
+      "Players": "Unique Players",
+      "Seasons": "Seasons"
     },
     "MyServers": {
       "NoServersFound": "No servers found.",
@@ -387,7 +395,15 @@
       "Owner": "オーナー"
     },
     "Metrics": {
-      "Get5Metrics": "Get5 メトリクス"
+      "Get5Metrics": "Get5 メトリクス",
+      "Users": "登録ユーザー数",
+      "Teams": "保存されているチーム",
+      "Matches": "作成されたマッチ",
+      "Complete": "完成したマッチ",
+      "Servers": "追加されたサーバー",
+      "Maps": "スタッツが保存されているマップ",
+      "Players": "ユニークな選手",
+      "Seasons": "シーズンズ"
     },
     "MyServers": {
       "NoServersFound": "サーバーが見つかりません。",

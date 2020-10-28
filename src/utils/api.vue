@@ -233,17 +233,6 @@ export default {
       }
       return message;
     },
-    async GetMyServers() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/servers/myservers");
-        return res.data.servers;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
     async DeleteServer(serverData) {
       let res;
       let message;
@@ -294,6 +283,39 @@ export default {
       }
       return message;
     },
+    async GetAllUsers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/users/");
+        message = res.data.users;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetAllPlayers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/playerstats/unique");
+        message = res.data.count;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetAllMapStats() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/mapstats/");
+        message = res.data.mapstats;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetTeamRecentMatches(teamid) {
       let res;
       let message;
@@ -333,6 +355,17 @@ export default {
       try {
         res = await this.axioCall.get("/api/seasons/myseasons");
         message = res.data.seasons;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetMyServers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/servers/myservers");
+        return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
       }

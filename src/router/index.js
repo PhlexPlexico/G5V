@@ -122,6 +122,15 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "Server" */ "../views/Servers.vue")
+  },
+  {
+    path: "/metrics",
+    name: "Metrics",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Metrics" */ "../views/Metrics.vue")
   }
 ];
 
