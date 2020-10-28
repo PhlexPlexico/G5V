@@ -23,7 +23,14 @@
         </v-menu>
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="mx-4" icon small v-bind="attrs" v-on="on" :to="'/metrics'">
+            <v-btn
+              class="mx-4"
+              icon
+              small
+              v-bind="attrs"
+              v-on="on"
+              :to="'/metrics'"
+            >
               <v-icon size="24px">
                 mdi-information
               </v-icon>

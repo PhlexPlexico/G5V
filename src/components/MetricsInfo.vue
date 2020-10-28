@@ -181,7 +181,9 @@ export default {
       return this.allServers.length;
     },
     mapCount() {
-      return this.allMaps.length;
+      return this.allMaps.filter(mtch => {
+        return mtch.end_time != mtch.start_time;
+      }).length;
     },
     playerCount() {
       return this.allUniquePlayers;
