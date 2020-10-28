@@ -172,6 +172,7 @@ export default {
       return this.allMatches.length;
     },
     matchesComplete() {
+      if (typeof this.allMatches == "string") return 0;
       return this.allMatches.filter(mtch => {
         return mtch.cancelled == 0 && mtch.end_time != null;
       }).length;
