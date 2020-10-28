@@ -123,12 +123,29 @@
                     <div class="text-h4">
                       {{ $t("Seasons.Dates") }}
                     </div>
-                    <v-date-picker
-                      v-model="newSeason.dates"
-                      :label="$t('Seasons.DateTitle')"
-                      ref="DateRange"
-                      range
-                    />
+                    <v-menu
+                      v-model="datemenu"
+                      :close-on-content-click="false"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          v-model="dateRangeText"
+                          v-on="on"
+                          readonly
+                          :label="$t('Seasons.DateTitle')"
+                          :rules="[
+                            v => !!v || $t('misc.Required'),
+                          ]"
+                        />
+                      </template>
+                      <v-date-picker
+                        v-model="newSeason.dates"
+                        :label="$t('Seasons.DateTitle')"
+                        ref="DateRange"
+                        range
+                      />
+                    </v-menu>
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="12">
                     <v-combobox
@@ -362,6 +379,11 @@ export default {
         name: item.name
       };
       this.newDialog = true;
+    }
+  },
+  computed: {
+    dateRangeText() {
+      return this.newSeason.dates.join(" ~ ");
     }
   }
 };
