@@ -134,9 +134,7 @@
                           v-on="on"
                           readonly
                           :label="$t('Seasons.DateTitle')"
-                          :rules="[
-                            v => !!v || $t('misc.Required'),
-                          ]"
+                          :rules="[v => !!v || $t('misc.Required')]"
                         />
                       </template>
                       <v-date-picker
