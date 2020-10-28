@@ -113,6 +113,7 @@ export default {
         else if (this.$route.path.includes("season"))
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
+        if(typeof res == "string") res = [];
         res.forEach(async match => {
           const ownerRes = await this.GetUserData(match.user_id);
           let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
