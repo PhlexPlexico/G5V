@@ -251,7 +251,7 @@
       <v-btn :disabled="step === 1" text @click="checkValidation(false)">
         {{ $t("misc.Back") }}
       </v-btn>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn
         color="primary"
         depressed

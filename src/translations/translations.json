@@ -80,7 +80,11 @@
       "BestOf": "Best of ",
       "MapChoiceError": "At least one map is required.",
       "MapNotEnough": "You must add more maps if you wish to participate in a series this large!",
-      "ConvarTitle": "Match ConVars"
+      "ConvarTitle": "Match ConVars",
+      "PlayersPerTeam": "Players Per Team",
+      "MinPlayersReady": "Minimum Players to Force Ready",
+      "SpectatorsToReady": "# Spectators to Ready",
+      "ReadyOptions": "Player Ready Options"
     },
     "PlayerStats": {
       "Kills": "Kills",
@@ -258,7 +262,9 @@
       "Save": "Save",
       "Next": "Next",
       "LoadText": "Loading... Please wait",
-      "OK": "OK"
+      "OK": "OK",
+      "ValueMustBeNumber": "Value must be a number.",
+      "GreaterThanZero": "Value must be greater than zero."
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -347,12 +353,16 @@
       "BestOf": "ベストオブ ",
       "MapChoiceError": "マップは1枚以上必要です。",
       "MapNotEnough": "この規模のシリーズに参加したい場合は、マップを追加する必要があります",
-      "ConvarTitle": "マッチ ConVars"
+      "ConvarTitle": "マッチ ConVars",
+      "PlayersPerTeam": "チームあたりの選手数",
+      "MinPlayersReady": "強制的に準備させるための最低限の選手",
+      "SpectatorsToReady": "# 観客から準備へ",
+      "ReadyOptions": "プレーヤーの準備ができているオプション"
     },
     "PlayerStats": {
       "Kills": "キルズ",
       "Deaths": "死者数",
-      "Assists": "Assists",
+      "Assists": "アシスト",
       "FlashbangAssists": "フラッシュバング アシスト",
       "Headshot": "ヘッドショット",
       "RoundsPlayed": "ラウンド数",
@@ -525,7 +535,9 @@
       "Next": "次",
       "LoadText": "読み込み中。。。待って下さい",
       "OK": "OK",
-      "Close": "クローズ"
+      "Close": "クローズ",
+      "ValueMustBeNumber": "値は数値でなければなりません。",
+      "GreaterThanZero": "値はゼロより大きくなければなりません。"
     },
     "Footer": {
       "company": "Phlex Plexico",
