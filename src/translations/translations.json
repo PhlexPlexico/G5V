@@ -84,7 +84,13 @@
       "PlayersPerTeam": "Players Per Team",
       "MinPlayersReady": "Minimum Players to Force Ready",
       "SpectatorsToReady": "# Spectators to Ready",
-      "ReadyOptions": "Player Ready Options"
+      "ReadyOptions": "Player Ready Options",
+      "SpectatorsList": "Spectator List",
+      "Spectators": "Spectators",
+      "SkipVeto": "Skip in-game veto?",
+      "KnifeDefault": "Default",
+      "KnifeNever": "Never Knife",
+      "KnifeAlways": "Always Knife"
     },
     "PlayerStats": {
       "Kills": "Kills",
@@ -118,7 +124,9 @@
       "NewFormTitle": "Create New Season/Tournament",
       "EditFormTitle": "Edit Season/Tournament Info",
       "SeasonCreated": "Season inserted successfully!",
+      "SeasonUpdated": "Season updated successfully!",
       "SeasonDeleted": "Season deleted successfully!",
+      "DeleteConfirmation": "Are you sure you wish to remove this season?",
       "DeleteExplain": "This will remove all match associations to the season."
     },
     "Matches": {
@@ -357,7 +365,13 @@
       "PlayersPerTeam": "チームあたりの選手数",
       "MinPlayersReady": "強制的に準備させるための最低限の選手",
       "SpectatorsToReady": "# 観客から準備へ",
-      "ReadyOptions": "プレーヤーの準備ができているオプション"
+      "ReadyOptions": "プレーヤーの準備ができているオプション",
+      "SpectatorsList": "観客リスト",
+      "Spectators": "観客",
+      "SkipVeto": "ゲーム内拒否権をスキップ？",
+      "KnifeDefault": "デフォルト",
+      "KnifeNever": "ネバーナイフ",
+      "KnifeAlways": "常にナイフ"
     },
     "PlayerStats": {
       "Kills": "キルズ",
@@ -391,7 +405,9 @@
       "NewFormTitle": "新しいシーズンの作成/トーナメント",
       "EditFormTitle": "エディットシーズン/トーナメント 情報",
       "SeasonCreated": "シーズンの挿入に成功しました",
+      "SeasonUpdated": "シーズンの更新に成功しました",
       "SeasonDeleted": "シーズンの削除に成功しました",
+      "DeleteConfirmation": "今の季節に外しても大丈夫ですか？",
       "DeleteExplain": "これにより、今シーズンの試合関連がすべて削除されます。"
     },
     "Matches": {

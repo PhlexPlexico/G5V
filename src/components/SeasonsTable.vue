@@ -79,7 +79,7 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t("MyServers.DeleteConfirmation") }}
+            {{ $t("Seasons.DeleteConfirmation") }}
           </span>
         </v-card-title>
         <v-card-text>
@@ -158,25 +158,25 @@
                     row
                     class="justify-center"
                   >
-                    <v-col lg="3" sm="12">
+                    <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 1"
                         :value="1"
                       />
                     </v-col>
-                    <v-col lg="3" sm="12">
+                    <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 3"
                         :value="3"
                       />
                     </v-col>
-                    <v-col lg="3" sm="12">
+                    <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 5"
                         :value="5"
                       />
                     </v-col>
-                    <v-col lg="3" sm="12">
+                    <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 7"
                         :value="7"
@@ -242,8 +242,8 @@
                 <v-col cols="12" class="text-center text-h6">
                   {{ $t("CreateMatch.FormMapPool") }}
                 </v-col>
-                <v-row class="justify-center">
-                  <v-col lg="2" sm="12">
+                <v-row no-gutters class="justify-center">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Dust 2"
@@ -259,7 +259,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Mirage"
@@ -275,7 +275,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Inferno"
@@ -291,7 +291,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Overpass"
@@ -307,7 +307,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Train"
@@ -323,7 +323,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Nuke"
@@ -339,7 +339,7 @@
                       ]"
                     />
                   </v-col>
-                  <v-col lg="2" sm="12">
+                  <v-col lg="1" sm="12" align-self="center">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
                       label="Vertigo"
@@ -355,6 +355,57 @@
                       ]"
                     />
                   </v-col>
+                </v-row>
+                <v-col cols="12" class="text-center text-h6">
+                  {{ $t("CreateMatch.Spectators") }}
+                </v-col>
+                <v-row class="justify-center">
+                  <v-col cols="12">
+                    <v-combobox
+                      v-model="seasonDefaults.spectators"
+                      :label="$t('CreateMatch.Spectators')"
+                      ref="matchspecs"
+                      :hint="$t('Team.AuthHint')"
+                      multiple
+                      chips
+                      deletable-chips
+                    />
+                  </v-col>
+                </v-row>
+                <v-row class="justify-center">
+                  <v-col cols="2">
+                    <v-switch
+                      v-model="seasonDefaults.skip_veto"
+                      :label="$t('CreateMatch.SkipVeto')"
+                      ref="skipveto"
+                    />
+                  </v-col>
+                </v-row>
+                <v-row class="justify-center">
+                  <v-radio-group
+                    v-model="seasonDefaults.side_type"
+                    row
+                    class="justify-center"
+                  >
+                    <v-col lg="4" sm="12" align-self="center">
+                      <v-radio
+                        :label="$t('CreateMatch.KnifeDefault')"
+                        :value="'default'"
+                      />
+                    </v-col>
+                    <v-col lg="4" sm="12" align-self="center">
+                      <v-radio
+                        :label="$t('CreateMatch.KnifeNever')"
+                        :value="'never_knife'"
+                      />
+                    </v-col>
+                    <v-col lg="4" sm="12" align-self="center">
+                      <v-radio
+                        :label="$t('CreateMatch.KnifeAlways')"
+                        :value="'always_knife'"
+                      />
+                    </v-col>
+                  </v-radio-group>
                 </v-row>
                 <v-row class="pt-6">
                   <v-col cols="12">
@@ -442,7 +493,9 @@ export default {
         players_per_team: 5,
         maps_to_win: 1,
         skip_veto: false,
-        map_pool: []
+        map_pool: [],
+        spectators: [],
+        side_type: "default"
       },
       datemenu: false,
       formTitle: this.$t("Seasons.NewFormTitle")
@@ -453,7 +506,33 @@ export default {
   },
   watch: {
     newDialog(val) {
-      if (!val) this.formTitle = this.$t("Seasons.NewFormTitle");
+      if (!val) {
+        this.formTitle = this.$t("Seasons.NewFormTitle");
+        this.$nextTick(() => {
+          this.newSeason = {
+            name: "",
+            dates: [
+              new Date()
+                .toISOString()
+                .substr(0, 10)
+                .slice(0, 19)
+                .replace("T", " ")
+            ],
+            cvars: []
+          };
+          this.seasonDefaults = {
+            min_players_to_ready: 5,
+            min_spectators_to_ready: 0,
+            players_per_team: 5,
+            maps_to_win: 1,
+            skip_veto: false,
+            map_pool: [],
+            spectators: [],
+            side_type: "default"
+          };
+          this.$refs.newSeasonForm.resetValidation();
+        });
+      }
     }
   },
   methods: {
@@ -528,7 +607,14 @@ export default {
           }
           return retVal;
         };
-        let newCvar = Object.assign({}, ...this.newSeason.cvars.map(splitStr));
+        let newCvar = Object.assign(
+          {},
+          ...this.newSeason.cvars.map(splitStr),
+          this.seasonDefaults
+        );
+        newCvar.spectators =
+          newCvar.spectators != "" ? newCvar.spectators.join(" ") : "";
+        newCvar.map_pool = newCvar.map_pool.join(" ");
         if (this.newSeason.id == null) {
           let serverObj = [
             {
@@ -559,6 +645,8 @@ export default {
         }
         if (serverRes.id != null)
           this.response = this.$t("Seasons.SeasonCreated");
+        else if (this.newSeason.id != null)
+          this.response = this.$t("Seasons.SeasonUpdated");
         this.responseSheet = true;
         this.newDialog = false;
         this.seasons = [];
@@ -576,6 +664,16 @@ export default {
             ],
             cvars: []
           };
+          this.seasonDefaults = {
+            min_players_to_ready: 5,
+            min_spectators_to_ready: 0,
+            players_per_team: 5,
+            maps_to_win: 1,
+            skip_veto: false,
+            map_pool: [],
+            spectators: [],
+            side_type: "default"
+          };
           this.$refs.newSeasonForm.resetValidation();
         });
         return;
@@ -590,8 +688,30 @@ export default {
       let seasonCvars = await this.GetSeasonCVARs(item.id);
       let tmpArr = [];
       if (typeof seasonCvars == "string") seasonCvars = null;
-      else
-        for (var obj in seasonCvars) tmpArr.push(obj + " " + seasonCvars[obj]);
+      else {
+        for (let obj in seasonCvars) {
+          if (
+            obj !== "min_players_to_ready" &&
+            obj !== "min_spectators_to_ready" &&
+            obj !== "min_spectators_to_ready" &&
+            obj !== "players_per_team" &&
+            obj !== "maps_to_win" &&
+            obj !== "skip_veto" &&
+            obj !== "map_pool" &&
+            obj !== "spectators" &&
+            obj !== "side_type"
+          )
+            tmpArr.push(obj + " " + seasonCvars[obj]);
+          else if (
+            obj === "map_pool" ||
+            (obj === "spectators" && seasonCvars[obj] !== "")
+          )
+            this.seasonDefaults[obj] = seasonCvars[obj].split(" ");
+          else if (obj === "maps_to_win")
+            this.seasonDefaults[obj] = parseInt(seasonCvars[obj]);
+          else this.seasonDefaults[obj] = seasonCvars[obj];
+        }
+      }
       this.newSeason = {
         id: item.id,
         dates: dateArray,

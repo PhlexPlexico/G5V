@@ -229,6 +229,112 @@
               </v-col>
             </v-row>
             <v-divider />
+            <v-row class="justify-center">
+              <v-col lg="3" md="12" sm="12">
+                {{ $t("CreateMatch.PlayersPerTeam") }}
+                <v-text-field
+                  v-model="newMatchData.players_per_team"
+                  :rules="[
+                    v =>
+                      (!isNaN(v) &&
+                        (x => {
+                          return (x | 0) === x;
+                        })(parseFloat(v))) ||
+                      $t('misc.ValueMustBeNumber'),
+                    v => v >= 0 || $t('misc.GreaterThanZero')
+                  ]"
+                  type="number"
+                />
+              </v-col>
+              <v-col lg="3" md="12" sm="12">
+                {{ $t("CreateMatch.MinPlayersReady") }}
+                <v-text-field
+                  v-model="newMatchData.min_players_to_ready"
+                  single-line
+                  :rules="[
+                    v =>
+                      (!isNaN(v) &&
+                        (x => {
+                          return (x | 0) === x;
+                        })(parseFloat(v))) ||
+                      $t('misc.ValueMustBeNumber'),
+                    v => v >= 0 || $t('misc.GreaterThanZero')
+                  ]"
+                  type="number"
+                />
+              </v-col>
+              <v-col lg="3" md="12" sm="12">
+                {{ $t("CreateMatch.SpectatorsToReady") }}
+                <v-text-field
+                  v-model="newMatchData.min_spectators_to_ready"
+                  single-line
+                  :rules="[
+                    v =>
+                      (!isNaN(v) &&
+                        (x => {
+                          return (x | 0) === x;
+                        })(parseFloat(v))) ||
+                      $t('misc.ValueMustBeNumber'),
+                    v => v >= 0 || $t('misc.GreaterThanZero')
+                  ]"
+                  type="number"
+                />
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-col cols="12" class="text-center text-h6">
+              {{ $t("CreateMatch.Spectators") }}
+            </v-col>
+            <v-row class="justify-center">
+              <v-col cols="12">
+                <v-combobox
+                  v-model="newMatchData.spectators"
+                  :label="$t('CreateMatch.Spectators')"
+                  ref="matchspecs"
+                  :hint="$t('Team.AuthHint')"
+                  multiple
+                  chips
+                  deletable-chips
+                />
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row class="justify-center">
+              <v-col cols="2">
+                <v-switch
+                  v-model="newMatchData.skip_veto"
+                  :label="$t('CreateMatch.SkipVeto')"
+                  ref="skipveto"
+                />
+              </v-col>
+            </v-row>
+            <v-row class="justify-center">
+              <v-radio-group
+                v-model="newMatchData.side_type"
+                row
+                class="justify-center"
+              >
+                <v-col lg="4" sm="12" align-self="center">
+                  <v-radio
+                    :label="$t('CreateMatch.KnifeDefault')"
+                    :value="'default'"
+                  />
+                </v-col>
+                <v-col lg="4" sm="12" align-self="center">
+                  <v-radio
+                    :label="$t('CreateMatch.KnifeNever')"
+                    :value="'never_knife'"
+                  />
+                </v-col>
+                <v-col lg="4" sm="12" align-self="center">
+                  <v-radio
+                    :label="$t('CreateMatch.KnifeAlways')"
+                    :value="'always_knife'"
+                  />
+                </v-col>
+              </v-radio-group>
+            </v-row>
+            <v-divider />
             <v-row>
               <v-col cols="12">
                 <strong>{{ $t("CreateMatch.ConvarTitle") }}</strong>
@@ -317,7 +423,9 @@ export default {
       skip_veto: false,
       map_pool: [],
       cvars: [],
-      veto_first: "team1"
+      veto_first: "team1",
+      spectators: [],
+      side_type: "default"
     },
     selectedTeams: [],
     newDialog: false,
@@ -372,13 +480,17 @@ export default {
               ? 1
               : parseInt(seasonCvars.maps_to_win);
           this.newMatchData.skip_veto =
-            seasonCvars.skip_veto == null
+            seasonCvars.skip_veto == null || seasonCvars.skip_veto == 0
               ? false
-              : Boolean(seasonCvars.skip_veto);
+              : true;
           this.newMatchData.map_pool =
-            seasonCvars.map_pool == null
+            seasonCvars.map_pool.length < 1
               ? []
-              : seasonCvars.map_pool.trim().split(", ");
+              : seasonCvars.map_pool.trim().split(" ");
+          this.newMatchData.spectators =
+            seasonCvars.spectators.length < 1
+              ? null
+              : seasonCvars.spectators.trim().split(" ");
           //Delete all used get prepare custom CVARs.
           delete seasonCvars.min_players_to_ready;
           delete seasonCvars.min_spectators_to_ready;
@@ -386,6 +498,8 @@ export default {
           delete seasonCvars.maps_to_win;
           delete seasonCvars.skip_veto;
           delete seasonCvars.map_pool;
+          delete seasonCvars.side_type;
+          delete seasonCvars.spectators;
           // Now set Match CVARs. These will be converted back on submit.
           let tmpCvarArr = [];
           for (var obj in seasonCvars)
@@ -462,7 +576,8 @@ export default {
             veto_mappool: this.newMatchData.map_pool.join(" "),
             match_cvars: newCvar,
             veto_first: this.newMatchData.veto_first,
-            skip_veto: this.newMatchData.skip_veto
+            skip_veto: this.newMatchData.skip_veto,
+            spectator_auths: this.newMatchData.spectators
           }
         ];
         try {
@@ -485,7 +600,6 @@ export default {
       console.log(this.newMatchId);
       if (this.newMatchId != null)
         this.$router.push({ name: `Match`, params: { id: this.newMatchId } });
-      else this.$router.push({ name: `New Match` });
     }
   }
 };
