@@ -584,6 +584,8 @@ export default {
           let serverRes = await this.InsertMatch(matchInsertObj);
           if (serverRes.id != null)
             this.response = this.$t("CreateMatch.MessageRegisterSuccess");
+          else
+            this.response = serverRes.message;
           this.newMatchId = serverRes.id;
         } catch (error) {
           this.response = error.message;
