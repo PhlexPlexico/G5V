@@ -27,7 +27,6 @@ export default {
     };
   },
   async mounted() {
-    console.log("HERE");
     this.user = await this.IsLoggedIn();
   }
 };
