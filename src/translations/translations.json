@@ -13,7 +13,8 @@
       "AllSeasons": "All Seasons",
       "MySeasons": "My Seasons",
       "Logout": "Logout",
-      "DarkMode": "Toggle Dark Mode"
+      "DarkMode": "Toggle Dark Mode",
+      "PlayerLeader": "Player Leaderboard"
     },
     "MatchAdmin": {
       "AdminTools": "Admin Actions",
@@ -108,7 +109,18 @@
       "FPR": "Frags Per Round",
       "User": "User",
       "TeamName": "Team",
-      "NoStatFound": "No stats are found for the current match."
+      "NoStatFound": "No stats are found for the current match.",
+      "5kill": "Aces",
+      "4kill": "Quad Kills",
+      "3kill": "Triple Kills",
+      "2kill": "Double Kills",
+      "1kill": "Single Kills",
+      "TotalRoundsPlayed": "Total Rounds Played",
+      "v1": "1v1",
+      "v2": "1v2",
+      "v3": "1v3",
+      "v4": "1v4",
+      "v5": "1v5"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -273,7 +285,8 @@
       "LoadText": "Loading... Please wait",
       "OK": "OK",
       "ValueMustBeNumber": "Value must be a number.",
-      "GreaterThanZero": "Value must be greater than zero."
+      "GreaterThanZero": "Value must be greater than zero.",
+      "PLeader": "Player Leaderboard"
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -295,7 +308,8 @@
       "AllSeasons": "オールシーズンズ",
       "MySeasons": "私の季節",
       "Logout": "ログアウト",
-      "DarkMode": "ダークモードを切り替えます"
+      "DarkMode": "ダークモードを切り替えます",
+      "PlayerLeader": "プレイヤーリーダーボード"
     },
     "MatchAdmin": {
       "AdminTools": "管理者ツール",
@@ -390,7 +404,19 @@
       "FPR": "Frags Per Round",
       "User": "ユーザー",
       "TeamName": "チーム",
-      "NoStatFound": "現在の試合のスタッツは見つかりませんでした。"
+      "NoStatFound": "現在の試合のスタッツは見つかりませんでした。",
+      "5kill": "エース",
+      "4kill": "クアッドキル",
+      "3kill": "トリプルキル",
+      "2kill": "ダブルキル",
+      "1kill": "シングルキル",
+      "TotalRoundsPlayed": "総プレー数",
+      "v1": "1v1",
+      "v2": "1v2",
+      "v3": "1v3",
+      "v4": "1v4",
+      "v5": "1v5"
+      
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",
@@ -555,7 +581,8 @@
       "OK": "OK",
       "Close": "クローズ",
       "ValueMustBeNumber": "値は数値でなければなりません。",
-      "GreaterThanZero": "値はゼロより大きくなければなりません。"
+      "GreaterThanZero": "値はゼロより大きくなければなりません。",
+      "PLeader": "プレイヤーリーダーボード"
     },
     "Footer": {
       "company": "Phlex Plexico",

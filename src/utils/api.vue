@@ -18,6 +18,7 @@ export default {
       localStorage.setItem("language", lang);
       this.$i18n.locale = lang;
     },
+    // BEGIN USER CALLS
     async IsLoggedIn() {
       const res = await this.axioCall.get("/api/isLoggedIn");
       if (res.data == false) {
@@ -52,6 +53,41 @@ export default {
       }
       return message;
     },
+    async GetUserRecentMatches(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/users/${userid}/recent`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetAllUsers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/users/");
+        message = res.data.users;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async UpdateUserInfo(userInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/users/", userInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    // END USER CALLS
+    // BEGIN TEAM CALLS
     async GetTeamData(teamid) {
       let res;
       let message;
@@ -112,27 +148,80 @@ export default {
       }
       return message;
     },
-    async GetServerData(serverid) {
+    async GetAllTeams() {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`/api/servers/${serverid}`);
-        message = res.data.server;
-      } catch (err) {
-        //console.log(err)
-        message = {
-          id: 0,
-          in_use: 0,
-          ip_string: "",
-          port: 0,
-          rcon_password: null,
-          display_name: "ERROR RETREIVING SERVER",
-          public_server: 0,
-          name: "ERROR"
-        };
-        return message;
+        res = await this.axioCall.get("/api/teams");
+        message = res.data.teams;
+      } catch (error) {
+        message = error.response.data.message;
       }
+      return message;
     },
+    async GetMyTeams() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/teams/myteams");
+        message = res.data.teams;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetTeamRecentMatches(teamid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async InsertTeamInfo(teamInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/teams/", teamInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async UpdateTeamInfo(teamInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/teams/", teamInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async DeleteFromTeam(member) {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/teams/",
+          data: member,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    // END TEAM CALLS
+    // BEGIN MATCH CALLS
     async GetMatchData(matchid) {
       let res;
       let message;
@@ -167,17 +256,6 @@ export default {
       }
       return message;
     },
-    async GetUserRecentMatches(userid) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get(`/api/users/${userid}/recent`);
-        message = res.data.matches;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
     async GetMatchResult(team, match) {
       let res;
       let message;
@@ -189,44 +267,89 @@ export default {
       }
       return message;
     },
-    async GetUserPlayerStats(steamid) {
+    async GetAllMatches() {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`/api/playerstats/${steamid}`);
-        message = res.data.playerstats;
+        res = await this.axioCall.get("/api/matches");
+        message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
       }
       return message;
     },
-    async GetAllTeams() {
+    async GetMyMatches() {
       let res;
       let message;
       try {
-        res = await this.axioCall.get("/api/teams");
-        message = res.data.teams;
+        res = await this.axioCall.get("/api/matches/mymatches");
+        message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
       }
       return message;
     },
-    async GetMyTeams() {
+    async InsertMatch(matchInfo) {
       let res;
       let message;
       try {
-        res = await this.axioCall.get("/api/teams/myteams");
-        message = res.data.teams;
+        res = await this.axioCall.post("/api/matches/", matchInfo);
+        message = res.data;
       } catch (error) {
-        message = error.response.data.message;
+        message = error.response.data;
       }
       return message;
+    },
+    async UpdateMatchInfo(matchInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/matches/", matchInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    // END MATCH CALLS
+    // BEGIN SERVER CALLS
+    async GetServerData(serverid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/servers/${serverid}`);
+        message = res.data.server;
+      } catch (err) {
+        //console.log(err)
+        message = {
+          id: 0,
+          in_use: 0,
+          ip_string: "",
+          port: 0,
+          rcon_password: null,
+          display_name: "ERROR RETREIVING SERVER",
+          public_server: 0,
+          name: "ERROR"
+        };
+        return message;
+      }
     },
     async GetAllServers() {
       let res;
       let message;
       try {
         res = await this.axioCall.get("/api/servers");
+        return res.data.servers;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetMyServers() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/servers/myservers");
         return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
@@ -261,67 +384,47 @@ export default {
       }
       return message;
     },
-    async GetAllMatches() {
+    async InsertServer(serverInfo) {
       let res;
       let message;
       try {
-        res = await this.axioCall.get("/api/matches");
-        message = res.data.matches;
+        res = await this.axioCall.post("/api/servers/", serverInfo);
+        message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
       }
       return message;
     },
+    async GetServerStatus(serverId) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/servers/${serverId}/status`);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async UpdateServer(serverInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put("/api/servers/", serverInfo);
+        message = res.data.message;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    // END SERVER CALLS
+    // BEGIN SEASON CALLS
     async GetAllSeasons() {
       let res;
       let message;
       try {
         res = await this.axioCall.get("/api/seasons");
         message = res.data.seasons;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async GetAllUsers() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/users/");
-        message = res.data.users;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async GetAllPlayers() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/playerstats/unique");
-        message = res.data.count;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async GetAllMapStats() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/mapstats/");
-        message = res.data.mapstats;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async GetTeamRecentMatches(teamid) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get(`/api/teams/${teamid}/recent`);
-        message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
       }
@@ -338,34 +441,12 @@ export default {
       }
       return message;
     },
-    async GetMyMatches() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/matches/mymatches");
-        message = res.data.matches;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
     async GetMySeasons() {
       let res;
       let message;
       try {
         res = await this.axioCall.get("/api/seasons/myseasons");
         message = res.data.seasons;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async GetMyServers() {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get("/api/servers/myservers");
-        return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
       }
@@ -432,50 +513,6 @@ export default {
       }
       return message;
     },
-    async InsertServer(serverInfo) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.post("/api/servers/", serverInfo);
-        message = res.data.message;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async InsertMatch(matchInfo) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.post("/api/matches/", matchInfo);
-        message = res.data;
-      } catch (error) {
-        message = error.response.data;
-      }
-      return message;
-    },
-    async GetServerStatus(serverId) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.get(`/api/servers/${serverId}/status`);
-        message = res.data.message;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
-    async UpdateServer(serverInfo) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.put("/api/servers/", serverInfo);
-        message = res.data.message;
-      } catch (error) {
-        message = error.response.data.message;
-      }
-      return message;
-    },
     async UpdateSeasonInfo(seasonInfo) {
       let res;
       let message;
@@ -487,40 +524,25 @@ export default {
       }
       return message;
     },
-    async UpdateTeamInfo(teamInfo) {
+    // END SEASON CALLS
+    // BEGIN PLAYER STATS
+    async GetUserPlayerStats(steamid) {
       let res;
       let message;
       try {
-        res = await this.axioCall.put("/api/teams/", teamInfo);
-        message = res.data;
+        res = await this.axioCall.get(`/api/playerstats/${steamid}`);
+        message = res.data.playerstats;
       } catch (error) {
-        message = error.response.data;
+        message = error.response.data.message;
       }
       return message;
     },
-    async DeleteFromTeam(member) {
+    async GetAllPlayers() {
       let res;
       let message;
       try {
-        res = await axios({
-          method: "delete",
-          url: "/api/teams/",
-          data: member,
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true
-        });
-        message = res.data;
-      } catch (error) {
-        message = error.response.data;
-      }
-      return message;
-    },
-    async InsertTeamInfo(teamInfo) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.post("/api/teams/", teamInfo);
-        message = res.data;
+        res = await this.axioCall.get("/api/playerstats/unique");
+        message = res.data.count;
       } catch (error) {
         message = error.response.data.message;
       }
@@ -537,13 +559,19 @@ export default {
       }
       return message;
     },
-    // TODO: Make this retrieve possible images on front-end to display map banner?
-    // async GetMapList () {
-    //   return new Promise(async (resolve, reject) => {
-    //     const res = this.axios.get(`/api/v1/GetMapList`)
-    //     resolve(res.data)
-    //   })
-    // },
+    // END PLAYER STATS
+    // BEGIN MAP STATS
+    async GetAllMapStats() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/mapstats/");
+        message = res.data.mapstats;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetSingleMapStat(matchid, mapid) {
       let res;
       let message;
@@ -566,6 +594,8 @@ export default {
       }
       return message;
     },
+    // END MAP STATS
+    // BEGIN MATCH ADMIN CALLS
     async PauseMatch(matchid) {
       let res;
       let message;
@@ -679,6 +709,8 @@ export default {
       }
       return message;
     },
+    // END MATCH ADMIN CALLS
+    // BEGIN VETO CALLS
     async GetVetoesOfMatch(matchid) {
       let res;
       let message;
@@ -690,28 +722,20 @@ export default {
       }
       return message;
     },
-    async UpdateMatchInfo(matchInfo) {
+    // END VETO CALLS
+    // BEGIN LEADERBOARD CALLS
+    async GetTotalPlayerLeaderboard() {
       let res;
       let message;
       try {
-        res = await this.axioCall.put("/api/matches/", matchInfo);
-        message = res.data;
+        res = await this.axioCall.get("/api/leaderboard/players");
+        return res.data.leaderboard;
       } catch (error) {
-        message = error.response.data;
+        message = error.response.data.message;
       }
       return message;
     },
-    async UpdateUserInfo(userInfo) {
-      let res;
-      let message;
-      try {
-        res = await this.axioCall.put("/api/users/", userInfo);
-        message = res.data;
-      } catch (error) {
-        message = error.response.data;
-      }
-      return message;
-    },
+    // END LEADERBOARD CALLS
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
     },

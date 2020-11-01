@@ -4,21 +4,21 @@
       <v-card-title class="secondary">
         <v-spacer />
         <v-tooltip v-if="!$vuetify.theme.dark" top>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" small icon @click="darkMode">
-            <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ $t("Navbar.DarkMode") }}</span>
-      </v-tooltip>
-      <v-tooltip v-if="$vuetify.theme.dark" top>
-        <template v-slot:activator="{ on }">
-          <v-btn v-on="on" small icon @click="darkMode">
-            <v-icon class="r-3">mdi-weather-sunny</v-icon>
-          </v-btn>
-        </template>
-        <span>{{ $t("Navbar.DarkMode") }}</span>
-      </v-tooltip>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" small icon @click="darkMode">
+              <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("Navbar.DarkMode") }}</span>
+        </v-tooltip>
+        <v-tooltip v-if="$vuetify.theme.dark" top>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" small icon @click="darkMode">
+              <v-icon class="r-3">mdi-weather-sunny</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t("Navbar.DarkMode") }}</span>
+        </v-tooltip>
         <v-menu top offset-y open-on-hover>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mx-4" icon small v-bind="attrs" v-on="on">

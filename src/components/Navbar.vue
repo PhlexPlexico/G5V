@@ -83,6 +83,10 @@
           <v-list-item v-if="user.id != null" :to="'/myseasons'">
             <v-list-item-title>{{ $t("Navbar.MySeasons") }}</v-list-item-title>
           </v-list-item>
+
+          <v-list-item v-if="user.id != null" :to="'/leaderboard'">
+            <v-list-item-title>{{ $t("Navbar.PlayerLeader") }}</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
