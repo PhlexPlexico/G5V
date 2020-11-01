@@ -85,33 +85,47 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="8">
-                    <v-text-field
-                      v-model="teamInfo.name"
-                      :label="$t('Team.NameLabel')"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="3">
-                    <v-select
-                      :items="flags"
-                      v-model="teamInfo.flag"
-                      :label="$t('Team.Flag')"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-text-field
-                      v-model="teamInfo.tag"
-                      :label="$t('Team.TeamTag')"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <v-switch
-                      v-model="teamInfo.public"
-                      :label="$t('TeamCreate.FormPublicTeam') + '?'"
-                    ></v-switch>
-                  </v-col>
-                </v-row>
+                <v-form ref="teamForm">
+                  <v-row>
+                    <v-col cols="12" sm="6" md="8">
+                      <v-text-field
+                        v-model="teamInfo.name"
+                        :label="$t('Team.NameLabel')"
+                        :rules="[
+                          v => !!v || $t('misc.Required'),
+                          v =>
+                            v.length <= 40 ||
+                            $t('Team.CharacterLimit', [$t('Team.Name'), 40])
+                        ]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="3">
+                      <v-select
+                        :items="flags"
+                        v-model="teamInfo.flag"
+                        :label="$t('Team.Flag')"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-text-field
+                        v-model="teamInfo.tag"
+                        :label="$t('Team.TeamTag')"
+                        :rules="[
+                          v => !!v || $t('misc.Required'),
+                          v =>
+                            v.length <= 40 ||
+                            $t('Team.CharacterLimit', [$t('Team.Name'), 40])
+                        ]"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-switch
+                        v-model="teamInfo.public"
+                        :label="$t('TeamCreate.FormPublicTeam') + '?'"
+                      ></v-switch>
+                    </v-col>
+                  </v-row>
+                </v-form>
               </v-container>
             </v-card-text>
 
@@ -147,32 +161,35 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row>
-                  <v-col cols="12" sm="12" md="12">
-                    <v-combobox
-                      v-model="newAuth.steam"
-                      :items="steamIdList"
-                      :label="$t('Team.AuthLabel')"
-                      :hint="$t('Team.AuthHint')"
-                    ></v-combobox>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" sm="12" md="12">
-                    <v-text-field
-                      v-model="newAuth.name"
-                      :label="$t('Team.NickLabel')"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="2" sm="2" md="2">
-                    <v-switch
-                      v-model="newAuth.captain"
-                      :label="$t('Team.Captain')"
-                    ></v-switch>
-                  </v-col>
-                </v-row>
+                <v-form ref="authForm">
+                  <v-row>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-combobox
+                        v-model="newAuth.steam"
+                        :items="steamIdList"
+                        :label="$t('Team.AuthLabel')"
+                        :hint="$t('Team.AuthHint')"
+                        :rules="[v => !!v || $t('misc.Required')]"
+                      ></v-combobox>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" sm="12" md="12">
+                      <v-text-field
+                        v-model="newAuth.name"
+                        :label="$t('Team.NickLabel')"
+                      ></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="2" sm="2" md="2">
+                      <v-switch
+                        v-model="newAuth.captain"
+                        :label="$t('Team.Captain')"
+                      ></v-switch>
+                    </v-col>
+                  </v-row>
+                </v-form>
               </v-container>
             </v-card-text>
 
@@ -282,6 +299,7 @@ export default {
       if (!val && !this.newTeam) {
         // Only reload on close.
         this.GetTeamInfo();
+        this.$refs.teamForm.resetValidation();
       }
       return val || this.close();
     },
@@ -298,7 +316,6 @@ export default {
           for (let key in this.teamAuth) {
             if (this.teamAuth[key].steamid == val.steam) {
               this.newAuth.name = this.teamAuth[key].username;
-              console.log(this.teamAuth[key]);
               this.newAuth.captain = this.teamAuth[key].captain;
               this.editInfo = true;
               break;
@@ -373,13 +390,12 @@ export default {
           (await this.IsAnyAdmin(this.user)) ||
           this.teamInfo.owner_id == this.user.id
         );
-        console.log(this.isDisabled);
         this.isMembersDisabled = !(
           (await this.IsAnyAdmin(this.user)) ||
           this.teamInfo.owner_id == this.user.id
         );
       } catch (err) {
-        //console.log(err);
+        console.log(err);
       } finally {
         this.isLoading = false;
       }
@@ -396,52 +412,56 @@ export default {
       this.editInfo = false;
     },
     async saveTeamInfo() {
-      if (this.teamInfo.id > 0) {
+      if (this.$refs.teamForm.validate()) {
+        if (this.teamInfo.id > 0) {
+          let updatedTeam = [
+            {
+              id: this.teamInfo.id,
+              name: this.teamInfo.name,
+              flag: this.teamInfo.flag,
+              tag: this.teamInfo.tag,
+              public_team: this.teamInfo.public === true ? 1 : 0
+            }
+          ];
+          await this.UpdateTeamInfo(updatedTeam);
+        } else {
+          let newTeam = [
+            {
+              name: this.teamInfo.name,
+              flag: this.teamInfo.flag,
+              logo: null,
+              tag: this.teamInfo.tag,
+              public_team: this.teamInfo.public === true ? 1 : 0
+            }
+          ];
+          let newTeamId = await this.InsertTeamInfo(newTeam);
+          this.$router.push({ name: `Team`, params: { id: newTeamId.id } });
+        }
+        this.dialog = false;
+      }
+    },
+    async saveTeamAuth() {
+      if (this.$refs.authForm.validate()) {
+        let newTeamMember = {
+          [this.newAuth.steam.toString()]: {
+            name: this.newAuth.name == null ? "" : this.newAuth.name,
+            captain: this.newAuth.captain == null ? 0 : this.newAuth.captain
+          }
+        };
         let updatedTeam = [
           {
             id: this.teamInfo.id,
-            name: this.teamInfo.name,
-            flag: this.teamInfo.flag,
-            tag: this.teamInfo.tag,
-            public_team: this.teamInfo.public === true ? 1 : 0
+            auth_name: newTeamMember
           }
         ];
-        this.UpdateTeamInfo(updatedTeam);
-      } else {
-        let newTeam = [
-          {
-            name: this.teamInfo.name,
-            flag: this.teamInfo.flag,
-            logo: null,
-            tag: this.teamInfo.tag,
-            public_team: this.teamInfo.public === true ? 1 : 0
-          }
-        ];
-        let newTeamId = await this.InsertTeamInfo(newTeam);
-        this.$router.push({ name: `Team`, params: { id: newTeamId.id } });
+        await this.UpdateTeamInfo(updatedTeam);
+        // Reset state to force a reload on the table.
+        this.teamAuth = [];
+        this.newAuth = {};
+        this.editInfo = false;
+        this.isLoading = true;
+        this.authDialog = false;
       }
-      this.dialog = false;
-    },
-    async saveTeamAuth() {
-      let newTeamMember = {
-        [this.newAuth.steam.toString()]: {
-          name: this.newAuth.name == null ? "" : this.newAuth.name,
-          captain: this.newAuth.captain == null ? 0 : this.newAuth.captain
-        }
-      };
-      let updatedTeam = [
-        {
-          id: this.teamInfo.id,
-          auth_name: newTeamMember
-        }
-      ];
-      await this.UpdateTeamInfo(updatedTeam);
-      // Reset state to force a reload on the table.
-      this.teamAuth = [];
-      this.newAuth = {};
-      this.editInfo = false;
-      this.isLoading = true;
-      this.authDialog = false;
     },
     deleteMember(item) {
       if (item != null) {

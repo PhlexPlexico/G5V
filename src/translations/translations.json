@@ -210,7 +210,8 @@
       "EditPlayer": "Edit Player",
       "NewTag": "NEW",
       "Captain": "Team Captain?",
-      "WhatIsCaptain": "The first captain to appear on this list will be able to cast vetoes in game. If no captain is selected, the first user on the team list is considered captain."
+      "WhatIsCaptain": "The first captain to appear on this list will be able to cast vetoes in game. If no captain is selected, the first user on the team list is considered captain.",
+      "CharacterLimit": "Team {0} must be less than {1} characters."
     },
     "Teams": {
       "YourTeams": "Your teams",
@@ -491,7 +492,8 @@
       "EditPlayer": "プレイヤーの編集",
       "NewTag": "ニュー",
       "Captain": "チームキャプテン？",
-      "WhatIsCaptain": "このリストに最初に現れたキャプテンは、ゲーム内で拒否権を行使することができます。キャプテンが選択されていない場合、チームリストの最初のユーザーがキャプテンとみなされます。"
+      "WhatIsCaptain": "このリストに最初に現れたキャプテンは、ゲーム内で拒否権を行使することができます。キャプテンが選択されていない場合、チームリストの最初のユーザーがキャプテンとみなされます。",
+      "CharacterLimit": "チーム{0}は{1}のキャラ以下でなければなりません。"
     },
     "Teams": {
       "YourTeams": "あなたのチーム",

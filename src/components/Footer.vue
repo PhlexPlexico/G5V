@@ -3,6 +3,22 @@
     <v-card class="flex primary" flat tile>
       <v-card-title class="secondary">
         <v-spacer />
+        <v-tooltip v-if="!$vuetify.theme.dark" top>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" small icon @click="darkMode">
+            <v-icon class="mr-1">mdi-moon-waxing-crescent</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Navbar.DarkMode") }}</span>
+      </v-tooltip>
+      <v-tooltip v-if="$vuetify.theme.dark" top>
+        <template v-slot:activator="{ on }">
+          <v-btn v-on="on" small icon @click="darkMode">
+            <v-icon class="r-3">mdi-weather-sunny</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Navbar.DarkMode") }}</span>
+      </v-tooltip>
         <v-menu top offset-y open-on-hover>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="mx-4" icon small v-bind="attrs" v-on="on">
@@ -69,11 +85,23 @@ export default {
     handleLanguage: function(command) {
       this.ChangeLanguage(command);
       // Bottom bar with timeout.
+    },
+    darkMode() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+      localStorage.setItem("theme", this.$vuetify.theme.dark.toString());
     }
   },
   mounted() {
     const language = localStorage.getItem("language");
+    const theme = localStorage.getItem("theme");
     if (language) this.$i18n.locale = language;
+    if (theme) {
+      if (theme == "true") {
+        this.$vuetify.theme.dark = true;
+      } else {
+        this.$vuetify.theme.dark = false;
+      }
+    }
   }
 };
 </script>
