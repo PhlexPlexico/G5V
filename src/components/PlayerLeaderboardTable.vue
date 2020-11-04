@@ -7,8 +7,8 @@
       :loading-text="$t('misc.LoadText')"
       :headers="headers"
       :items="players"
-      :sort-by="['kills', 'trp', 'average_rating']"
-      :sort-desc="['kills','trp', 'average_rating']"
+      :sort-by="['wins', 'kills']"
+      :sort-desc="['wins', 'kills']"
       multi-sort
       ref="PlayerLeaderboardTable"
       :expanded="[]"
@@ -54,6 +54,12 @@ export default {
           align: "start",
           sortable: true,
           value: "name",
+          groupable: false
+        },
+        {
+          text: this.$t("misc.TWins"),
+          sortable: true,
+          value: "wins",
           groupable: false
         },
         {

@@ -286,7 +286,8 @@
       "OK": "OK",
       "ValueMustBeNumber": "Value must be a number.",
       "GreaterThanZero": "Value must be greater than zero.",
-      "PLeader": "Player Leaderboard"
+      "PLeader": "Player Leaderboard",
+      "TWins": "Total Wins"
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -582,7 +583,8 @@
       "Close": "クローズ",
       "ValueMustBeNumber": "値は数値でなければなりません。",
       "GreaterThanZero": "値はゼロより大きくなければなりません。",
-      "PLeader": "プレイヤーリーダーボード"
+      "PLeader": "プレイヤーリーダーボード",
+      "TWins": "合計勝利数"
     },
     "Footer": {
       "company": "Phlex Plexico",
