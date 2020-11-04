@@ -184,7 +184,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "Your server information will not be exposed to other users.",
-      "Get5Help": "Make sure your server is running and has the get5 server plugins installed first.<br>See <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">the get5 wiki</a> for help installing the get5 and get5_apistats plugins.",
+      "Get5Help": "Make sure your server is running and has the get5 server plugins installed first.<br>See <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">the get5 wiki</a> for help installing the get5 and get5_apistats plugins. PLEASE ENSURE sv_logecho = 1 IS SET ON THE SERVER AND 'log on'",
       "FormDisplayName": "Display Name",
       "FormServerIP": "Host Name",
       "FormServerHint": "Can be a URL as well.",
@@ -481,7 +481,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "あなたのサーバー情報は他のユーザーには公開されません。",
-      "Get5Help": "サーバーが稼働中でGet5プラグインがインストールされていることを確認してください。<br>Get5のインストールは<a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">get5 wiki</a>を参考にしてください。",
+      "Get5Help": "サーバーが稼働中でGet5プラグインがインストールされていることを確認してください。<br>Get5のインストールは<a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">get5 wiki</a>を参考にしてください。sv_logecho = 1 がサーバーに設定されており、「ログオン」が設定されていることを確認してください。",
       "FormDisplayName": "表示名",
       "FormServerIP": "ホスト名",
       "FormServerHint": "URLにすることもできます。",
