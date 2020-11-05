@@ -1,16 +1,33 @@
 <template>
-  <v-container class="metrics" fluid>
-    <MetricsInfo />
+  <v-container class="home" fluid>
+    <TeamLeaderboardTable :seasonid="parseInt(this.$route.params.seasonid)" />
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import MetricsInfo from "@/components/MetricsInfo";
+import TeamLeaderboardTable from "@/components/TeamLeaderboardTable.vue";
 export default {
-  name: "Home",
+  name: "TeamLeaderboard",
   components: {
-    MetricsInfo
+    TeamLeaderboardTable
+  },
+  data() {
+    return {
+      user: {
+        admin: false,
+        steam_id: "",
+        id: -1,
+        super_admin: false,
+        name: "",
+        small_image: "",
+        medium_image: "",
+        large_image: ""
+      } // should be object from JSON response
+    };
+  },
+  async mounted() {
+    this.user = await this.IsLoggedIn();
   }
 };
 </script>

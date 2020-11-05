@@ -735,6 +735,39 @@ export default {
       }
       return message;
     },
+    async GetTeamLeaderboard() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get("/api/leaderboard");
+        return res.data.leaderboard;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetSeasonPlayerLeaderboard(seasonid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/leaderboard/players/${seasonid}`);
+        return res.data.leaderboard;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async GetSeasonTeamLeaderboard(seasonid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/leaderboard/${seasonid}`);
+        return res.data.leaderboard;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     // END LEADERBOARD CALLS
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;

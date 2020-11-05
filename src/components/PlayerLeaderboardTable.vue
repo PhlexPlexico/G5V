@@ -46,6 +46,9 @@
 <script>
 export default {
   name: "PlayerLeaderboard",
+  props: {
+    seasonId: Number
+  },
   data() {
     return {
       headers: [
@@ -146,7 +149,10 @@ export default {
   methods: {
     async GetLeaderboard() {
       try {
-        let res = await this.GetTotalPlayerLeaderboard();
+        let res;
+        if (this.seasonId)
+          res = await this.GetSeasonPlayerLeaderboard(this.seasonId);
+        else res = await this.GetTotalPlayerLeaderboard();
         if (typeof res == "string") return;
         res.forEach(player => {
           player.adr =

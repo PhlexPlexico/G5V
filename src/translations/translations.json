@@ -267,6 +267,13 @@
       "ChangeLanguage": "Language",
       "LanguageChanged": "You have changed localization."
     },
+    "Leaderboard": {
+      "TTitle": "Team Leaderboard",
+      "TName": "Team Name",
+      "TWin": "Wins",
+      "TLosses": "Losses",
+      "TDiff": "Round Difference"
+    },
     "misc": {
       "Cancel": "Cancel",
       "Confirm": "Confirm",
@@ -563,6 +570,13 @@
       "LanguageName": "日本語",
       "ChangeLanguage": "言語を変更",
       "LanguageChanged": "言語を変更しました。"
+    },
+    "Leaderboard": {
+      "TTitle": "チームリーダーボード",
+      "TName": "チーム名",
+      "TWin": "勝利",
+      "TLosses": "損失額",
+      "TDiff": "丸差"
     },
     "misc": {
       "Cancel": "キャンセル",

@@ -154,6 +154,27 @@ const routes = [
       import(
         /* webpackChunkName: "Leaderboards" */ "../views/TeamLeaderboard.vue"
       )
+  },
+  {
+    path: "/leaderboard/:seasonid",
+    name: "SeasonPlayerBoard",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "Match" */ "../views/PlayerLeaderboard.vue")
+    //children: [{ path: "/create", component: MatchCreate }]
+  },
+  {
+    path: "/leaderboard/teams/:seasonid",
+    name: "SeasonTeamBoard",
+    // route level code-splitting
+    // this generates a separate chunk (teams.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(
+        /* webpackChunkName: "Leaderboards" */ "../views/TeamLeaderboard.vue"
+      )
   }
 ];
 

@@ -27,6 +27,14 @@
           <v-card-title v-else>
             {{ seasonData.name }}
           </v-card-title>
+          <v-card-title>
+            <v-btn :to="`/leaderboard/${seasonData.id}`">
+              {{ $t("misc.PLeader") }}
+            </v-btn>
+            <v-btn :to="`/leaderboard/teams/${seasonData.id}`">
+              {{ $t("Leaderboard.TTitle") }}
+            </v-btn>
+          </v-card-title>
         </v-col>
         <v-col cols="12">
           <MatchesTable :user="user" />
