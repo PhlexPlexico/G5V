@@ -230,7 +230,7 @@
             </v-row>
             <v-divider />
             <v-row class="justify-center">
-              <v-col lg="3" md="12" sm="12">
+              <!-- <v-col lg="3" md="12" sm="12">
                 {{ $t("CreateMatch.PlayersPerTeam") }}
                 <v-text-field
                   v-model="newMatchData.players_per_team"
@@ -245,9 +245,9 @@
                   ]"
                   type="number"
                 />
-              </v-col>
+              </v-col> -->
               <v-col lg="3" md="12" sm="12">
-                {{ $t("CreateMatch.MinPlayersReady") }}
+                {{ $t("CreateMatch.PlayersPerTeam") }}
                 <v-text-field
                   v-model="newMatchData.min_players_to_ready"
                   single-line
@@ -577,15 +577,17 @@ export default {
             match_cvars: newCvar,
             veto_first: this.newMatchData.veto_first,
             skip_veto: this.newMatchData.skip_veto,
-            spectator_auths: this.newMatchData.spectators
+            spectator_auths: this.newMatchData.spectators,
+            min_players_to_ready: parseInt(
+              this.newMatchData.min_players_to_ready
+            )
           }
         ];
         try {
           let serverRes = await this.InsertMatch(matchInsertObj);
           if (serverRes.id != null)
             this.response = this.$t("CreateMatch.MessageRegisterSuccess");
-          else
-            this.response = serverRes.message;
+          else this.response = serverRes.message;
           this.newMatchId = serverRes.id;
         } catch (error) {
           this.response = error.message;

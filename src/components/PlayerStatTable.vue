@@ -257,11 +257,13 @@ export default {
               .slice(0, 19)
               .replace("T", " ");
           this.arrMapString[index].end =
-            "Map End: " +
-            new Date(singleMapStat.end_time)
-              .toISOString()
-              .slice(0, 19)
-              .replace("T", " ");
+            singleMapStat.end_time == null
+              ? null
+              : "Map End: " +
+                new Date(singleMapStat.end_time)
+                  .toISOString()
+                  .slice(0, 19)
+                  .replace("T", " ");
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
         });
       } catch (error) {
