@@ -31,6 +31,21 @@
           >
             {{ arrMapString[index].end }}
           </div>
+          <div
+            class="text-subtitle-2 mapInfo"
+            v-if="
+              arrMapString[index] != null && arrMapString[index].demo != null
+            "
+            align="center"
+          >
+            <v-btn
+              small
+              color="secondary"
+              :href="'/api/demo/' + arrMapString[index].demo"
+            >
+              Download Demo
+            </v-btn>
+          </div>
         </v-container>
         <v-data-table
           item-key="id"
@@ -265,6 +280,7 @@ export default {
                   .slice(0, 19)
                   .replace("T", " ");
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
+          this.arrMapString[index].demo = singleMapStat.demoFile;
         });
       } catch (error) {
         console.log("String error " + error);
