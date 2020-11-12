@@ -43,7 +43,7 @@
               color="secondary"
               :href="'/api/demo/' + arrMapString[index].demo"
             >
-              Download Demo
+              {{ $t("PlayerStats.Download") }}
             </v-btn>
           </div>
         </v-container>
