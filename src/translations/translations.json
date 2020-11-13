@@ -55,7 +55,8 @@
       "MessageAddPlayerSuccess": "Successfully added player.",
       "MessageSendCommandSuccess": "Successfully sent command.",
       "StartTime": "Start:",
-      "EndTime": "End:"
+      "EndTime": "End:",
+      "Connect": "Connect!"
     },
     "CreateMatch": {
       "FormServer": "Select a Server",
@@ -121,7 +122,9 @@
       "v3": "1v3",
       "v4": "1v4",
       "v5": "1v5",
-      "Download": "Download Demo"
+      "Download": "Download Demo",
+      "KAST": "KAST",
+      "ContribScore": "Contribution Score"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -359,7 +362,8 @@
       "MessageAddPlayerSuccess": "プレイヤーの追加に成功しました。",
       "MessageSendCommandSuccess": "コマンドの送信に成功しました。",
       "StartTime": "スタート:",
-      "EndTime": "終り:"
+      "EndTime": "終り:",
+      "Connect": "つなげろ！"
     },
     "CreateMatch": {
       "FormServer": "サーバー",
@@ -425,7 +429,9 @@
       "v3": "1v3",
       "v4": "1v4",
       "v5": "1v5",
-      "Download": "デモをダウンロード"
+      "Download": "デモをダウンロード",
+      "KAST": "KAST",
+      "ContribScore": "貢献度"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",

@@ -177,6 +177,14 @@ export default {
         {
           text: this.$t("PlayerStats.FPR"),
           value: "fpr"
+        },
+        {
+          text: this.$t("PlayerStats.KAST"),
+          value: "kast"
+        },
+        {
+          text: this.$t("PlayerStats.ContribScore"),
+          value: "contribution_score"
         }
       ],
       playerstats: [],

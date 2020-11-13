@@ -42,6 +42,8 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 ### Special Thanks
 - [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go, and the initial translations!
 - [Sean Lewis](https://github.com/splewis) for the creation of get5.
+- Smimabo for helping me test endlessly for the match API to ensure stats record as they should.
+- ebuttonsdude for letting me host an instance for testing on his server.
 
 ### Screenshots  
 ![](./screenshots/MainPage.png)  

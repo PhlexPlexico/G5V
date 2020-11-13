@@ -80,7 +80,7 @@
             serverInfo.port
         "
       >
-        Connect To Server
+        {{ $t("Match.Connect") }}
       </v-btn>
     </div>
   </v-container>
