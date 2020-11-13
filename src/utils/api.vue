@@ -331,8 +331,8 @@ export default {
           public_server: 0,
           name: "ERROR"
         };
-        return message;
       }
+      return message;
     },
     async GetAllServers() {
       let res;

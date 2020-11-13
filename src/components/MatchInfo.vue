@@ -60,6 +60,29 @@
         {{ $t("Match.MatchHasBeenCancelled") }}
       </strong>
     </div>
+    <div
+      align="center"
+      v-if="
+        user.id != null &&
+          serverInfo.ip_string != '' &&
+          matchInfo.end_time == null
+      "
+    >
+      <v-btn
+        color="primary"
+        small
+        :href="
+          'steam://rungame/730/' +
+            user.steam_id +
+            '/+connect%20' +
+            serverInfo.ip_string +
+            ':' +
+            serverInfo.port
+        "
+      >
+        Connect To Server
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
@@ -91,6 +114,10 @@ export default {
         cancelled: 0,
         forfeit: 0,
         id: -1
+      },
+      serverInfo: {
+        ip_string: "",
+        port: 0
       }
     };
   },
@@ -103,6 +130,7 @@ export default {
         let matchRes = await this.GetMatchData(this.match_id);
         let team1Res = await this.GetBasicTeamInfo(matchRes.team1_id);
         let team2Res = await this.GetBasicTeamInfo(matchRes.team2_id);
+        let serveRes = await this.GetServerData(matchRes.server_id);
         this.matchInfo.team1_name = matchRes.team1_string;
         this.matchInfo.team2_name = matchRes.team2_string;
         this.matchInfo.team1_id = matchRes.team1_id;
@@ -129,6 +157,8 @@ export default {
         this.matchInfo.cancelled = matchRes.cancelled;
         this.matchInfo.forfeit = matchRes.forfeit;
         this.matchInfo.id = this.match_id;
+        this.serverInfo.ip_string = serveRes.ip_string;
+        this.serverInfo.port = serveRes.port;
       } catch (error) {
         console.log(error);
       }
