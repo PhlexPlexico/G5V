@@ -511,7 +511,8 @@ export default {
   },
   async created() {
     this.servers = await this.GetAllAvailableServers();
-    this.teams = await this.GetAllTeams();
+    if (this.IsAnyAdmin(this.user)) this.teams = await this.GetAllTeams();
+    else this.teams = await this.GetMyTeams();
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];
   },
