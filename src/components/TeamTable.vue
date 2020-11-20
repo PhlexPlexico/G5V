@@ -363,7 +363,7 @@ export default {
         this.teamInfo = {
           id: res.id,
           name: res.name,
-          flag: res.flag.toUpperCase(),
+          flag: res.flag == null ? null : res.flag.toUpperCase(),
           logo: res.logo,
           tag: res.tag,
           public: res.public_team,
