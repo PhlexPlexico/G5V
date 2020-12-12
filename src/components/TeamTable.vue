@@ -66,7 +66,13 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
-            <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
+            <div
+              v-if="
+                IsAnyAdmin(user) ||
+                  user.id == teamInfo.owner_id ||
+                  (user.id != null && teamInfo.id == -1)
+              "
+            >
               <v-btn
                 :disabled="isDisabled"
                 color="primary"
