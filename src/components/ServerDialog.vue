@@ -59,6 +59,20 @@
                       ]"
                     />
                   </v-col>
+                  <v-col cols="12" sm="12" md="12" lg="4">
+                    <v-text-field
+                      v-model="serverInfo.gotv_port"
+                      :label="$t('ServerCreate.FormGOTVPort')"
+                      ref="GotvPort"
+                      type="number"
+                      :rules="[
+                        () =>
+                          (serverInfo.gotv_port > 0 &&
+                            serverInfo.gotv_port < 65536) ||
+                          $t('ServerCreate.PortRangeIncorrect')
+                      ]"
+                    />
+                  </v-col>
                   <v-col cols="12" sm="12" md="12" lg="10">
                     <v-text-field
                       v-model="serverInfo.rcon_password"
@@ -187,7 +201,8 @@ export default {
               this.serverInfo.public_server == null
                 ? false
                 : this.serverInfo.public_server,
-            flag: this.serverInfo.flag
+            flag: this.serverInfo.flag,
+            gotv_port: this.serverInfo.gotv_port
           }
         ];
         if (this.serverInfo.id == null)

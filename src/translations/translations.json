@@ -56,7 +56,8 @@
       "MessageSendCommandSuccess": "Successfully sent command.",
       "StartTime": "Start:",
       "EndTime": "End:",
-      "Connect": "Connect!"
+      "Connect": "Connect!",
+      "GOTVConnect": "Connect to GOTV!"
     },
     "CreateMatch": {
       "FormServer": "Select a Server",
@@ -194,6 +195,7 @@
       "FormServerHint": "Can be a URL as well.",
       "FormServerPort": "Server Port",
       "FormRCONPassword": "RCON Password",
+      "FormGOTVPort": "GOTV Port",
       "FormPublicServer": "Public Server?",
       "MessageRegisterSuccess": "Successfully registered server.",
       "MessageeEditSuccess": "Successfully edited server.",
@@ -363,7 +365,8 @@
       "MessageSendCommandSuccess": "コマンドの送信に成功しました。",
       "StartTime": "スタート:",
       "EndTime": "終り:",
-      "Connect": "つなげろ！"
+      "Connect": "つなげろ！",
+      "GOTVConnect": "GOTVに接続"
     },
     "CreateMatch": {
       "FormServer": "サーバー",
@@ -500,6 +503,7 @@
       "FormServerIP": "ホスト名",
       "FormServerHint": "URLにすることもできます。",
       "FormServerPort": "サーバーポート",
+      "FormGOTVPort": "GOTVポート",
       "FormRCONPassword": "RCONパスワード",
       "FormPublicServer": "パブリックサーバー？",
       "MessageRegisterSuccess": "サーバーの登録に成功しました。",

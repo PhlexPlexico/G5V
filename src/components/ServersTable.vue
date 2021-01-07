@@ -159,6 +159,10 @@ export default {
           value: "rcon_password"
         },
         {
+          text: this.$t("ServerCreate.FormGOTVPort"),
+          value: "gotv_port"
+        },
+        {
           text: this.$t("MyServers.IsPublic"),
           value: "public_server"
         },
@@ -196,7 +200,8 @@ export default {
         port: 0,
         rcon_password: "",
         public_server: 0,
-        flag: ""
+        flag: "",
+        gotv_port: 0
       },
       formTitle: this.$t("MyServers.FormTitleNew")
     };
@@ -249,6 +254,14 @@ export default {
               return obj.value;
             })
             .indexOf("port");
+          this.selectedHeaders.splice(arrIndex, 1);
+        }
+        if (this.servers.length > 0 && this.servers[0].gotv_port == null) {
+          arrIndex = this.selectedHeaders
+            .map(obj => {
+              return obj.value;
+            })
+            .indexOf("gotv_port");
           this.selectedHeaders.splice(arrIndex, 1);
         }
       } catch (error) {
