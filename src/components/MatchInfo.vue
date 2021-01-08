@@ -82,7 +82,7 @@
       >
         {{ $t("Match.Connect") }}
       </v-btn>
-      <div v-if="serverInfo.gotv_port != null">
+      <div v-if="serverInfo.gotv_port != 0">
         <v-btn
           color="secondary"
           small
@@ -133,7 +133,8 @@ export default {
       },
       serverInfo: {
         ip_string: "",
-        port: 0
+        port: 0,
+        gotv_port: 0
       }
     };
   },
@@ -175,6 +176,7 @@ export default {
         this.matchInfo.id = this.match_id;
         this.serverInfo.ip_string = serveRes.ip_string;
         this.serverInfo.port = serveRes.port;
+        this.serverInfo.gotv_port = serveRes.gotv_port;
       } catch (error) {
         console.log(error);
       }
