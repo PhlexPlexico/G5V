@@ -82,7 +82,7 @@
       >
         {{ $t("Match.Connect") }}
       </v-btn>
-      <div v-if="serverInfo.gotv_port != 0">
+      <div v-if="serverInfo.gotv_port != null">
         <v-btn
           color="secondary"
           small
