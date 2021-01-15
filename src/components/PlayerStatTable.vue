@@ -185,6 +185,10 @@ export default {
         {
           text: this.$t("PlayerStats.ContribScore"),
           value: "contribution_score"
+        },
+        {
+          text: this.$t("PlayerStats.MVP"),
+          value: "mvp"
         }
       ],
       playerstats: [],

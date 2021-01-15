@@ -125,7 +125,8 @@
       "v5": "1v5",
       "Download": "Download Demo",
       "KAST": "KAST",
-      "ContribScore": "Contribution Score"
+      "ContribScore": "Contribution Score",
+      "MVP": "MVPs"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -434,7 +435,8 @@
       "v5": "1v5",
       "Download": "デモをダウンロード",
       "KAST": "KAST",
-      "ContribScore": "貢献度"
+      "ContribScore": "貢献度",
+      "MVP": "M V P"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",
