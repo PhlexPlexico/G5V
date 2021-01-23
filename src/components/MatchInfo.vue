@@ -32,11 +32,7 @@
         {{ matchInfo.team1_name }}
       </div>
     </div>
-    <div
-      class="final-score text-h4"
-      align="center"
-      v-if="matchInfo.end_time != null"
-    >
+    <div class="final-score text-h4" align="center">
       {{ matchInfo.team1_score }} {{ matchInfo.symbol }}
       {{ matchInfo.team2_score }}
     </div>
