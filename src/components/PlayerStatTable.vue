@@ -205,6 +205,7 @@ export default {
     async GetMapPlayerStats() {
       try {
         let res = await this.GetPlayerStats(this.match_id);
+        let getMatchTeamIds = await this.GetMatchData(this.match_id);
         if (typeof res == "string") return;
         let allMapIds = [];
         let totalMatchTeam = [];
@@ -241,7 +242,7 @@ export default {
             let hsp = this.GetHSP(player);
             let kdr = this.GetKDR(player);
             let fpr = this.GetFPR(player);
-            let teamNum = pIdx < 5 ? 1 : 2;
+            let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",
