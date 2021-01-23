@@ -573,7 +573,10 @@ export default {
             min_players_to_ready: parseInt(
               this.newMatchData.min_players_to_ready
             ),
-            players_per_team: parseInt(this.newMatchData.players_per_team)
+            players_per_team: parseInt(this.newMatchData.players_per_team),
+            min_spectators_to_ready: parseInt(
+              this.newMatchData.min_spectators_to_ready
+            )
           }
         ];
         try {
