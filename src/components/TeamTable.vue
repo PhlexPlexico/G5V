@@ -130,6 +130,20 @@
                         :label="$t('TeamCreate.FormPublicTeam') + '?'"
                       ></v-switch>
                     </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-file-input
+                        :label="$t('TeamCreate.TeamLogo')"
+                        accept="image/png"
+                        @change="getFile"
+                        truncate-length="12"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <div v-if="logoFile != null">
+                        <div center>{{ $t("TeamCreate.TeamPreview") }}</div>
+                        <img :src="logoPreview" />
+                      </div>
+                    </v-col>
                   </v-row>
                 </v-form>
               </v-container>
@@ -233,6 +247,50 @@
 </template>
 
 <script>
+const dataURItoBlob = dataURI => {
+  const bytes =
+    dataURI.split(",")[0].indexOf("base64") >= 0
+      ? atob(dataURI.split(",")[1])
+      : unescape(dataURI.split(",")[1]);
+  const mime = dataURI
+    .split(",")[0]
+    .split(":")[1]
+    .split(";")[0];
+  const max = bytes.length;
+  const ia = new Uint8Array(max);
+  for (let i = 0; i < max; i += 1) ia[i] = bytes.charCodeAt(i);
+  return new Blob([ia], { type: mime });
+};
+
+const resizeImage = file => {
+  const reader = new FileReader();
+  const image = new Image();
+  const canvas = document.createElement("canvas");
+
+  const resize = () => {
+    canvas.width = 64;
+    canvas.height = 64;
+    canvas.getContext("2d").drawImage(image, 0, 0, 64, 64);
+
+    const dataUrl = canvas.toDataURL("image/png");
+
+    return dataURItoBlob(dataUrl);
+  };
+
+  return new Promise((ok, no) => {
+    if (!file.type.match(/image.png/)) {
+      no(new Error("Not an image"));
+      return;
+    }
+
+    reader.onload = readerEvent => {
+      image.onload = () => ok(resize());
+      image.src = readerEvent.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
 export default {
   props: {
     user: Object,
@@ -286,7 +344,9 @@ export default {
       flags: [],
       formIndTitle: this.$t("Team.NewPlayer"),
       editInfo: false,
-      teamDeleted: false
+      teamDeleted: false,
+      logoFile: null,
+      logoPreview: null
     };
   },
   computed: {
@@ -426,7 +486,8 @@ export default {
               name: this.teamInfo.name,
               flag: this.teamInfo.flag,
               tag: this.teamInfo.tag,
-              public_team: this.teamInfo.public === true ? 1 : 0
+              public_team: this.teamInfo.public === true ? 1 : 0,
+              logo_file: this.logoFile
             }
           ];
           await this.UpdateTeamInfo(updatedTeam);
@@ -437,7 +498,8 @@ export default {
               flag: this.teamInfo.flag,
               logo: null,
               tag: this.teamInfo.tag,
-              public_team: this.teamInfo.public === true ? 1 : 0
+              public_team: this.teamInfo.public === true ? 1 : 0,
+              logo_file: this.logoFile
             }
           ];
           let newTeamId = await this.InsertTeamInfo(newTeam);
@@ -494,6 +556,17 @@ export default {
         this.removeAuth = {};
         this.removeIndex = -1;
       });
+    },
+    async getFile(file) {
+      if (!file) {
+        this.logoFile = null;
+        this.logoPreview = null;
+      } else if (file.type == "svg") {
+        this.logoFile = file;
+      } else {
+        this.logoFile = await resizeImage(file);
+        this.logoPreview = URL.createObjectURL(this.logoFile);
+      }
     }
   }
 };
