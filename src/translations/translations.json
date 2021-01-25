@@ -258,7 +258,9 @@
       "FormPlayer": "Player",
       "FormPublicTeam": "Public Team",
       "MessageRegisterSuccess": "Successfully registered team.",
-      "MessageeEditSuccess": "Successfully edited team."
+      "MessageeEditSuccess": "Successfully edited team.",
+      "TeamLogo": "Logo",
+      "TeamPreview": "Preview:"
     },
     "Veto": {
       "NoData": "No veto data available.",
@@ -568,7 +570,9 @@
       "FormPlayer": "プレイヤー",
       "FormPublicTeam": "チームを公開する",
       "MessageRegisterSuccess": "チームの登録に成功しました！",
-      "MessageeEditSuccess": "チームの編集に成功しました！"
+      "MessageeEditSuccess": "チームの編集に成功しました！",
+      "TeamLogo": "ロゴマーク",
+      "TeamPreview": "プレビュー:"
     },
     "Veto": {
       "NoData": "データなし。",
