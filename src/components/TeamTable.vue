@@ -18,6 +18,10 @@
       </a>
     </template>
     <v-spacer />
+    <template v-slot:item.logo="{ item }">
+      <img :src="'/api/img/'+item+'.png'" /> TEST
+    </template>
+    <v-spacer />
     <template v-slot:item.actions="{ item }">
       <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
         <v-icon :disabled="isDisabled" @click="deleteMember(item)">
@@ -56,6 +60,12 @@
         <v-toolbar-title>
           <img :src="get_flag_link(teamInfo)" style="border-radius: 5px;" />
         </v-toolbar-title>
+        <v-divider class="mx-6" inset vertical></v-divider>
+        <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
+          <v-toolbar-title>
+            <img :src="'/api/img/'+teamInfo.logo+'.png'" style="padding-top: 5px;; width: 32px; height: 32px;" />
+          </v-toolbar-title>
+        </div>
         <v-divider class="mx-6" inset vertical></v-divider>
         <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
           <v-icon :disabled="isDisabled" @click="deleteMember(null)">
@@ -291,6 +301,14 @@ const resizeImage = file => {
     reader.readAsDataURL(file);
   });
 };
+const file2Base64 = (file) => {
+    return new Promise ((resolve,reject)=> {
+         const reader = new FileReader();
+         reader.readAsDataURL(file);
+         reader.onload = () => resolve(reader.result.toString());
+         reader.onerror = error => reject(error);
+     })
+    }
 export default {
   props: {
     user: Object,
@@ -426,6 +444,7 @@ export default {
       try {
         const res = await this.GetTeamData(this.$route.params.id);
         const userData = await this.GetUserData(res.user_id);
+        console.log(res);
         this.teamInfo = {
           id: res.id,
           name: res.name,
@@ -564,8 +583,8 @@ export default {
       } else if (file.type == "svg") {
         this.logoFile = file;
       } else {
-        this.logoFile = await resizeImage(file);
-        this.logoPreview = URL.createObjectURL(this.logoFile);
+        this.logoFile = await file2Base64(await resizeImage(file));
+        this.logoPreview = URL.createObjectURL(await resizeImage(file));
       }
     }
   }
