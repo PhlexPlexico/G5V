@@ -10,7 +10,7 @@
       >
         <div v-if="matchInfo.team1.logo != null">
           <img
-            :src="'/api/img/' + matchInfo.team1.logo + '.png'"
+            :src="'/api/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px;"
           />
           {{ matchInfo.team1_name }}
@@ -33,7 +33,7 @@
       >
         <div v-if="matchInfo.team2.logo != null">
           <img
-            :src="'/api/img/' + matchInfo.team2.logo + '.png'"
+            :src="'/api/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
           />
           {{ matchInfo.team2_name }}

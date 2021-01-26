@@ -19,7 +19,7 @@
     </template>
     <v-spacer />
     <template v-slot:item.logo="{ item }">
-      <img :src="'/api/img/'+item+'.png'" /> TEST
+      <img :src="'/api/static/img/logos/'+item+'.png'" />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -63,7 +63,7 @@
         <v-divider class="mx-6" inset vertical></v-divider>
         <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
           <v-toolbar-title>
-            <img :src="'/api/img/'+teamInfo.logo+'.png'" style="padding-top: 5px;; width: 32px; height: 32px;" />
+            <img :src="'/api/static/img/logos/'+teamInfo.logo+'.png'" style="padding-top: 5px;; width: 32px; height: 32px;" />
           </v-toolbar-title>
         </div>
         <v-divider class="mx-6" inset vertical></v-divider>
