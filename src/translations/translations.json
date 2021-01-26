@@ -155,7 +155,8 @@
       "Team2": "Team 2",
       "Status": "Status",
       "Server": "Server",
-      "Owner": "Owner"
+      "Owner": "Owner",
+      "DeleteButton": "Delete My Cancelled Matches"
     },
     "Metrics": {
       "Get5Metrics": "Get5 Metrics",
@@ -467,7 +468,8 @@
       "Team2": "チーム 2",
       "Status": "状態",
       "Server": "サーバ",
-      "Owner": "オーナー"
+      "Owner": "オーナー",
+      "DeleteButton": "キャンセルされたマッチを削除する"
     },
     "Metrics": {
       "Get5Metrics": "Get5 メトリクス",

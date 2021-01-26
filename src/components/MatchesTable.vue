@@ -49,6 +49,18 @@
         {{ item.team2_string }}
       </div>
     </template>
+    <template v-slot:top>
+      <div v-if="isMyMatches && isThereCancelledMatches">
+        <v-toolbar flat>
+          <v-toolbar-title>
+            <v-btn primary @click="deleteCancelled" :loading="deletePending">
+              {{ $t("Matches.DeleteButton") }}
+            </v-btn>
+          </v-toolbar-title>
+        </v-toolbar>
+      </div>
+      <div v-else />
+    </template>
   </v-data-table>
 </template>
 
@@ -84,7 +96,9 @@ export default {
         }
       ],
       matches: [],
-      isLoading: true
+      isLoading: true,
+      deletePending: false,
+      isThereCancelledMatches: false
     };
   },
   created() {
@@ -97,6 +111,9 @@ export default {
         this.$route.path != "/" &&
         !this.$route.path.toString().includes("season")
       );
+    },
+    isMyMatches() {
+      return this.$route.path == "/mymatches";
     }
   },
   methods: {
@@ -114,20 +131,32 @@ export default {
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
         if (typeof res == "string") res = [];
-        res.forEach(async match => {
-          const ownerRes = await this.GetUserData(match.user_id);
-          let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
-          const statusRes = await this.GetMatchResult(teamId, match.id);
-          match.owner = ownerRes.name;
-          match.match_status = statusRes;
-          this.matches.push(match);
-        });
+        else {
+          res.forEach(async match => {
+            const ownerRes = await this.GetUserData(match.user_id);
+            let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
+            const statusRes = await this.GetMatchResult(teamId, match.id);
+            match.owner = ownerRes.name;
+            match.match_status = statusRes;
+            if (match.cancelled == 1) this.isThereCancelledMatches = true;
+            this.matches.push(match);
+          });
+        }
       } catch (error) {
         console.log(error);
       } finally {
         this.isLoading = false;
       }
       return;
+    },
+    async deleteCancelled() {
+      this.deletePending = true;
+      await this.DeleteMyCancelledMatches();
+      this.deletePending = false;
+      this.matches = [];
+      this.isLoading = true;
+      this.isThereCancelledMatches = false;
+      await this.GetMatches();
     }
   }
 };

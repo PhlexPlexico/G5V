@@ -311,6 +311,23 @@ export default {
       }
       return message;
     },
+    async DeleteMyCancelledMatches() {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/matches/",
+          data: [{all_cancelled: true}],
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
     // END MATCH CALLS
     // BEGIN SERVER CALLS
     async GetServerData(serverid) {

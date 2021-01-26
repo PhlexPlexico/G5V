@@ -10,7 +10,16 @@
     :items-per-page="5"
   >
     <template v-slot:item.tag="{ item }">
-      <img :src="item.tag" style="border-radius: 15px;" />
+      <img
+        :src="item.tag"
+        style="border-radius: 15px;"
+        v-if="$vuetify.breakpoint.mdAndUp"
+      />
+      <img
+        :src="item.tag"
+        style="border-radius: 15px; width:32px; height:32px;"
+        v-else
+      />
     </template>
     <template v-slot:item.username="{ item }">
       <a :href="GetSteamURL(item.steamid)" target="_blank">
@@ -19,7 +28,7 @@
     </template>
     <v-spacer />
     <template v-slot:item.logo="{ item }">
-      <img :src="'/api/static/img/logos/'+item+'.png'" />
+      <img :src="'/api/static/img/logos/' + item + '.png'" />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -53,26 +62,61 @@
     </template>
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>{{ teamInfo.name }}</v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
-        <v-toolbar-title>{{ teamInfo.tag }}</v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
-        <v-toolbar-title>
+        <v-toolbar-title
+          v-if="
+            !(IsAnyAdmin(user) || user.id == teamInfo.owner_id) &&
+              $vuetify.breakpoint.mdAndDown
+          "
+          >{{ teamInfo.name }}</v-toolbar-title
+        >
+        <v-toolbar-title
+          v-else-if="
+              $vuetify.breakpoint.mdAndUp
+          "
+          >{{ teamInfo.name }}</v-toolbar-title
+        >
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
+        <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
+          {{ teamInfo.tag }}
+        </v-toolbar-title>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
+        <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
           <img :src="get_flag_link(teamInfo)" style="border-radius: 5px;" />
         </v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
         <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
           <v-toolbar-title>
             <img :src="'/api/static/img/logos/'+teamInfo.logo+'.png'" style="padding-top: 5px;; width: 32px; height: 32px;" />
           </v-toolbar-title>
         </div>
-        <v-divider class="mx-6" inset vertical></v-divider>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
         <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
           <v-icon :disabled="isDisabled" @click="deleteMember(null)">
             mdi-delete
           </v-icon>
         </div>
         <div v-else />
+
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
@@ -89,6 +133,18 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                v-if="$vuetify.breakpoint.mdAndUp"
+              >
+                {{ formTitle }}
+              </v-btn>
+              <v-btn
+                :disabled="isDisabled"
+                color="primary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+                v-else
+                x-small
               >
                 {{ formTitle }}
               </v-btn>
@@ -179,6 +235,18 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                v-if="$vuetify.breakpoint.mdAndUp"
+              >
+                {{ memberButtonTitle }}
+              </v-btn>
+              <v-btn
+                :disabled="isMembersDisabled"
+                color="secondary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+                v-else
+                x-small
               >
                 {{ memberButtonTitle }}
               </v-btn>
