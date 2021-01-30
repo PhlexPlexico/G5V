@@ -126,7 +126,8 @@
       "Download": "Download Demo",
       "KAST": "KAST",
       "ContribScore": "Contribution Score",
-      "MVP": "MVPs"
+      "MVP": "MVPs",
+      "RefreshData": "You may refresh the data in {sec} seconds"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -439,7 +440,8 @@
       "Download": "デモをダウンロード",
       "KAST": "KAST",
       "ContribScore": "貢献度",
-      "MVP": "M V P"
+      "MVP": "M V P",
+      "RefreshData": "でデータを更新することができます。{sec} セコンド"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",
