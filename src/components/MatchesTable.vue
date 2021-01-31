@@ -134,7 +134,8 @@ export default {
         else {
           res.forEach(async match => {
             const ownerRes = await this.GetUserData(match.user_id);
-            let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
+            let teamId =
+              match.team1_id == null ? match.team2_id : match.team1_id;
             const statusRes = await this.GetMatchResult(teamId, match.id);
             match.owner = ownerRes.name;
             match.match_status = statusRes;

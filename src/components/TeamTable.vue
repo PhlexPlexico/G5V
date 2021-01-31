@@ -69,12 +69,9 @@
           "
           >{{ teamInfo.name }}</v-toolbar-title
         >
-        <v-toolbar-title
-          v-else-if="
-              $vuetify.breakpoint.mdAndUp
-          "
-          >{{ teamInfo.name }}</v-toolbar-title
-        >
+        <v-toolbar-title v-else-if="$vuetify.breakpoint.mdAndUp">
+          {{ teamInfo.name }}
+        </v-toolbar-title>
         <v-divider
           v-if="$vuetify.breakpoint.mdAndUp"
           class="mx-6"
@@ -101,7 +98,10 @@
         />
         <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
           <v-toolbar-title>
-            <img :src="'/api/static/img/logos/'+teamInfo.logo+'.png'" style="padding-top: 5px;; width: 32px; height: 32px;" />
+            <img
+              :src="'/api/static/img/logos/' + teamInfo.logo + '.png'"
+              style="padding-top: 5px;; width: 32px; height: 32px;"
+            />
           </v-toolbar-title>
         </div>
         <v-divider
@@ -369,14 +369,14 @@ const resizeImage = file => {
     reader.readAsDataURL(file);
   });
 };
-const file2Base64 = (file) => {
-    return new Promise ((resolve,reject)=> {
-         const reader = new FileReader();
-         reader.readAsDataURL(file);
-         reader.onload = () => resolve(reader.result.toString());
-         reader.onerror = error => reject(error);
-     })
-    }
+const file2Base64 = file => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.toString());
+    reader.onerror = error => reject(error);
+  });
+};
 export default {
   props: {
     user: Object,
@@ -512,7 +512,6 @@ export default {
       try {
         const res = await this.GetTeamData(this.$route.params.id);
         const userData = await this.GetUserData(res.user_id);
-        console.log(res);
         this.teamInfo = {
           id: res.id,
           name: res.name,
