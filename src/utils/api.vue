@@ -318,7 +318,7 @@ export default {
         res = await axios({
           method: "delete",
           url: "/api/matches/",
-          data: [{all_cancelled: true}],
+          data: [{ all_cancelled: true }],
           headers: { "Content-Type": "application/json" },
           withCredentials: true
         });
