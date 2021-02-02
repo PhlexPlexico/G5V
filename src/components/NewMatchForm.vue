@@ -115,107 +115,11 @@
               </strong>
             </div>
             <v-row class="justify-center">
-              <v-col lg="1" sm="12">
+              <v-col lg="1" sm="12" v-for="maps in MapList" :key="maps.id">
                 <v-checkbox
                   v-model="newMatchData.map_pool"
-                  label="Dust 2"
-                  value="de_dust2"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Mirage"
-                  value="de_mirage"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Inferno"
-                  value="de_inferno"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Overpass"
-                  value="de_overpass"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Train"
-                  value="de_train"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Nuke"
-                  value="de_nuke"
-                  :rules="[
-                    () =>
-                      newMatchData.map_pool.length > 0 ||
-                      $t('CreateMatch.MapChoiceError'),
-                    () =>
-                      newMatchData.map_pool.length >
-                        newMatchData.maps_to_win - 1 ||
-                      $t('CreateMatch.MapNotEnough')
-                  ]"
-                />
-              </v-col>
-              <v-col lg="1" sm="12">
-                <v-checkbox
-                  v-model="newMatchData.map_pool"
-                  label="Vertigo"
-                  value="de_vertigo"
+                  :value="maps.map_name"
+                  :label="maps.map_display_name"
                   :rules="[
                     () =>
                       newMatchData.map_pool.length > 0 ||
@@ -423,7 +327,8 @@ export default {
     response: "",
     responseSheet: false,
     newMatchId: null,
-    isLoading: false
+    isLoading: false,
+    MapList: []
   }),
   computed: {
     currentTitle() {
@@ -506,6 +411,7 @@ export default {
     else this.teams = await this.GetMyTeams();
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];
+    this.MapList = await this.GetUserMapList(this.user.id);
   },
   methods: {
     async ReloadServers() {

@@ -53,6 +53,28 @@ export default {
       }
       return message;
     },
+    async GetUserMapList(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/maps/${userid}`);
+        message = res.data.maplist;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
+    async GetUserEnabledMapList(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/maps/${userid}/enabled`);
+        message = res.data.maplist;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
     async GetUserRecentMatches(userid) {
       let res;
       let message;
