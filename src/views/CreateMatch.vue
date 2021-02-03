@@ -3,7 +3,7 @@
     <v-row class="pb-5">
       <v-col cols="12" class="flex-grow-1">
         <v-card>
-          <NewMatchForm :user="user" />
+          <NewMatchForm :user="user" v-if="user.id != -1" />
         </v-card>
       </v-col>
     </v-row>
