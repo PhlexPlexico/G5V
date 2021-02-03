@@ -447,7 +447,7 @@ export default {
         if (this.$route.path == "/myseasons") res = await this.GetMySeasons();
         else res = await this.GetAllSeasons();
         if (typeof res == "string") res = [];
-        this.MapList = await this.GetUserMapList(this.user.id);
+        this.MapList = await this.GetUserEnabledMapList(this.user.id);
         res.forEach(async season => {
           const ownerRes = await this.GetUserData(season.user_id);
           season.owner = ownerRes.name;

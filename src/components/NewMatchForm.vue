@@ -411,7 +411,7 @@ export default {
     else this.teams = await this.GetMyTeams();
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];
-    this.MapList = await this.GetUserMapList(this.user.id);
+    this.MapList = await this.GetUserEnabledMapList(this.user.id);
   },
   methods: {
     async ReloadServers() {
