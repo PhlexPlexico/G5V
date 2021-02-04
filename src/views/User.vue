@@ -80,7 +80,7 @@
     </v-container>
     <v-container v-if="retrievedUser.id == user.id || IsAnyAdmin(user)">
       <v-card-title class="headline">
-        {{ $t("User.UserMaps") }}
+        {{ $t("User.UserMaps", { players: retrievedUser.name }) }}
       </v-card-title>
       <MapList v-if="retrievedUser.id != -1" :user="retrievedUser" />
     </v-container>

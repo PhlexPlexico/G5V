@@ -251,8 +251,12 @@
       "ClaimUser": "Sign in with account to claim this user!",
       "SuperAdmin": "Super Admin",
       "Admin": "Admin",
-      "UserMaps": "Your Maps",
-      "MapEnabled": "Enabled"
+      "UserMaps": "{players}'s Maps",
+      "MapEnabled": "Enabled",
+      "MapEdit": "Edit",
+      "MapSave": "Save",
+      "MapDisplayName": "Display Name",
+      "MapName": "Map Name"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",

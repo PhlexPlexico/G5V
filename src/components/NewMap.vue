@@ -8,10 +8,10 @@
           cols="12"
           sm="12"
           md="12"
-          lg="2"
+          lg="3"
         >
           <div class="justify-space-between">
-            <v-card elevation="3">
+            <v-card dense elevation="3" min-height="">
               <v-card-title> {{ mapInfo.map_display_name }} </v-card-title>
               <v-card-subtitle
                 >{{ mapInfo.map_name }}
@@ -22,7 +22,7 @@
                   disabled
                 />
               </v-card-subtitle>
-              <v-card-actions>
+              <v-card-actions class="pt-0">
                 <v-btn
                   class="ml-2 mt-3"
                   fab
@@ -48,29 +48,43 @@
               <v-expand-transition>
                 <v-card
                   v-if="mapInfo.reveal"
-                  class="transition-fast-in-fast-out v-card--reveal"
-                  style="height: 100%;"
+                  class="transition-fast-in-fast-out v-card--reveal pt-0"
                 >
-                  <v-card-title>Edit</v-card-title>
-                  <v-card-text class="pb-0">
-                  <v-checkbox
-                    v-model="mapInfo.enabled"
-                    :label="$t('User.MapEnabled')"
-                  />
-                  </v-card-text>
+                  <v-card-title>
+                    {{ $t("User.MapEdit") }}
+                  </v-card-title>
+                  <v-card-subtitle>
+                    <v-text-field
+                      v-model="mapInfo.map_display_name"
+                      :label="$t('User.MapDisplayName')"
+                      dense
+                    />
+                    <v-text-field
+                      v-model="mapInfo.map_name"
+                      :label="$t('User.MapName')"
+                      dense
+                    />
+                    <v-checkbox
+                      v-model="mapInfo.enabled"
+                      :label="$t('User.MapEnabled')"
+                      dense
+                    />
+                  </v-card-subtitle>
                   <v-card-actions class="pt-0">
                     <v-btn
                       text
                       color="teal accent-4"
-                      @click="UpdateMapInfo(mapInfo)"
+                      @click="
+                        UpdateMapInfo(mapInfo);
+                        mapInfo.reveal = false;
+                      "
                     >
-                      Close
+                      {{ $t("User.MapSave") }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-expand-transition>
             </v-card>
-
           </div>
         </v-col>
       </v-row>
@@ -110,20 +124,16 @@ export default {
     },
     async UpdateMapInfo(mapInfo) {
       try {
-        console.log(mapInfo);
         let updateMapData = [
-        {
-          id: mapInfo.id,
-          map_name: mapInfo.map_name,
-          map_display_name: mapInfo.map_display_name,
-          enabled: mapInfo.enabled
-        }
-      ];
+          {
+            id: mapInfo.id,
+            map_name: mapInfo.map_name,
+            map_display_name: mapInfo.map_display_name,
+            enabled: mapInfo.enabled
+          }
+        ];
         await this.UpdateUserMap(updateMapData);
-        // Replace the data in the array instead?
-        this.MapList = [];
-        await this.GetMapInfo();
-      } catch(error) {
+      } catch (error) {
         console.log(error);
       }
     }
