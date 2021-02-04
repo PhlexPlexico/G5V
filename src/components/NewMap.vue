@@ -30,6 +30,10 @@
                   height="40px"
                   right
                   width="40px"
+                  @click="
+                    selectedMap = mapInfo;
+                    deleteDialog = true;
+                  "
                 >
                   <v-icon>mdi-delete</v-icon>
                 </v-btn>
@@ -89,6 +93,17 @@
         </v-col>
       </v-row>
     </v-item-group>
+    <v-dialog v-model="deleteDialog">
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="darken-1" text @click="deleteDialog = false">
+          {{ $t("misc.Cancel") }}
+        </v-btn>
+        <v-btn color="primary" text @click="deleteDialog = false">
+          {{ $t("misc.Save") }}
+        </v-btn>
+      </v-card-actions>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -100,7 +115,9 @@ export default {
   data() {
     return {
       MapList: [],
-      Selected: []
+      Selected: [],
+      deleteDialog: false,
+      selectedMap: null
     };
   },
   created() {
