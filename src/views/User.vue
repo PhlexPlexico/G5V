@@ -78,16 +78,25 @@
       </v-card-title>
       <MatchesTable v-if="retrievedUser.id != ''" :user="retrievedUser" />
     </v-container>
+    <v-container v-if="retrievedUser.id == user.id || IsAnyAdmin(user)">
+      <v-card-title class="headline">
+        {{ $t("User.UserMaps") }}
+      </v-card-title>
+      <MapList v-if="retrievedUser.id != -1" :user="retrievedUser" />
+    </v-container>
   </v-card>
 </template>
 <script>
 import MatchesTable from "@/components/MatchesTable";
 import PlayerStats from "@/components/PlayerStatInfo";
+import MapList from "@/components/NewMap";
+
 export default {
   name: "User",
   components: {
     MatchesTable,
-    PlayerStats
+    PlayerStats,
+    MapList
   },
   data() {
     return {

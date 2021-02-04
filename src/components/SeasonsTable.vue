@@ -190,52 +190,43 @@
                 <v-row class="justify-center">
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.PlayersPerTeam") }}
-                    <v-text-field
-                      v-model="seasonDefaults.players_per_team"
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                    <v-slider
+                      v-model="newMatchData.players_per_team"
+                      single-line
+                      :min="1"
+                      :max="5"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.MinPlayersReady") }}
-                    <v-text-field
-                      v-model="seasonDefaults.min_players_to_ready"
+                    <v-slider
+                      v-model="newMatchData.min_players_to_ready"
                       single-line
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                      :min="1"
+                      :max="5"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.SpectatorsToReady") }}
-                    <v-text-field
-                      v-model="seasonDefaults.min_spectators_to_ready"
+                    <v-slider
+                      v-model="newMatchData.min_spectators_to_ready"
                       single-line
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                      :min="0"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                 </v-row>

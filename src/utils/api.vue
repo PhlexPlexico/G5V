@@ -75,6 +75,17 @@ export default {
       }
       return message;
     },
+    async UpdateUserMap(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put(`/api/maps/`, mapdata);
+        message = res.data;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
     async GetUserRecentMatches(userid) {
       let res;
       let message;

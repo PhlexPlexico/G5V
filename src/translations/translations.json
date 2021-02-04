@@ -250,7 +250,9 @@
       "Past5": "Past 5 Matches",
       "ClaimUser": "Sign in with account to claim this user!",
       "SuperAdmin": "Super Admin",
-      "Admin": "Admin"
+      "Admin": "Admin",
+      "UserMaps": "Your Maps",
+      "MapEnabled": "Enabled"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -564,7 +566,9 @@
       "Past5": "過去5試合",
       "ClaimUser": "サインイン に 請求 ユーザー!",
       "SuperAdmin": "スーパー管理者",
-      "Admin": "管理者"
+      "Admin": "管理者",
+      "UserMaps": "あなたのマップ",
+      "MapEnabled": "イネーブル"
     },
     "TeamCreate": {
       "FormTeamName": "チーム名",
