@@ -112,6 +112,14 @@
             <div>
               <strong>
                 {{ $t("CreateMatch.FormMapPool") }}
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn v-bind="attrs" v-on="on" x-small fab icon>
+                      <v-icon>mdi-information</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>{{ $t("CreateMatch.FormMapExplanation") }}</span>
+                </v-tooltip>
               </strong>
             </div>
             <v-row class="justify-center">

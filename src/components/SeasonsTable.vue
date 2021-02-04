@@ -191,7 +191,7 @@
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.PlayersPerTeam") }}
                     <v-slider
-                      v-model="newMatchData.players_per_team"
+                      v-model="seasonDefaults.players_per_team"
                       single-line
                       :min="1"
                       :max="5"
@@ -205,7 +205,7 @@
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.MinPlayersReady") }}
                     <v-slider
-                      v-model="newMatchData.min_players_to_ready"
+                      v-model="seasonDefaults.min_players_to_ready"
                       single-line
                       :min="1"
                       :max="5"
@@ -219,7 +219,7 @@
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.SpectatorsToReady") }}
                     <v-slider
-                      v-model="newMatchData.min_spectators_to_ready"
+                      v-model="seasonDefaults.min_spectators_to_ready"
                       single-line
                       :min="0"
                       :thumb-size="24"
@@ -231,7 +231,17 @@
                   </v-col>
                 </v-row>
                 <v-col cols="12" class="text-center text-h6">
-                  {{ $t("CreateMatch.FormMapPool") }}
+                  <strong>
+                    {{ $t("CreateMatch.FormMapPool") }}
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" x-small fab icon>
+                          <v-icon>mdi-information</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ $t("CreateMatch.FormMapExplanation") }}</span>
+                    </v-tooltip>
+                  </strong>
                 </v-col>
                 <v-row no-gutters class="justify-center">
                   <v-col lg="1" sm="12" v-for="maps in MapList" :key="maps.id">

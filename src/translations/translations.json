@@ -72,6 +72,7 @@
       "FormMatchTitle": "Match Title text",
       "FormSeriesType": "Series Type",
       "FormMapPool": "Map Pool",
+      "FormMapExplanation": "If you wish to have more maps, visit your user profile to add/edit/remove maps!",
       "FormCVARS": "CVARs",
       "MessageRegisterSuccess": "Successfully registered match.",
       "ServerLabel": "Server",
@@ -256,7 +257,10 @@
       "MapEdit": "Edit",
       "MapSave": "Save",
       "MapDisplayName": "Display Name",
-      "MapName": "Map Name"
+      "MapName": "Map Name",
+      "MapDeleteTitle": "Delete Map?",
+      "MapDeleteExplain": "Are you sure you wish to delete {map}?",
+      "MapNew": "New Map"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -392,6 +396,7 @@
       "FormMatchTitle": "マッチタイトル",
       "FormSeriesType": "シリーズ",
       "FormMapPool": "マッププール",
+      "FormMapExplanation": "より多くのマップを持ちたい場合は、ユーザープロフィールにアクセスしてマップを追加/編集/削除してください!",
       "FormCVARS": "CVARs",
       "MessageRegisterSuccess": "マッププール",
       "ServerLabel": "サーバ",
@@ -571,8 +576,15 @@
       "ClaimUser": "サインイン に 請求 ユーザー!",
       "SuperAdmin": "スーパー管理者",
       "Admin": "管理者",
-      "UserMaps": "あなたのマップ",
-      "MapEnabled": "イネーブル"
+      "UserMaps": "{players} の地図",
+      "MapEnabled": "有効化された",
+      "MapEdit": "編集",
+      "MapSave": "保存",
+      "MapDisplayName": "表示名",
+      "MapName": "地図名",
+      "MapDeleteTitle": "地図を削除する？",
+      "MapDeleteExplain": "削除してもよろしいですか {map}？",
+      "MapNew": "新しい地図"
     },
     "TeamCreate": {
       "FormTeamName": "チーム名",

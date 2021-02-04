@@ -86,6 +86,34 @@ export default {
       }
       return message;
     },
+    async DeleteUserMap(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/maps/",
+          data: mapdata,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async InsertUserMapInfo(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/maps/", mapdata);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetUserRecentMatches(userid) {
       let res;
       let message;
