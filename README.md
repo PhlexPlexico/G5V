@@ -56,5 +56,13 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 ![](./screenshots/ProfilePage.png)
 ![](./screenshots/ServersPage.png)
 
+# Used By
+Here are a few organizations that have used this webpanel for tournaments/pugs/seasons:
+
+ - [Irish Challenger League](https://www.iclhub.ie/)
+ - PixlWalk
+
+Want your org to be here? Shoot me a DM on Twitter or email and I can add it to the list!
+
 # License
 This project is licensed under [MIT License](http://opensource.org/licenses/MIT). A copy of this license **must be included with the software**.
