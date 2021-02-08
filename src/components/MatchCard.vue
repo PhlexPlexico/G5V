@@ -79,7 +79,7 @@ export default {
     },
     imageError(matchIdx) {
       console.log(this.matches[matchIdx].map_name);
-      this.matches[matchIdx].map_name = '_unknown';
+      this.matches[matchIdx].map_name = "_unknown";
       return;
     }
   },

@@ -61,12 +61,13 @@
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="4">
                     <v-text-field
-                      v-model="serverInfo.gotv_port"
+                      v-model.number="serverInfo.gotv_port"
                       :label="$t('ServerCreate.FormGOTVPort')"
                       ref="GotvPort"
                       type="number"
                       :rules="[
                         () =>
+                          serverInfo.gotv_port == null ||
                           (serverInfo.gotv_port > 0 &&
                             serverInfo.gotv_port < 65536) ||
                           $t('ServerCreate.PortRangeIncorrect')
