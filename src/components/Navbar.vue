@@ -35,6 +35,10 @@
           active-class="primary--text text--accent-4"
         >
           <v-list-item index="Home" :to="'/'">
+            <v-list-item-title>{{ $t("Navbar.Home") }}</v-list-item-title>
+          </v-list-item>
+
+          <v-list-item index="Matches" :to="'/matches'">
             <v-list-item-title>{{ $t("Navbar.AllMatches") }}</v-list-item-title>
           </v-list-item>
 

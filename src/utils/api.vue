@@ -339,6 +339,17 @@ export default {
       }
       return message;
     },
+    async GetLimitMatches(limit) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/limit/${limit}`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMyMatches() {
       let res;
       let message;
@@ -650,11 +661,11 @@ export default {
       }
       return message;
     },
-    async GetSingleMapStat(matchid, mapid) {
+    async GetSingleMapStat(matchid, mapnumber) {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapid}`);
+        res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapnumber}`);
         message = res.data.mapstat;
       } catch (error) {
         message = error.response.data.message;

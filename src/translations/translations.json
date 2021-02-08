@@ -14,7 +14,8 @@
       "MySeasons": "My Seasons",
       "Logout": "Logout",
       "DarkMode": "Toggle Dark Mode",
-      "PlayerLeader": "Player Leaderboard"
+      "PlayerLeader": "Player Leaderboard",
+      "Home": "Home"
     },
     "MatchAdmin": {
       "AdminTools": "Admin Actions",
@@ -338,7 +339,8 @@
       "MySeasons": "私の季節",
       "Logout": "ログアウト",
       "DarkMode": "ダークモードを切り替えます",
-      "PlayerLeader": "プレイヤーリーダーボード"
+      "PlayerLeader": "プレイヤーリーダーボード",
+      "Home": "ホーム"
     },
     "MatchAdmin": {
       "AdminTools": "管理者ツール",
