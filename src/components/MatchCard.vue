@@ -29,7 +29,7 @@
               BO{{ mtch.max_maps }}
             </v-card-subtitle>
             <v-card-text class="text-center text-h2">
-              {{ mtch.team1_score }} : {{ mtch.team1_score }}
+              {{ mtch.team1_score }} : {{ mtch.team2_score }}
             </v-card-text>
           </v-card>
         </v-img>
