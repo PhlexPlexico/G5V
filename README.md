@@ -1,7 +1,7 @@
 # Get5Vue - Front-end website for G5API
-_**Status: Beta. Under active development.**_
+_**Status: Under active development.**_
 
-Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ this is a basic implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
+Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ this is an implementation for the extent of [G5API](https://github.com/phlexplexico/G5API) and is going to focus on basic features of presenting data.
 
 
 ## Features
@@ -10,34 +10,36 @@ Get5Vue (G5V) is going to be a replacement for the get5-webpanel. _Currently_ th
 - Add servers to play on.
 - Create matches that load on selected servers.
 - Control matches with RCON Commands through the match panel.
-- Dark mode!
-- Translations!
+- Dark mode
+- Translations
+- Leaderboards
+- Individual User Stats
 
-## What does it NOT do?
-One of the features currently missing is the ability to see leaderboards and statistics over time. You can look at individual match scores and see the way the match played out. Please note that the API and the panel may still be buggy. Please report any *match* issues to the [API](https://github.com/phlexplexico/G5API). Display issues, please report them here.
+## Issues?
+Please report any *match* issues to the [API](https://github.com/phlexplexico/G5API). Display issues, or loading data, please report them here. If it's something to do with the API, the issue will be transferred.
 
 ## Why?
 [Get5-webpanel](https://github.com/phlexplexico/get5-webpanel) is a now out-dated webpanel, with python2.7 being officially EOL. Being built all on Flask, with ORM (SQLAlchemy), and Jinja2, its tech spans more than a few years old. While it works really well for now, it is becoming increasingly harder to deploy to more modern hardware/software (such as Ubuntu 19) to ensure easy setup.
 
-The intent will to be provide similar functionality with the use of [G5API](https://github.com/phlexplexico/G5API) and Vue (with vuetify!), so it is a more responsive, ~~mobile-friendly website~~ (this is a WIP I *swear*), as opposed to the old one. 
+The intent will to be provide similar functionality with the use of [G5API](https://github.com/phlexplexico/G5API) and Vue (with vuetify!), so it is a more responsive, mobile-friendly website, as opposed to the old one. 
 
 ## Building
 In order to build this application, I've opted to use [Yarn](https://yarnpkg.com/lang/en/).
 
 You will also need a working instance of G5API. The setup can be found at that repos [configuration](https://github.com/PhlexPlexico/G5API/wiki/Configuration).
 
-### Build and run: 
+### Build and run development server: 
 ```yarn serve``` 
 
-Spins up a development server where you can make all your calls. 
+Spins up a development server where you can make all your calls, and run it like the current website that is in the sidebar!
 
 ### Production: 
 ```yarn build```
 
-This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled.
+This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled, and reverse proxy enabled for the API calls. There is some setup involved, depending on your flavour of web servers, but some setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
 ## Contribution
-Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed. This project won't be finished anytime soon, as I'm still learning on how to use various front-end tools. But feel free to start working on some routes/new pages and submit them!
+Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed.
 
 ### Special Thanks
 - [Shugo "FlowingSPDG" Kawamura](https://github.com/FlowingSPDG) for letting me pester him with questions and get5-web-go, and the initial translations!
@@ -60,7 +62,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 Here are a few organizations that have used this webpanel for tournaments/pugs/seasons:
 
  - [Irish Challenger League](https://www.iclhub.ie/)
- - PixlWalk
+ - [PixlWalk](https://discord.gg/R7VRhtzhj8)
 
 Want your org to be here? Shoot me a DM on Twitter or email and I can add it to the list!
 
