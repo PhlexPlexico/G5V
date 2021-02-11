@@ -32,7 +32,7 @@ const routes = [
   {
     path: "/mymatches",
     name: "My Matches",
-    component: () => import(/* webpackChunkName: "Home" */ "../views/Home.vue")
+    component: () => import(/* webpackChunkName: "Home" */ "../views/Matches.vue")
   },
   {
     path: "/myteams",
