@@ -62,7 +62,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 Here are a few organizations that have used this webpanel for tournaments/pugs/seasons:
 
  - [Irish Challenger League](https://www.iclhub.ie/)
- - [PixlWalk](https://discord.gg/R7VRhtzhj8)
+ - [PixlWalk](https://discord.gg/dUN5G5ttQ5)
 
 Want your org to be here? Shoot me a DM on Twitter or email and I can add it to the list!
 

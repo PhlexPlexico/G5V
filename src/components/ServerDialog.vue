@@ -189,6 +189,7 @@ export default {
   },
   methods: {
     async saveServer() {
+      let refreshGrid = true;
       if (this.$refs.serverForm.validate()) {
         this.serverLoading = true;
         let serverRes;
@@ -214,12 +215,14 @@ export default {
         }
         if (serverRes.includes("inserted"))
           this.response = this.$t("ServerCreate.MessageRegisterSuccess");
-        else if (serverRes.includes("updated"))
+        else if (serverRes.includes("updated")) {
           this.response = this.$t("ServerCreate.MessageeEditSuccess");
+          refreshGrid = false;
+        }
         else this.response = serverRes;
+        this.$emit("is-new-server", refreshGrid);
         this.responseSheet = true;
         this.show = false;
-        this.$emit("is-new-server", true);
         this.serverLoading = false;
       }
     }

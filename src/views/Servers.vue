@@ -1,6 +1,6 @@
 <template>
   <v-container class="servers" fluid>
-    <ServersTable :user="user" />
+    <ServersTable v-if="user.id != -1" :user="user" />
   </v-container>
 </template>
 
