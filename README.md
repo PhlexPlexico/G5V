@@ -38,6 +38,25 @@ Spins up a development server where you can make all your calls, and run it like
 
 This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled, and reverse proxy enabled for the API calls. There is some setup involved, depending on your flavour of web servers, but some setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
+### Docker Build Instructions:
+There are 2 dockerfiles included, ```DockerfileLight``` and ```DockerfileFull```.
+
+#### DockerfileLight:
+This should be used if yarn is already installed on your local machine. 
+To use it, you first need to build the application using ```yarn``` and ```yarn build```. This will create a dist folder. 
+From here, run the command ```docker build -t yourname\g5v:latest -f DockerfileLight .```
+Now, you can run your application by running ```docker container run --name g5v -p 80:80 yourname\g5v:latest```
+
+#### DockerfileFull:
+This should be used if you do not have yarn, and do not want to install it. 
+This file will install yarn in the container, build the application, and execute it. 
+To use it, run ```docker build -t yourname\g5v:latest -f DockerfileFull .```
+This can take over a minute to complete.
+Now, you can run your application by running ```docker container run --name g5v -p 80:80 yourname\g5v:latest```
+
+Please note that both of the dockerfiles still require G5API to be running on the subfolder /api/.
+Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
+
 ## Contribution
 Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed.
 
