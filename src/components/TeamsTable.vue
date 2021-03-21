@@ -73,7 +73,11 @@ export default {
         await res.forEach(async team => {
           const ownerRes = await this.GetUserData(team.user_id);
           team.owner = ownerRes.name;
-          if (team.user_id == this.user.id || (team.public_team == 1 || (await this.IsAnyAdmin(this.user)))) {
+          if (
+            team.user_id == this.user.id ||
+            team.public_team == 1 ||
+            (await this.IsAnyAdmin(this.user))
+          ) {
             this.teams.push(team);
           }
         });

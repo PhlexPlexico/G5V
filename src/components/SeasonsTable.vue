@@ -137,7 +137,10 @@
                           v-on="on"
                           readonly
                           :label="$t('Seasons.DateTitle')"
-                          :rules="[v => !!v || $t('misc.Required')]"
+                          :rules="[
+                            v => !!v || $t('misc.Required'),
+                            rules.dateLessThan
+                          ]"
                         />
                       </template>
                       <v-date-picker
@@ -404,7 +407,16 @@ export default {
       },
       datemenu: false,
       formTitle: this.$t("Seasons.NewFormTitle"),
-      MapList: []
+      MapList: [],
+      rules: {
+        dateLessThan: v => {
+          let tmpDateArr = v.split(" ~ ");
+          if (tmpDateArr[1] == undefined) {
+            return true;
+          } else
+            return tmpDateArr[0] <= tmpDateArr[1] || this.$t("misc.LessThan");
+        }
+      }
     };
   },
   mounted() {

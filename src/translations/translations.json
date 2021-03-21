@@ -316,7 +316,8 @@
       "ValueMustBeNumber": "Value must be a number.",
       "GreaterThanZero": "Value must be greater than zero.",
       "PLeader": "Player Leaderboard",
-      "TWins": "Total Wins"
+      "TWins": "Total Wins",
+      "LessThan": "Date two must be greater than or equal to date one."
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -641,7 +642,8 @@
       "ValueMustBeNumber": "値は数値でなければなりません。",
       "GreaterThanZero": "値はゼロより大きくなければなりません。",
       "PLeader": "プレイヤーリーダーボード",
-      "TWins": "合計勝利数"
+      "TWins": "合計勝利数",
+      "LessThan": "日付2は日付1以上でなければなりません。"
     },
     "Footer": {
       "company": "Phlex Plexico",

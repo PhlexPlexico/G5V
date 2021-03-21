@@ -98,12 +98,15 @@
                   <v-radio :label="$t('CreateMatch.BestOf') + 1" :value="1" />
                 </v-col>
                 <v-col lg="3" sm="12">
+                  <v-radio :label="$t('CreateMatch.BestOf') + 2" :value="2" />
+                </v-col>
+                <v-col lg="3" sm="12">
                   <v-radio :label="$t('CreateMatch.BestOf') + 3" :value="3" />
                 </v-col>
                 <v-col lg="3" sm="12">
                   <v-radio :label="$t('CreateMatch.BestOf') + 5" :value="5" />
                 </v-col>
-                <v-col lg="3" sm="12">
+                <v-col lg="3" sm="12" offset-lg="5">
                   <v-radio :label="$t('CreateMatch.BestOf') + 7" :value="7" />
                 </v-col>
               </v-radio-group>
