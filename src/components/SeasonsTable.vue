@@ -167,6 +167,12 @@
                         :value="1"
                       />
                     </v-col>
+                    <v-col lg="3" sm="12">
+                      <v-radio
+                        :label="$t('CreateMatch.BestOf') + 2"
+                        :value="2"
+                      />
+                    </v-col>
                     <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 3"
@@ -179,7 +185,7 @@
                         :value="5"
                       />
                     </v-col>
-                    <v-col lg="3" sm="12" align-self="center">
+                    <v-col lg="3" sm="12" align-self="center" offset-lg="5">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 7"
                         :value="7"
