@@ -253,7 +253,6 @@ export default {
         this.playerstats = totalMatchTeam;
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
-            let newName = await this.GetTeamName(player.team_id);
             let getRating = this.GetRating(
               player.kills,
               player.roundsplayed,
@@ -269,6 +268,10 @@ export default {
             let kdr = this.GetKDR(player);
             let fpr = this.GetFPR(player);
             let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
+            let newName =
+              player.team_id == getMatchTeamIds.team1_id
+              ? getMatchTeamIds.team1_string
+              : getMatchTeamIds.team2_string;
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",
