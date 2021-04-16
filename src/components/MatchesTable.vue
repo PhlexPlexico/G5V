@@ -9,7 +9,6 @@
     :sort-by="['id']"
     sort-desc
     ref="MatchesTable"
-    :hide-default-footer="myMatches"
   >
     <template v-slot:item.id="{ item }">
       <router-link
