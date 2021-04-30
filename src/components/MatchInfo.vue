@@ -5,7 +5,7 @@
     </v-flex>
     <div class="text-h4 names" align="center">
       <router-link
-        v-if="matchInfo.team1_id != null"
+        v-if="matchInfo.team1.id != 0"
         :to="{ path: '/teams/' + matchInfo.team1_id }"
       >
         <div v-if="matchInfo.team1.logo != ''">
@@ -28,7 +28,7 @@
       </div>
       vs
       <router-link
-        v-if="matchInfo.team2_id != null"
+        v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"
       >
         <div v-if="matchInfo.team2.logo != ''">

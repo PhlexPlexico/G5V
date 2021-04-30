@@ -223,7 +223,7 @@
                 <v-col lg="4" sm="12" align-self="center">
                   <v-radio
                     :label="$t('CreateMatch.KnifeDefault')"
-                    :value="'default'"
+                    :value="'standard'"
                   />
                 </v-col>
                 <v-col lg="4" sm="12" align-self="center">
