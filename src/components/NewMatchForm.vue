@@ -331,7 +331,7 @@ export default {
       cvars: [],
       veto_first: "team1",
       spectators: [],
-      side_type: "default"
+      side_type: "standard"
     },
     selectedTeams: [],
     newDialog: false,
