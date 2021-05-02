@@ -304,7 +304,7 @@
                     <v-col lg="4" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.KnifeDefault')"
-                        :value="'default'"
+                        :value="'standard'"
                       />
                     </v-col>
                     <v-col lg="4" sm="12" align-self="center">
@@ -409,7 +409,7 @@ export default {
         skip_veto: false,
         map_pool: [],
         spectators: [],
-        side_type: "default"
+        side_type: "standard"
       },
       datemenu: false,
       formTitle: this.$t("Seasons.NewFormTitle"),
@@ -452,7 +452,7 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "default"
+            side_type: "standard"
           };
           this.$refs.newSeasonForm.resetValidation();
         });
@@ -597,7 +597,7 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "default"
+            side_type: "standard"
           };
           this.$refs.newSeasonForm.resetValidation();
         });
