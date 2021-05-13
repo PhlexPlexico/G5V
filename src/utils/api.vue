@@ -928,16 +928,49 @@ export default {
     // BEGIN VETO CALLS
     async GetVetoesOfMatch(matchid) {
       let res;
-      let message;
+      let vetoMessage;
+      let vetoSideMessage;
       try {
-        res = await this.axioCall.get(
-          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetoes/${matchid}`
-        );
-        return res.data.vetoes;
+        res = await this.axioCall.get(`/api/vetoes/${matchid}`);
+        vetoMessage = res.data.vetoes;
+        res = await this.axioCall.get(`/api/vetosides/${matchid}`);
+        vetoSideMessage = res.data.vetoes;
+        var combinedVetoInfo = []
+        vetoMessage.forEach(vetoData => {
+          let combinedFind = vetoSideMessage.find(vetoSideChoice => {
+            return (vetoData['id'] === vetoSideChoice['veto_id'] && vetoData['map'] === vetoSideChoice['map'])
+          });
+          combinedFind
+            ? combinedVetoInfo.push(
+                  {
+                      id: vetoData.id, 
+                      match_id: vetoData.match_id, 
+                      team_name: vetoData.team_name,
+                      map: vetoData.map,
+                      pick_or_veto: vetoData.pick_or_veto,
+                      team_name_side: combinedFind.team_name,
+                      side: combinedFind.side
+                  }
+                )
+            : combinedVetoInfo.push(
+                  {
+                      id: vetoData.id, 
+                      match_id: vetoData.match_id, 
+                      team_name: vetoData.team_name,
+                      map: vetoData.map,
+                      pick_or_veto: vetoData.pick_or_veto
+                  }
+                );
+        });
+        return combinedVetoInfo;
       } catch (error) {
         message = error.response.data.message;
+      } finally {
+        if (vetoMessage)
+          return vetoMessage;
+        else
+          return message;
       }
-      return message;
     },
     // END VETO CALLS
     // BEGIN LEADERBOARD CALLS

@@ -286,7 +286,8 @@
       "DeciderTeam": "Decider",
       "TeamHeader": "Team",
       "MapHeader": "Map",
-      "PickBan": "Pick or Ban?"
+      "PickBan": "Pick or Ban?",
+      "SidePick": "Side Picked"
     },
     "lang": {
       "LanguageName": "English",
@@ -616,7 +617,8 @@
       "DeciderTeam": "決定者",
       "TeamHeader": "チーム",
       "MapHeader": "地図",
-      "PickBan": "選ぶか禁止するか？"
+      "PickBan": "選ぶか禁止するか？",
+      "SidePick": "サイドピック"
     },
     "lang": {
       "LanguageName": "日本語",
