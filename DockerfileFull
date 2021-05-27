@@ -1,0 +1,17 @@
+FROM nginx:stable-alpine
+
+# install prerequisits 
+RUN apk update && apk add \
+	nodejs \
+	yarn
+	
+# create folder and copy application into folder
+RUN mkdir G5V
+COPY ./ /G5V/
+WORKDIR /G5V
+
+# build application using yarn
+RUN yarn && yarn build
+
+# copy results to nginx directory
+RUN cp -R ./dist/* /usr/share/nginx/html

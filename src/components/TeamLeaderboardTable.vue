@@ -8,7 +8,7 @@
       :headers="headers"
       :items="teams"
       :sort-by="'wins'"
-      :sort-desc="'wins'"
+      :sort-desc="['wins']"
       ref="TeamLeaderboardTable"
     >
       <template v-slot:top>

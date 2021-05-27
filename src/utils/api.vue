@@ -53,6 +53,67 @@ export default {
       }
       return message;
     },
+    async GetUserMapList(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/maps/${userid}`);
+        message = res.data.maplist;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
+    async GetUserEnabledMapList(userid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/maps/${userid}/enabled`);
+        message = res.data.maplist;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
+    async UpdateUserMap(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.put(`/api/maps/`, mapdata);
+        message = res.data;
+      } catch (err) {
+        message = [];
+      }
+      return message;
+    },
+    async DeleteUserMap(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/maps/",
+          data: mapdata,
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async InsertUserMapInfo(mapdata) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post("/api/maps/", mapdata);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetUserRecentMatches(userid) {
       let res;
       let message;
@@ -278,6 +339,17 @@ export default {
       }
       return message;
     },
+    async GetLimitMatches(limit) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/limit/${limit}`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMyMatches() {
       let res;
       let message;
@@ -305,6 +377,23 @@ export default {
       let message;
       try {
         res = await this.axioCall.put("/api/matches/", matchInfo);
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async DeleteMyCancelledMatches() {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/matches/",
+          data: [{ all_cancelled: true }],
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -572,11 +661,11 @@ export default {
       }
       return message;
     },
-    async GetSingleMapStat(matchid, mapid) {
+    async GetSingleMapStat(matchid, mapnumber) {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapid}`);
+        res = await this.axioCall.get(`/api/mapstats/${matchid}/${mapnumber}`);
         message = res.data.mapstat;
       } catch (error) {
         message = error.response.data.message;

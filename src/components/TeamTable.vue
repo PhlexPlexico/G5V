@@ -10,12 +10,25 @@
     :items-per-page="5"
   >
     <template v-slot:item.tag="{ item }">
-      <img :src="item.tag" style="border-radius: 15px;" />
+      <img
+        :src="item.tag"
+        style="border-radius: 15px;"
+        v-if="$vuetify.breakpoint.mdAndUp"
+      />
+      <img
+        :src="item.tag"
+        style="border-radius: 15px; width:32px; height:32px;"
+        v-else
+      />
     </template>
     <template v-slot:item.username="{ item }">
       <a :href="GetSteamURL(item.steamid)" target="_blank">
         {{ item.username }}
       </a>
+    </template>
+    <v-spacer />
+    <template v-slot:item.logo="{ item }">
+      <img :src="'/api/static/img/logos/' + item + '.png'" />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -49,20 +62,61 @@
     </template>
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title>{{ teamInfo.name }}</v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
-        <v-toolbar-title>{{ teamInfo.tag }}</v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
-        <v-toolbar-title>
+        <v-toolbar-title
+          v-if="
+            !(IsAnyAdmin(user) || user.id == teamInfo.owner_id) &&
+              $vuetify.breakpoint.mdAndDown
+          "
+          >{{ teamInfo.name }}</v-toolbar-title
+        >
+        <v-toolbar-title v-else-if="$vuetify.breakpoint.mdAndUp">
+          {{ teamInfo.name }}
+        </v-toolbar-title>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
+        <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
+          {{ teamInfo.tag }}
+        </v-toolbar-title>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
+        <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
           <img :src="get_flag_link(teamInfo)" style="border-radius: 5px;" />
         </v-toolbar-title>
-        <v-divider class="mx-6" inset vertical></v-divider>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
+        <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
+          <v-toolbar-title>
+            <img
+              :src="'/api/static/img/logos/' + teamInfo.logo + '.png'"
+              style="padding-top: 5px;; width: 32px; height: 32px;"
+            />
+          </v-toolbar-title>
+        </div>
+        <v-divider
+          v-if="$vuetify.breakpoint.mdAndUp"
+          class="mx-6"
+          inset
+          vertical
+        />
         <div v-if="IsAnyAdmin(user) || user.id == teamInfo.owner_id">
           <v-icon :disabled="isDisabled" @click="deleteMember(null)">
             mdi-delete
           </v-icon>
         </div>
         <div v-else />
+
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ on, attrs }">
@@ -79,6 +133,18 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                v-if="$vuetify.breakpoint.mdAndUp"
+              >
+                {{ formTitle }}
+              </v-btn>
+              <v-btn
+                :disabled="isDisabled"
+                color="primary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+                v-else
+                x-small
               >
                 {{ formTitle }}
               </v-btn>
@@ -130,6 +196,20 @@
                         :label="$t('TeamCreate.FormPublicTeam') + '?'"
                       ></v-switch>
                     </v-col>
+                    <v-col cols="12" sm="6" md="4">
+                      <v-file-input
+                        :label="$t('TeamCreate.TeamLogo')"
+                        accept="image/png"
+                        @change="getFile"
+                        truncate-length="12"
+                      ></v-file-input>
+                    </v-col>
+                    <v-col cols="12" sm="4" md="4">
+                      <div v-if="logoFile != null">
+                        <div center>{{ $t("TeamCreate.TeamPreview") }}</div>
+                        <img :src="logoPreview" />
+                      </div>
+                    </v-col>
                   </v-row>
                 </v-form>
               </v-container>
@@ -155,6 +235,18 @@
                 class="mb-2"
                 v-bind="attrs"
                 v-on="on"
+                v-if="$vuetify.breakpoint.mdAndUp"
+              >
+                {{ memberButtonTitle }}
+              </v-btn>
+              <v-btn
+                :disabled="isMembersDisabled"
+                color="secondary"
+                class="mb-2"
+                v-bind="attrs"
+                v-on="on"
+                v-else
+                x-small
               >
                 {{ memberButtonTitle }}
               </v-btn>
@@ -233,6 +325,58 @@
 </template>
 
 <script>
+const dataURItoBlob = dataURI => {
+  const bytes =
+    dataURI.split(",")[0].indexOf("base64") >= 0
+      ? atob(dataURI.split(",")[1])
+      : unescape(dataURI.split(",")[1]);
+  const mime = dataURI
+    .split(",")[0]
+    .split(":")[1]
+    .split(";")[0];
+  const max = bytes.length;
+  const ia = new Uint8Array(max);
+  for (let i = 0; i < max; i += 1) ia[i] = bytes.charCodeAt(i);
+  return new Blob([ia], { type: mime });
+};
+
+const resizeImage = file => {
+  const reader = new FileReader();
+  const image = new Image();
+  const canvas = document.createElement("canvas");
+
+  const resize = () => {
+    canvas.width = 64;
+    canvas.height = 64;
+    canvas.getContext("2d").drawImage(image, 0, 0, 64, 64);
+
+    const dataUrl = canvas.toDataURL("image/png");
+
+    return dataURItoBlob(dataUrl);
+  };
+
+  return new Promise((ok, no) => {
+    if (!file.type.match(/image.png/)) {
+      no(new Error("Not an image"));
+      return;
+    }
+
+    reader.onload = readerEvent => {
+      image.onload = () => ok(resize());
+      image.src = readerEvent.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+const file2Base64 = file => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result.toString());
+    reader.onerror = error => reject(error);
+  });
+};
 export default {
   props: {
     user: Object,
@@ -286,7 +430,9 @@ export default {
       flags: [],
       formIndTitle: this.$t("Team.NewPlayer"),
       editInfo: false,
-      teamDeleted: false
+      teamDeleted: false,
+      logoFile: null,
+      logoPreview: null
     };
   },
   computed: {
@@ -426,7 +572,8 @@ export default {
               name: this.teamInfo.name,
               flag: this.teamInfo.flag,
               tag: this.teamInfo.tag,
-              public_team: this.teamInfo.public === true ? 1 : 0
+              public_team: this.teamInfo.public === true ? 1 : 0,
+              logo_file: this.logoFile
             }
           ];
           await this.UpdateTeamInfo(updatedTeam);
@@ -437,7 +584,8 @@ export default {
               flag: this.teamInfo.flag,
               logo: null,
               tag: this.teamInfo.tag,
-              public_team: this.teamInfo.public === true ? 1 : 0
+              public_team: this.teamInfo.public === true ? 1 : 0,
+              logo_file: this.logoFile
             }
           ];
           let newTeamId = await this.InsertTeamInfo(newTeam);
@@ -494,6 +642,17 @@ export default {
         this.removeAuth = {};
         this.removeIndex = -1;
       });
+    },
+    async getFile(file) {
+      if (!file) {
+        this.logoFile = null;
+        this.logoPreview = null;
+      } else if (file.type == "svg") {
+        this.logoFile = file;
+      } else {
+        this.logoFile = await file2Base64(await resizeImage(file));
+        this.logoPreview = URL.createObjectURL(await resizeImage(file));
+      }
     }
   }
 };

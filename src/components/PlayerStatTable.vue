@@ -46,6 +46,17 @@
               {{ $t("PlayerStats.Download") }}
             </v-btn>
           </div>
+          <div
+            class="text-subtitle-2 mapInfo"
+            v-if="
+              arrMapString[index] != null && arrMapString[index].end == null
+            "
+            align="left"
+          >
+            <div class="text-caption" v-if="!isFinished">
+              {{ $t("PlayerStats.RefreshData", { sec: countDownTimer }) }}
+            </div>
+          </div>
         </v-container>
         <v-data-table
           item-key="id"
@@ -209,13 +220,28 @@ export default {
       ],
       playerstats: [],
       isLoading: true,
-      arrMapString: [{}]
+      arrMapString: [{}],
+      playerInterval: -1,
+      countDownTimer: 60,
+      allowRefresh: false,
+      timeoutId: -1,
+      isFinished: true
     };
   },
   created() {
     // Template will contain v-rows/etc like on main Team page.
     this.GetMapPlayerStats();
+    // Grab new data every minute. Since a match is 1:55+40 bomb, a good time would be 1 min.
+    if (!this.isFinished)
+      this.playerInterval = setInterval(async () => {
+        this.isLoading = true;
+        this.GetMapPlayerStats();
+      }, 60000);
     this.getMapString();
+  },
+  beforeDestroy() {
+    if (!this.isFinished && this.timeoutId != -1)
+      clearInterval(this.playerInterval);
   },
   methods: {
     async GetMapPlayerStats() {
@@ -243,7 +269,6 @@ export default {
         this.playerstats = totalMatchTeam;
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
-            let newName = await this.GetTeamName(player.team_id);
             let getRating = this.GetRating(
               player.kills,
               player.roundsplayed,
@@ -259,6 +284,10 @@ export default {
             let kdr = this.GetKDR(player);
             let fpr = this.GetFPR(player);
             let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
+            let newName =
+              player.team_id == getMatchTeamIds.team1_id
+              ? getMatchTeamIds.team1_string
+              : getMatchTeamIds.team2_string;
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",
@@ -271,6 +300,7 @@ export default {
             this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
           });
         });
+        if (getMatchTeamIds.end_time != null) this.isFinished = false;
       } catch (error) {
         console.log("Our error: " + error);
       } finally {

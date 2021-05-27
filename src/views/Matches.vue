@@ -1,16 +1,16 @@
 <template>
-  <v-container class="servers" fluid>
-    <ServersTable v-if="user.id != -1" :user="user" />
+  <v-container class="home" fluid>
+    <MatchesTable :user="user" />
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import ServersTable from "@/components/ServersTable";
+import MatchesTable from "@/components/MatchesTable";
 export default {
-  name: "Servers",
+  name: "Home",
   components: {
-    ServersTable
+    MatchesTable
   },
   data() {
     return {
@@ -23,7 +23,7 @@ export default {
         small_image: "",
         medium_image: "",
         large_image: ""
-      }
+      } // should be object from JSON response
     };
   },
   async mounted() {

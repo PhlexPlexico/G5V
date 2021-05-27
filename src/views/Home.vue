@@ -1,16 +1,28 @@
 <template>
   <v-container class="home" fluid>
-    <MatchesTable :user="user" />
+    <MatchCards />
+    <v-row>
+      <v-col cols="6">
+        <TeamLeaderBoard />
+      </v-col>
+      <v-col cols="6">
+        <PlayerLeaderBoard />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import MatchesTable from "@/components/MatchesTable";
+import TeamLeaderBoard from "@/components/TeamLeaderboardTable";
+import PlayerLeaderBoard from "@/components/PlayerLeaderboardTable";
+import MatchCards from "@/components/MatchCard";
 export default {
   name: "Home",
   components: {
-    MatchesTable
+    TeamLeaderBoard,
+    MatchCards,
+    PlayerLeaderBoard
   },
   data() {
     return {

@@ -137,7 +137,10 @@
                           v-on="on"
                           readonly
                           :label="$t('Seasons.DateTitle')"
-                          :rules="[v => !!v || $t('misc.Required')]"
+                          :rules="[
+                            v => !!v || $t('misc.Required'),
+                            rules.dateLessThan
+                          ]"
                         />
                       </template>
                       <v-date-picker
@@ -164,6 +167,12 @@
                         :value="1"
                       />
                     </v-col>
+                    <v-col lg="3" sm="12">
+                      <v-radio
+                        :label="$t('CreateMatch.BestOf') + 2"
+                        :value="2"
+                      />
+                    </v-col>
                     <v-col lg="3" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 3"
@@ -176,7 +185,7 @@
                         :value="5"
                       />
                     </v-col>
-                    <v-col lg="3" sm="12" align-self="center">
+                    <v-col lg="3" sm="12" align-self="center" offset-lg="5">
                       <v-radio
                         :label="$t('CreateMatch.BestOf') + 7"
                         :value="7"
@@ -190,160 +199,65 @@
                 <v-row class="justify-center">
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.PlayersPerTeam") }}
-                    <v-text-field
+                    <v-slider
                       v-model="seasonDefaults.players_per_team"
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                      single-line
+                      :min="1"
+                      :max="5"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.MinPlayersReady") }}
-                    <v-text-field
+                    <v-slider
                       v-model="seasonDefaults.min_players_to_ready"
                       single-line
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                      :min="1"
+                      :max="5"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                   <v-col lg="3" md="12" sm="12">
                     {{ $t("CreateMatch.SpectatorsToReady") }}
-                    <v-text-field
+                    <v-slider
                       v-model="seasonDefaults.min_spectators_to_ready"
                       single-line
-                      :rules="[
-                        v =>
-                          (!isNaN(v) &&
-                            (x => {
-                              return (x | 0) === x;
-                            })(parseFloat(v))) ||
-                          $t('misc.ValueMustBeNumber'),
-                        v => v >= 0 || $t('misc.GreaterThanZero')
-                      ]"
-                      type="number"
+                      :min="0"
+                      :thumb-size="24"
+                      thumb-label
+                      ticks="always"
+                      tick-size="4"
+                      step="1"
                     />
                   </v-col>
                 </v-row>
                 <v-col cols="12" class="text-center text-h6">
-                  {{ $t("CreateMatch.FormMapPool") }}
+                  <strong>
+                    {{ $t("CreateMatch.FormMapPool") }}
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn v-bind="attrs" v-on="on" x-small fab icon>
+                          <v-icon>mdi-information</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>{{ $t("CreateMatch.FormMapExplanation") }}</span>
+                    </v-tooltip>
+                  </strong>
                 </v-col>
                 <v-row no-gutters class="justify-center">
-                  <v-col lg="1" sm="12" align-self="center">
+                  <v-col lg="1" sm="12" v-for="maps in MapList" :key="maps.id">
                     <v-checkbox
                       v-model="seasonDefaults.map_pool"
-                      label="Dust 2"
-                      value="de_dust2"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Mirage"
-                      value="de_mirage"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Inferno"
-                      value="de_inferno"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Overpass"
-                      value="de_overpass"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Train"
-                      value="de_train"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Nuke"
-                      value="de_nuke"
-                      :rules="[
-                        () =>
-                          seasonDefaults.map_pool.length > 0 ||
-                          $t('CreateMatch.MapChoiceError'),
-                        () =>
-                          seasonDefaults.map_pool.length >
-                            seasonDefaults.maps_to_win - 1 ||
-                          $t('CreateMatch.MapNotEnough')
-                      ]"
-                    />
-                  </v-col>
-                  <v-col lg="1" sm="12" align-self="center">
-                    <v-checkbox
-                      v-model="seasonDefaults.map_pool"
-                      label="Vertigo"
-                      value="de_vertigo"
+                      :value="maps.map_name"
+                      :label="maps.map_display_name"
                       :rules="[
                         () =>
                           seasonDefaults.map_pool.length > 0 ||
@@ -390,7 +304,7 @@
                     <v-col lg="4" sm="12" align-self="center">
                       <v-radio
                         :label="$t('CreateMatch.KnifeDefault')"
-                        :value="'default'"
+                        :value="'standard'"
                       />
                     </v-col>
                     <v-col lg="4" sm="12" align-self="center">
@@ -495,13 +409,23 @@ export default {
         skip_veto: false,
         map_pool: [],
         spectators: [],
-        side_type: "default"
+        side_type: "standard"
       },
       datemenu: false,
-      formTitle: this.$t("Seasons.NewFormTitle")
+      formTitle: this.$t("Seasons.NewFormTitle"),
+      MapList: [],
+      rules: {
+        dateLessThan: v => {
+          let tmpDateArr = v.split(" ~ ");
+          if (tmpDateArr[1] == undefined) {
+            return true;
+          } else
+            return tmpDateArr[0] <= tmpDateArr[1] || this.$t("misc.LessThan");
+        }
+      }
     };
   },
-  created() {
+  mounted() {
     this.GetSeasons();
   },
   watch: {
@@ -528,7 +452,7 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "default"
+            side_type: "standard"
           };
           this.$refs.newSeasonForm.resetValidation();
         });
@@ -542,6 +466,7 @@ export default {
         if (this.$route.path == "/myseasons") res = await this.GetMySeasons();
         else res = await this.GetAllSeasons();
         if (typeof res == "string") res = [];
+        this.MapList = await this.GetUserEnabledMapList(this.user.id);
         res.forEach(async season => {
           const ownerRes = await this.GetUserData(season.user_id);
           season.owner = ownerRes.name;
@@ -672,7 +597,7 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "default"
+            side_type: "standard"
           };
           this.$refs.newSeasonForm.resetValidation();
         });
@@ -709,6 +634,12 @@ export default {
             this.seasonDefaults[obj] = seasonCvars[obj].split(" ");
           else if (obj === "maps_to_win")
             this.seasonDefaults[obj] = parseInt(seasonCvars[obj]);
+          else if (obj === "skip_veto") {
+            seasonCvars[obj] = seasonCvars[obj] == 0
+            ? false
+            : true;
+            this.seasonDefaults[obj] = seasonCvars[obj];
+          }
           else this.seasonDefaults[obj] = seasonCvars[obj];
         }
       }

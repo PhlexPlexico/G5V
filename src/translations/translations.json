@@ -14,7 +14,8 @@
       "MySeasons": "My Seasons",
       "Logout": "Logout",
       "DarkMode": "Toggle Dark Mode",
-      "PlayerLeader": "Player Leaderboard"
+      "PlayerLeader": "Player Leaderboard",
+      "Home": "Home"
     },
     "MatchAdmin": {
       "AdminTools": "Admin Actions",
@@ -72,6 +73,7 @@
       "FormMatchTitle": "Match Title text",
       "FormSeriesType": "Series Type",
       "FormMapPool": "Map Pool",
+      "FormMapExplanation": "If you wish to have more maps, visit your user profile to add/edit/remove maps!",
       "FormCVARS": "CVARs",
       "MessageRegisterSuccess": "Successfully registered match.",
       "ServerLabel": "Server",
@@ -130,7 +132,8 @@
       "Download": "Download Demo",
       "KAST": "KAST",
       "ContribScore": "Contribution Score",
-      "MVP": "MVPs"
+      "MVP": "MVPs",
+      "RefreshData": "Data will refresh in {sec} seconds."
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -159,7 +162,8 @@
       "Team2": "Team 2",
       "Status": "Status",
       "Server": "Server",
-      "Owner": "Owner"
+      "Owner": "Owner",
+      "DeleteButton": "Delete My Cancelled Matches"
     },
     "Metrics": {
       "Get5Metrics": "Get5 Metrics",
@@ -194,7 +198,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "Your server information will not be exposed to other users.",
-      "Get5Help": "Make sure your server is running and has the get5 server plugins installed first.<br>See <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">the get5 wiki</a> for help installing the get5 and <a href=\"https://github.com/phlexplexico/get5-webapi\">get5_apistats</a> plugins. PLEASE ENSURE sv_logecho = 1 IS SET ON THE SERVER AND 'log on'",
+      "Get5Help": "Make sure your server is running and has the get5 server plugins installed first.<br>See <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">the get5 wiki</a> for help installing the get5 and <a href=\"https://github.com/phlexplexico/get5-webapi\">G5WS</a> plugins. PLEASE ENSURE sv_logecho = 1 IS SET ON THE SERVER AND 'log on'",
       "FormDisplayName": "Display Name",
       "FormServerIP": "Host Name",
       "FormServerHint": "Can be a URL as well.",
@@ -252,7 +256,16 @@
       "Past5": "Past 5 Matches",
       "ClaimUser": "Sign in with account to claim this user!",
       "SuperAdmin": "Super Admin",
-      "Admin": "Admin"
+      "Admin": "Admin",
+      "UserMaps": "{players}'s Maps",
+      "MapEnabled": "Enabled",
+      "MapEdit": "Edit",
+      "MapSave": "Save",
+      "MapDisplayName": "Display Name",
+      "MapName": "Map Name",
+      "MapDeleteTitle": "Delete Map?",
+      "MapDeleteExplain": "Are you sure you wish to delete {map}?",
+      "MapNew": "New Map"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -262,7 +275,9 @@
       "FormPlayer": "Player",
       "FormPublicTeam": "Public Team",
       "MessageRegisterSuccess": "Successfully registered team.",
-      "MessageeEditSuccess": "Successfully edited team."
+      "MessageeEditSuccess": "Successfully edited team.",
+      "TeamLogo": "Logo",
+      "TeamPreview": "Preview:"
     },
     "Veto": {
       "NoData": "No veto data available.",
@@ -306,7 +321,8 @@
       "ValueMustBeNumber": "Value must be a number.",
       "GreaterThanZero": "Value must be greater than zero.",
       "PLeader": "Player Leaderboard",
-      "TWins": "Total Wins"
+      "TWins": "Total Wins",
+      "LessThan": "Date two must be greater than or equal to date one."
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -329,7 +345,8 @@
       "MySeasons": "私の季節",
       "Logout": "ログアウト",
       "DarkMode": "ダークモードを切り替えます",
-      "PlayerLeader": "プレイヤーリーダーボード"
+      "PlayerLeader": "プレイヤーリーダーボード",
+      "Home": "ホーム"
     },
     "MatchAdmin": {
       "AdminTools": "管理者ツール",
@@ -387,6 +404,7 @@
       "FormMatchTitle": "マッチタイトル",
       "FormSeriesType": "シリーズ",
       "FormMapPool": "マッププール",
+      "FormMapExplanation": "より多くのマップを持ちたい場合は、ユーザープロフィールにアクセスしてマップを追加/編集/削除してください!",
       "FormCVARS": "CVARs",
       "MessageRegisterSuccess": "マッププール",
       "ServerLabel": "サーバ",
@@ -445,7 +463,8 @@
       "Download": "デモをダウンロード",
       "KAST": "KAST",
       "ContribScore": "貢献度",
-      "MVP": "M V P"
+      "MVP": "M V P",
+      "RefreshData": "データは{sec}秒で更新されます。"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",
@@ -474,7 +493,8 @@
       "Team2": "チーム 2",
       "Status": "状態",
       "Server": "サーバ",
-      "Owner": "オーナー"
+      "Owner": "オーナー",
+      "DeleteButton": "キャンセルされたマッチを削除する"
     },
     "Metrics": {
       "Get5Metrics": "Get5 メトリクス",
@@ -509,7 +529,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "あなたのサーバー情報は他のユーザーには公開されません。",
-      "Get5Help": "サーバーが稼働中でGet5プラグインがインストールされていることを確認してください。<br>Get5のインストールは<a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">get5 wiki</a> get5 と <a href=\"https://github.com/phlexplexico/get5-webapi\">get5_apistats</a> プラグインをインストールする際の参考にしてください。sv_logecho = 1 がサーバに設定されていることと 'log on' が設定されていることを確認してください。",
+      "Get5Help": "サーバーが稼働中でGet5プラグインがインストールされていることを確認してください。<br>Get5のインストールは<a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">get5 wiki</a> get5 と <a href=\"https://github.com/phlexplexico/get5-webapi\">G5WS</a> プラグインをインストールする際の参考にしてください。sv_logecho = 1 がサーバに設定されていることと 'log on' が設定されていることを確認してください。",
       "FormDisplayName": "表示名",
       "FormServerIP": "ホスト名",
       "FormServerHint": "URLにすることもできます。",
@@ -567,7 +587,16 @@
       "Past5": "過去5試合",
       "ClaimUser": "サインイン に 請求 ユーザー!",
       "SuperAdmin": "スーパー管理者",
-      "Admin": "管理者"
+      "Admin": "管理者",
+      "UserMaps": "{players} の地図",
+      "MapEnabled": "有効化された",
+      "MapEdit": "編集",
+      "MapSave": "保存",
+      "MapDisplayName": "表示名",
+      "MapName": "地図名",
+      "MapDeleteTitle": "地図を削除する？",
+      "MapDeleteExplain": "削除してもよろしいですか {map}？",
+      "MapNew": "新しい地図"
     },
     "TeamCreate": {
       "FormTeamName": "チーム名",
@@ -577,7 +606,9 @@
       "FormPlayer": "プレイヤー",
       "FormPublicTeam": "チームを公開する",
       "MessageRegisterSuccess": "チームの登録に成功しました！",
-      "MessageeEditSuccess": "チームの編集に成功しました！"
+      "MessageeEditSuccess": "チームの編集に成功しました！",
+      "TeamLogo": "ロゴマーク",
+      "TeamPreview": "プレビュー:"
     },
     "Veto": {
       "NoData": "データなし。",
@@ -621,7 +652,8 @@
       "ValueMustBeNumber": "値は数値でなければなりません。",
       "GreaterThanZero": "値はゼロより大きくなければなりません。",
       "PLeader": "プレイヤーリーダーボード",
-      "TWins": "合計勝利数"
+      "TWins": "合計勝利数",
+      "LessThan": "日付2は日付1以上でなければなりません。"
     },
     "Footer": {
       "company": "Phlex Plexico",

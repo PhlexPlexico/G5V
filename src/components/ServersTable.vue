@@ -5,7 +5,7 @@
       class="elevation-1"
       :loading="isLoading"
       :loading-text="$t('misc.LoadText')"
-      :headers="headers"
+      :headers="selectedHeaders"
       :items="servers"
       :sort-by="['id']"
       ref="ServersTable"
@@ -218,14 +218,18 @@ export default {
     }
   },
   methods: {
-    async GetServers() {
+    async GetServers(refreshGrid) {
+      if(refreshGrid === false)
+        return;
       try {
         let res;
         let arrIndex;
         this.servers = [];
-        this.selectedHeaders = this.headers;
+        this.selectedHeaders = JSON.parse(JSON.stringify(this.headers));
+        this.isLoading = true;
         if (this.$route.path == "/myservers") res = await this.GetMyServers();
         else res = await this.GetAllServers();
+        if (typeof res == "string") res = [];
         res.forEach(async season => {
           season.showRcon = false;
           season.colour = "gray";

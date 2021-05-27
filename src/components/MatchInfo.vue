@@ -5,28 +5,46 @@
     </v-flex>
     <div class="text-h4 names" align="center">
       <router-link
-        v-if="matchInfo.team1_id != null"
+        v-if="matchInfo.team1.id != 0"
         :to="{ path: '/teams/' + matchInfo.team1_id }"
       >
-        <img
-          :src="get_flag_link(matchInfo.team1)"
-          style="border-radius: 5px;"
-        />
-        {{ matchInfo.team1_name }}
+        <div v-if="matchInfo.team1.logo != ''">
+          <img
+            :src="'/api/static/img/logos/' + matchInfo.team1.logo + '.png'"
+            style="border-radius: 5px; width: 40px; height: 32px;"
+          />
+          {{ matchInfo.team1_name }}
+        </div>
+        <div v-else>
+          <img
+            :src="get_flag_link(matchInfo.team1)"
+            style="border-radius: 5px;"
+          />
+          {{ matchInfo.team1_name }}
+        </div>
       </router-link>
       <div v-else>
         {{ matchInfo.team1_name }}
       </div>
       vs
       <router-link
-        v-if="matchInfo.team1_id != null"
+        v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"
       >
-        <img
-          :src="get_flag_link(matchInfo.team2)"
-          style="border-radius: 5px;"
-        />
-        {{ matchInfo.team2_name }}
+        <div v-if="matchInfo.team2.logo != ''">
+          <img
+            :src="'/api/static/img/logos/' + matchInfo.team2.logo + '.png'"
+            style="border-radius: 5px; width: 40px; height: 32px;"
+          />
+          {{ matchInfo.team2_name }}
+        </div>
+        <div v-else>
+          <img
+            :src="get_flag_link(matchInfo.team2)"
+            style="border-radius: 5px;"
+          />
+          {{ matchInfo.team2_name }}
+        </div>
       </router-link>
       <div v-else>
         {{ matchInfo.team1_name }}
