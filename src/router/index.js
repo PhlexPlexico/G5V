@@ -11,8 +11,7 @@ const routes = [
   {
     path: "/matches",
     name: "Matches",
-    component: () =>
-      import(/* webpackChunkName: "Home" */ "../views/Matches.vue")
+    component: () => import(/* webpackChunkName: "Home" */ "../views/Matches.vue")
   },
   {
     path: "/teams",
@@ -33,8 +32,7 @@ const routes = [
   {
     path: "/mymatches",
     name: "My Matches",
-    component: () =>
-      import(/* webpackChunkName: "Home" */ "../views/Matches.vue")
+    component: () => import(/* webpackChunkName: "Home" */ "../views/Matches.vue")
   },
   {
     path: "/myteams",
