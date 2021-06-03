@@ -47,7 +47,7 @@
         </div>
       </router-link>
       <div v-else>
-        {{ matchInfo.team1_name }}
+        {{ matchInfo.team2_name }}
       </div>
     </div>
     <div class="final-score text-h4" align="center">
