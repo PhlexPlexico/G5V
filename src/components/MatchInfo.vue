@@ -38,11 +38,14 @@
           />
           {{ matchInfo.team2_name }}
         </div>
-        <div v-else>
+        <div v-else-if="matchInfo.team2.flag != null">
           <img
             :src="get_flag_link(matchInfo.team2)"
             style="border-radius: 5px;"
           />
+          {{ matchInfo.team2_name }}
+        </div>
+        <div v-else>
           {{ matchInfo.team2_name }}
         </div>
       </router-link>
@@ -188,9 +191,11 @@ export default {
         this.matchInfo.cancelled = matchRes.cancelled;
         this.matchInfo.forfeit = matchRes.forfeit;
         this.matchInfo.id = this.match_id;
-        this.serverInfo.ip_string = serveRes.ip_string;
-        this.serverInfo.port = serveRes.port;
-        this.serverInfo.gotv_port = serveRes.gotv_port;
+        if (serveRes) {
+          this.serverInfo.ip_string = serveRes.ip_string;
+          this.serverInfo.port = serveRes.port;
+          this.serverInfo.gotv_port = serveRes.gotv_port;
+        }
       } catch (error) {
         console.log(error);
       }

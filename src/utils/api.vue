@@ -886,7 +886,7 @@ export default {
       }
     },
     get_flag_link: function(team) {
-      if (team.flag === "" || team.flag == null) {
+      if (team.flag == null || team.flag === "") {
         return `/img/_unknown.png`;
       }
       return `/img/valve_flags/${team.flag.toLowerCase()}.png`;
