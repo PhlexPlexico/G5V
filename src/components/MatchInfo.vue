@@ -8,7 +8,7 @@
         v-if="matchInfo.team1.id != 0"
         :to="{ path: '/teams/' + matchInfo.team1_id }"
       >
-        <div v-if="matchInfo.team1.logo != null">
+        <div v-if="matchInfo.team1.logo != ''">
           <img
             :src="'/api/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
@@ -31,23 +31,26 @@
         v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"
       >
-        <div v-if="matchInfo.team2.logo != null">
+        <div v-if="matchInfo.team2.logo != ''">
           <img
             :src="'/api/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
           />
           {{ matchInfo.team2_name }}
         </div>
-        <div v-else>
+        <div v-else-if="matchInfo.team2.flag != null">
           <img
             :src="get_flag_link(matchInfo.team2)"
             style="border-radius: 5px;"
           />
           {{ matchInfo.team2_name }}
         </div>
+        <div v-else>
+          {{ matchInfo.team2_name }}
+        </div>
       </router-link>
       <div v-else>
-        {{ matchInfo.team1_name }}
+        {{ matchInfo.team2_name }}
       </div>
     </div>
     <div class="final-score text-h4" align="center">
@@ -188,12 +191,11 @@ export default {
         this.matchInfo.cancelled = matchRes.cancelled;
         this.matchInfo.forfeit = matchRes.forfeit;
         this.matchInfo.id = this.match_id;
-        if(serveRes) {
+        if (serveRes) {
           this.serverInfo.ip_string = serveRes.ip_string;
           this.serverInfo.port = serveRes.port;
           this.serverInfo.gotv_port = serveRes.gotv_port;
         }
-        console.log(this.matchInfo.team2);
       } catch (error) {
         console.log(error);
       }
