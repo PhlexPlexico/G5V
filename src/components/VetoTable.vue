@@ -37,6 +37,21 @@
           {{ item.team_name }}
         </div>
       </template>
+      <template v-slot:expanded-item="{ item }" class="text-center">
+            <td :colspan="headers.length">
+              <v-data-table
+                item-key="id"
+                class="elevation-1"
+                :headers="additionalHeaders"
+                hide-default-footer
+                dense
+                :key="item.id"
+                :items="[item]"
+                disable-sort
+                :colspan="headers.length"
+              />
+            </td>
+          </template>
     </v-data-table>
   </v-container>
 </template>
@@ -71,8 +86,26 @@ export default {
           id: -1,
           match_id: -1,
           team_name: "",
+          team_name_side: null,
           map: "",
-          pick_or_veto: ""
+          pick_or_veto: "",
+          side: ""
+        }
+      ],
+      additionalHeaders: [
+        {
+          text: this.$t("Veto.TeamHeader"),
+          value: "team_name_side"
+        },
+        {
+          text: this.$t("Veto.MapHeader"),
+          sortable: false,
+          value: "map"
+        },
+        {
+          text: this.$t("Veto.SidePick"),
+          sortable: false,
+          value: "side"
         }
       ]
     };
