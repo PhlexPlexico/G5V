@@ -1,21 +1,26 @@
 <template>
   <v-container class="mapstatsinfo" fluid>
     <v-flex class="text-right" v-if="AdminToolsAvailable(matchInfo)">
-      <AdminButton :matchInfo="matchInfo" @force-the-reload="getMatchInfo()" />
+      <AdminButton
+        :matchInfo="matchInfo"
+        :user="user"
+        @force-the-reload="getMatchInfo()"
+      />
     </v-flex>
+    <v-flex v-else />
     <div class="text-h4 names" align="center">
       <router-link
         v-if="matchInfo.team1.id != 0"
         :to="{ path: '/teams/' + matchInfo.team1_id }"
       >
-        <div v-if="matchInfo.team1.logo != ''">
+        <div v-if="matchInfo.team1.logo != null">
           <img
             :src="'/api/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
           />
           {{ matchInfo.team1_name }}
         </div>
-        <div v-else>
+        <div v-else-if="matchInfo.team1.flag != null">
           <img
             :src="get_flag_link(matchInfo.team1)"
             style="border-radius: 5px;"
@@ -31,7 +36,7 @@
         v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"
       >
-        <div v-if="matchInfo.team2.logo != ''">
+        <div v-if="matchInfo.team2.logo != null">
           <img
             :src="'/api/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
@@ -141,12 +146,31 @@ export default {
         team2_id: 0,
         team1_score: 0,
         team2_score: 0,
-        team1: {},
-        team2: {},
+        team1: {
+          id: 0,
+          user_id: 0,
+          name: "",
+          tag: "",
+          flag: "",
+          logo: "",
+          auth_name: {},
+          public_team: false
+        },
+        team2: {
+          id: 0,
+          user_id: 0,
+          name: "",
+          tag: "",
+          flag: "",
+          logo: "",
+          auth_name: {},
+          public_team: false
+        },
         symbol: "",
         cancelled: 0,
         forfeit: 0,
-        id: -1
+        id: -1,
+        user_id: -1
       },
       serverInfo: {
         ip_string: "",
@@ -191,6 +215,7 @@ export default {
         this.matchInfo.cancelled = matchRes.cancelled;
         this.matchInfo.forfeit = matchRes.forfeit;
         this.matchInfo.id = this.match_id;
+        this.matchInfo.user_id = matchRes.user_id;
         if (serveRes) {
           this.serverInfo.ip_string = serveRes.ip_string;
           this.serverInfo.port = serveRes.port;

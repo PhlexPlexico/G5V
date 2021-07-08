@@ -12,7 +12,16 @@
           {{ $t("MatchAdmin.AdminTools") }}
         </v-btn>
       </template>
-      <v-list>
+      <v-list v-if="user.super_admin == 1">
+        <v-list-item
+          v-for="(item, i) in superAdminItems"
+          :key="i"
+          @click="item.apiCall()"
+        >
+          <v-list-item-title>{{ item.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+      <v-list v-else>
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
@@ -290,7 +299,8 @@
 <script>
 export default {
   props: {
-    matchInfo: Object
+    matchInfo: Object,
+    user: Object
   },
   data() {
     return {
@@ -311,6 +321,70 @@ export default {
       servers: [],
       isLoading: false,
       items: [
+        {
+          title: this.$t("MatchAdmin.PauseMatch"),
+          apiCall: async () => {
+            this.isLoading = true;
+            this.response = await this.PauseMatch(this.matchInfo.id);
+            this.responseSheet = true;
+            this.isLoading = false;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.UnpauseMatch"),
+          apiCall: async () => {
+            this.isLoading = true;
+            this.response = await this.UnpauseMatch(this.matchInfo.id);
+            this.isLoading = false;
+            this.responseSheet = true;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.AddPlayerToServer"),
+          apiCall: () => {
+            this.addDialog = true;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.ListBackups"),
+          apiCall: async () => {
+            let res = await this.GetMatchBackups(this.matchInfo.id);
+            if (res.response) {
+              this.backups = res.response.split("\n");
+              this.backupDialog = true;
+            } else {
+              this.response = res.message;
+              this.responseSheet = true;
+            }
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.CancelMatch"),
+          apiCall: () => {
+            this.cancelDialog = true;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.ForfeitMatch"),
+          apiCall: () => {
+            this.forfeitDialog = true;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.ChangeServer"),
+          apiCall: async () => {
+            let res = await this.GetAllAvailableServers();
+            if (Array.isArray(res)) {
+              this.servers = res;
+              this.serverChangeDialog = true;
+            } else {
+              this.response = res.message;
+              this.responseSheet = true;
+            }
+          }
+        }
+      ],
+      superAdminItems: [
         {
           title: this.$t("MatchAdmin.PauseMatch"),
           apiCall: async () => {
