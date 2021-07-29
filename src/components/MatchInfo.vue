@@ -74,7 +74,7 @@
     </div>
     <div v-if="matchInfo.forfeit == 1" align="center">
       <strong>
-        {{ $t("Match.MatchForfeitedBy", get_loser(matchInfo)) }}
+        {{ $t("Match.MatchForfeitedBy", {team: get_loser(matchInfo) }) }}
       </strong>
     </div>
     <div v-else-if="matchInfo.cancelled == 1" align="center">

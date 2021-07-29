@@ -878,9 +878,9 @@ export default {
     get_loser: function(matchdata) {
       // returns loser's teamname
       if (matchdata.team1_score > matchdata.team2_score) {
-        return matchdata.team2_string;
+        return matchdata.team1_name;
       } else if (matchdata.team1_score < matchdata.team2_score) {
-        return matchdata.team2_string;
+        return matchdata.team2_name;
       } else {
         return "";
       }
