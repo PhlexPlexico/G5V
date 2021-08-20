@@ -15,7 +15,7 @@
       >
         <div v-if="matchInfo.team1.logo != null">
           <img
-            :src="'/api/static/img/logos/' + matchInfo.team1.logo + '.png'"
+            :src="apiUrl + '/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
           />
           {{ matchInfo.team1_name }}
@@ -38,7 +38,7 @@
       >
         <div v-if="matchInfo.team2.logo != null">
           <img
-            :src="'/api/static/img/logos/' + matchInfo.team2.logo + '.png'"
+            :src="apiUrl + '/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
           />
           {{ matchInfo.team2_name }}
@@ -176,7 +176,8 @@ export default {
         ip_string: "",
         port: 0,
         gotv_port: 0
-      }
+      }, 
+      apiUrl: process.env?.G5V_API_URL ?? "/api"
     };
   },
   created() {

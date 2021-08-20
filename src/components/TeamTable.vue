@@ -28,7 +28,7 @@
     </template>
     <v-spacer />
     <template v-slot:item.logo="{ item }">
-      <img :src="'/api/static/img/logos/' + item + '.png'" />
+      <img :src="apiUrl + '/static/img/logos/' + item + '.png'" />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -99,7 +99,7 @@
         <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
           <v-toolbar-title>
             <img
-              :src="'/api/static/img/logos/' + teamInfo.logo + '.png'"
+              :src="apiUrl + '/static/img/logos/' + teamInfo.logo + '.png'"
               style="padding-top: 5px;; width: 32px; height: 32px;"
             />
           </v-toolbar-title>
@@ -432,7 +432,8 @@ export default {
       editInfo: false,
       teamDeleted: false,
       logoFile: null,
-      logoPreview: null
+      logoPreview: null,
+      apiUrl: process.env?.G5V_API_URL ?? "/api"
     };
   },
   computed: {

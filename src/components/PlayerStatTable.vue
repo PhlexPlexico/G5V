@@ -41,7 +41,7 @@
             <v-btn
               small
               color="secondary"
-              :href="'/api/demo/' + arrMapString[index].demo"
+              :href="apiUrl + '/demo/' + arrMapString[index].demo"
             >
               {{ $t("PlayerStats.Download") }}
             </v-btn>
@@ -209,7 +209,8 @@ export default {
       countDownTimer: 60,
       allowRefresh: false,
       timeoutId: -1,
-      isFinished: true
+      isFinished: true,
+      apiUrl: process.env?.G5V_API_URL
     };
   },
   created() {

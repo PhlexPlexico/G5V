@@ -5,7 +5,7 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>{{ $t("Navbar.title") }}</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn rounded href="/api/auth/steam" v-if="user.id == null">
+      <v-btn rounded :href="apiUrl + '/auth/steam'" v-if="user.id == null">
         <img src="/img/login_small.png" v-if="user.id == null" />
       </v-btn>
       <v-tooltip v-if="user.id !== null" bottom>
@@ -16,7 +16,7 @@
             fab
             small
             color="grey darken-2"
-            href="/api/logout"
+            :href="apiUrl + '/logout'"
             v-if="user.id !== null"
           >
             <v-icon>mdi-logout-variant</v-icon>
@@ -113,7 +113,8 @@ export default {
     return {
       drawer: false,
       group: null,
-      newDialog: false
+      newDialog: false,
+      apiUrl: process.env?.G5V_API_URL ?? "/api"
     };
   },
   watch: {
