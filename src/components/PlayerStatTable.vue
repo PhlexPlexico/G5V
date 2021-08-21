@@ -41,7 +41,7 @@
             <v-btn
               small
               color="secondary"
-              :href="'/api/demo/' + arrMapString[index].demo"
+              :href="apiUrl + '/demo/' + arrMapString[index].demo"
             >
               {{ $t("PlayerStats.Download") }}
             </v-btn>
@@ -209,7 +209,8 @@ export default {
       countDownTimer: 60,
       allowRefresh: false,
       timeoutId: -1,
-      isFinished: true
+      isFinished: true,
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   created() {
@@ -270,8 +271,8 @@ export default {
             let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
             let newName =
               player.team_id == getMatchTeamIds.team1_id
-              ? getMatchTeamIds.team1_string
-              : getMatchTeamIds.team2_string;
+                ? getMatchTeamIds.team1_string
+                : getMatchTeamIds.team2_string;
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",

@@ -635,12 +635,9 @@ export default {
           else if (obj === "maps_to_win")
             this.seasonDefaults[obj] = parseInt(seasonCvars[obj]);
           else if (obj === "skip_veto") {
-            seasonCvars[obj] = seasonCvars[obj] == 0
-            ? false
-            : true;
+            seasonCvars[obj] = seasonCvars[obj] == 0 ? false : true;
             this.seasonDefaults[obj] = seasonCvars[obj];
-          }
-          else this.seasonDefaults[obj] = seasonCvars[obj];
+          } else this.seasonDefaults[obj] = seasonCvars[obj];
         }
       }
       this.newSeason = {
