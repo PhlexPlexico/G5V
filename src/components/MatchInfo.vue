@@ -74,7 +74,7 @@
     </div>
     <div v-if="matchInfo.forfeit == 1" align="center">
       <strong>
-        {{ $t("Match.MatchForfeitedBy", {team: get_loser(matchInfo) }) }}
+        {{ $t("Match.MatchForfeitedBy", { team: get_loser(matchInfo) }) }}
       </strong>
     </div>
     <div v-else-if="matchInfo.cancelled == 1" align="center">
@@ -176,8 +176,8 @@ export default {
         ip_string: "",
         port: 0,
         gotv_port: 0
-      }, 
-      apiUrl: process.env?.G5V_API_URL ?? "/api"
+      },
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   created() {

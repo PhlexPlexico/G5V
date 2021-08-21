@@ -114,7 +114,7 @@ export default {
       drawer: false,
       group: null,
       newDialog: false,
-      apiUrl: process.env?.G5V_API_URL ?? "/api"
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   watch: {

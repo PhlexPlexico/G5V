@@ -20,7 +20,9 @@ export default {
     },
     // BEGIN USER CALLS
     async IsLoggedIn() {
-      const res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/isLoggedIn`);
+      const res = await this.axioCall.get(
+        `${process.env?.VUE_APP_G5V_API_URL || "/api"}/isLoggedIn`
+      );
       if (res.data == false) {
         return {
           admin: false,
@@ -39,7 +41,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/users/${userid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}`
+        );
         message = res.data.user;
       } catch (err) {
         //console.log(err)
@@ -57,7 +61,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/maps/${userid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/maps/${userid}`
+        );
         message = res.data.maplist;
       } catch (err) {
         message = [];
@@ -68,7 +74,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/maps/${userid}/enabled`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/maps/${userid}/enabled`
+        );
         message = res.data.maplist;
       } catch (err) {
         message = [];
@@ -79,7 +87,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put(`${process.env?.G5V_API_URL ?? '/api'}/maps/`, mapdata);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/maps/`,
+          mapdata
+        );
         message = res.data;
       } catch (err) {
         message = [];
@@ -92,7 +103,7 @@ export default {
       try {
         res = await axios({
           method: "delete",
-          url: `${process.env?.G5V_API_URL ?? '/api'}/maps/`,
+          url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/maps/`,
           data: mapdata,
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -107,7 +118,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.post(`${process.env?.G5V_API_URL ?? '/api'}/maps/`, mapdata);
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/maps/`,
+          mapdata
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data.message;
@@ -118,7 +132,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/users/${userid}/recent`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}/recent`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -129,7 +145,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/users/`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/`
+        );
         message = res.data.users;
       } catch (error) {
         message = error.response.data.message;
@@ -140,7 +158,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put(`${process.env?.G5V_API_URL ?? '/api'}/users/`, userInfo);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/`,
+          userInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -153,7 +174,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${teamid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/${teamid}`
+        );
         message = res.data.team;
       } catch (err) {
         message = {
@@ -173,7 +196,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${teamid}/basic`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/${teamid}/basic`
+        );
         message = res.data.team.name;
       } catch (err) {
         message = {
@@ -193,7 +218,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${teamid}/basic`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/${teamid}/basic`
+        );
         message = res.data.team;
       } catch (err) {
         message = {
@@ -213,7 +240,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams`
+        );
         message = res.data.teams;
       } catch (error) {
         message = error.response.data.message;
@@ -224,7 +253,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/myteams`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/myteams`
+        );
         message = res.data.teams;
       } catch (error) {
         message = error.response.data.message;
@@ -235,7 +266,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${teamid}/recent`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/${teamid}/recent`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -246,7 +279,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.post(`${process.env?.G5V_API_URL ?? '/api'}/teams/`, teamInfo);
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/`,
+          teamInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data.message;
@@ -257,7 +293,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put(`${process.env?.G5V_API_URL ?? '/api'}/teams/`, teamInfo);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/`,
+          teamInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -270,7 +309,7 @@ export default {
       try {
         res = await axios({
           method: "delete",
-          url: `${process.env?.G5V_API_URL ?? '/api'}/teams/`,
+          url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/`,
           data: member,
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -287,7 +326,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/${matchid}`
+        );
         message = res.data.match;
       } catch (err) {
         //console.log(err);
@@ -310,7 +351,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${teamid}/recent`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/${teamid}/recent`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -321,7 +364,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/teams/${team}/result/${match}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/teams/${team}/result/${match}`
+        );
         message = res.data.result;
       } catch (error) {
         message = error.response.data.message;
@@ -332,7 +378,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -343,7 +391,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/limit/${limit}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/limit/${limit}`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -354,7 +404,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/mymatches`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/mymatches`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -365,7 +417,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.post(`${process.env?.G5V_API_URL ?? '/api'}/matches/`, matchInfo);
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/`,
+          matchInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -376,7 +431,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put(`${process.env?.G5V_API_URL ?? '/api'}/matches/`, matchInfo);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/`,
+          matchInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -389,7 +447,7 @@ export default {
       try {
         res = await axios({
           method: "delete",
-          url: `${process.env?.G5V_API_URL ?? '/api'}/matches/`,
+          url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/`,
           data: [{ all_cancelled: true }],
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -406,7 +464,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/servers/${serverid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/${serverid}`
+        );
         message = res.data.server;
       } catch (err) {
         //console.log(err)
@@ -427,7 +487,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/servers`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers`
+        );
         return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
@@ -438,7 +500,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/servers/myservers`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/myservers`
+        );
         return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
@@ -451,7 +515,7 @@ export default {
       try {
         res = await axios({
           method: "delete",
-          url: `${process.env?.G5V_API_URL ?? '/api'}/servers/`,
+          url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/`,
           data: serverData,
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -466,7 +530,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/servers/available`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/available`
+        );
         return res.data.servers;
       } catch (error) {
         message = error.response.data.message;
@@ -477,7 +543,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.post(`${process.env?.G5V_API_URL ?? '/api'}/servers/`, serverInfo);
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/`,
+          serverInfo
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -488,7 +557,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/servers/${serverId}/status`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/servers/${serverId}/status`
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -499,7 +571,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put("${process.env?.G5V_API_URL ?? '/api'}/servers/", serverInfo);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/`,
+          serverInfo
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -512,7 +587,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons`
+        );
         message = res.data.seasons;
       } catch (error) {
         message = error.response.data.message;
@@ -523,7 +600,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons/${seasonid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/${seasonid}`
+        );
         message = res.data.matches;
       } catch (error) {
         message = error.response.data.message;
@@ -534,7 +613,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons/myseasons`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/myseasons`
+        );
         message = res.data.seasons;
       } catch (error) {
         message = error.response.data.message;
@@ -545,7 +626,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons/myseasons/available`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/seasons/myseasons/available`
+        );
         message = res.data.seasons;
       } catch (error) {
         message = error.response.data.message;
@@ -556,7 +640,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons/${seasonid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/${seasonid}`
+        );
         message = res.data.season;
       } catch (error) {
         message = error.response.data.message;
@@ -567,7 +653,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/seasons/${seasonid}/cvar`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/seasons/${seasonid}/cvar`
+        );
         message = res.data.cvars;
       } catch (error) {
         message = error.response.data.message;
@@ -580,7 +669,7 @@ export default {
       try {
         res = await axios({
           method: "delete",
-          url: `${process.env?.G5V_API_URL ?? '/api'}/seasons/`,
+          url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/`,
           data: seasonData,
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -595,7 +684,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.post(`${process.env?.G5V_API_URL ?? '/api'}/seasons/`, seasonInfo);
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/`,
+          seasonInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -606,7 +698,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.put(`${process.env?.G5V_API_URL ?? '/api'}/seasons/`, seasonInfo);
+        res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/`,
+          seasonInfo
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -619,7 +714,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/playerstats/${steamid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/playerstats/${steamid}`
+        );
         message = res.data.playerstats;
       } catch (error) {
         message = error.response.data.message;
@@ -630,7 +727,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/playerstats/unique`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/playerstats/unique`
+        );
         message = res.data.count;
       } catch (error) {
         message = error.response.data.message;
@@ -641,7 +740,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/playerstats/match/${matchid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/playerstats/match/${matchid}`
+        );
         message = res.data.playerstats;
       } catch (error) {
         message = error.response.data.message;
@@ -654,7 +756,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/mapstats/`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/mapstats/`
+        );
         message = res.data.mapstats;
       } catch (error) {
         message = error.response.data.message;
@@ -665,7 +769,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/mapstats/${matchid}/${mapnumber}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/mapstats/${matchid}/${mapnumber}`
+        );
         message = res.data.mapstat;
       } catch (error) {
         message = error.response.data.message;
@@ -676,7 +783,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/mapstats/${matchid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/mapstats/${matchid}`
+        );
         message = res.data.mapstats;
       } catch (error) {
         message = error.response.data.message;
@@ -689,7 +798,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/pause`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/pause`
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -700,7 +812,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/unpause`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/unpause`
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -711,7 +826,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/backup`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/backup`
+        );
         message = res.data;
       } catch (error) {
         message = error.response.data;
@@ -722,7 +840,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/cancel`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/cancel`
+        );
         message = res.data.message;
       } catch (error) {
         message = error.response.data.message;
@@ -734,7 +855,8 @@ export default {
       let message;
       try {
         res = await this.axioCall.put(
-          `${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/addspec`,
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/addspec`,
           matchObject
         );
         message = res.data;
@@ -748,7 +870,8 @@ export default {
       let message;
       try {
         res = await this.axioCall.put(
-          `${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/adduser`,
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/adduser`,
           matchObject
         );
         message = res.data;
@@ -762,7 +885,8 @@ export default {
       let message;
       try {
         res = await this.axioCall.get(
-          `${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/forfeit/${winner}`
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/forfeit/${winner}`
         );
         message = res.data.message;
       } catch (error) {
@@ -775,7 +899,8 @@ export default {
       let message;
       try {
         res = await this.axioCall.put(
-          `${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/rcon/`,
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/rcon/`,
           rconBody
         );
         message = res.data;
@@ -789,7 +914,8 @@ export default {
       let message;
       try {
         res = await this.axioCall.post(
-          `${process.env?.G5V_API_URL ?? '/api'}/matches/${matchid}/backup/`,
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/backup/`,
           backupBody
         );
         message = res.data;
@@ -804,7 +930,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/vetoes/${matchid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetoes/${matchid}`
+        );
         return res.data.vetoes;
       } catch (error) {
         message = error.response.data.message;
@@ -817,7 +945,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/leaderboard/players`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/leaderboard/players`
+        );
         return res.data.leaderboard;
       } catch (error) {
         message = error.response.data.message;
@@ -828,7 +958,9 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/leaderboard`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/leaderboard`
+        );
         return res.data.leaderboard;
       } catch (error) {
         message = error.response.data.message;
@@ -839,7 +971,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/leaderboard/players/${seasonid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/leaderboard/players/${seasonid}`
+        );
         return res.data.leaderboard;
       } catch (error) {
         message = error.response.data.message;
@@ -850,7 +985,10 @@ export default {
       let res;
       let message;
       try {
-        res = await this.axioCall.get(`${process.env?.G5V_API_URL ?? '/api'}/leaderboard/${seasonid}`);
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/leaderboard/${seasonid}`
+        );
         return res.data.leaderboard;
       } catch (error) {
         message = error.response.data.message;

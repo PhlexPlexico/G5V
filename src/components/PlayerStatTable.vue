@@ -210,7 +210,7 @@ export default {
       allowRefresh: false,
       timeoutId: -1,
       isFinished: true,
-      apiUrl: process.env?.G5V_API_URL
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   created() {

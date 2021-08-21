@@ -1,5 +1,9 @@
 FROM nginx:stable-alpine
 
+ARG VUE_APP_G5V_API_URL
+RUN touch .env.production
+RUN echo $VUE_APP_G5V_API_URL < .env.production
+
 # install prerequisits 
 RUN apk update && apk add \
 	nodejs \
