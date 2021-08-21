@@ -54,7 +54,7 @@ To use it, run ```docker build -t yourname\g5v:latest -f DockerfileFull .```
 This can take over a minute to complete.
 Now, you can run your application by running ```docker container run --name g5v -p 80:80 yourname\g5v:latest```
 
-Please note that both of the dockerfiles still require G5API to be running on the subfolder /api/.
+G5V requires G5API to be running at `/api`, you can change this behavior run `docker build -t yourname\g5v:latest -f DockerfileFull --build-arg VUE_APP_G5V_API_URL=<your_api_url>` (be sure to include `http(s)://` and not to have a trailing `/`). If you are using Docker Compose refer to [this](https://docs.docker.com/compose/compose-file/compose-file-v3/#args).
 Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
 ## Contribution
