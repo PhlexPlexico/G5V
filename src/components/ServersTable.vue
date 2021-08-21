@@ -219,8 +219,7 @@ export default {
   },
   methods: {
     async GetServers(refreshGrid) {
-      if(refreshGrid === false)
-        return;
+      if (refreshGrid === false) return;
       try {
         let res;
         let arrIndex;

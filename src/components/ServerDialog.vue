@@ -218,8 +218,7 @@ export default {
         else if (serverRes.includes("updated")) {
           this.response = this.$t("ServerCreate.MessageeEditSuccess");
           refreshGrid = false;
-        }
-        else this.response = serverRes;
+        } else this.response = serverRes;
         this.$emit("is-new-server", refreshGrid);
         this.responseSheet = true;
         this.show = false;

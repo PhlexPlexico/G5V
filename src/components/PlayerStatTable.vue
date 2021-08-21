@@ -271,8 +271,8 @@ export default {
             let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
             let newName =
               player.team_id == getMatchTeamIds.team1_id
-              ? getMatchTeamIds.team1_string
-              : getMatchTeamIds.team2_string;
+                ? getMatchTeamIds.team1_string
+                : getMatchTeamIds.team2_string;
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",
