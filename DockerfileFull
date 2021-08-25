@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:mainline-alpine
 
 ARG VUE_APP_G5V_API_URL
 RUN touch .env.production
