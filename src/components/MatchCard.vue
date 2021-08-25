@@ -62,8 +62,14 @@ export default {
           res.forEach(async match => {
             let mapStats = await this.GetSingleMapStat(match.id, 0);
             if (match.max_maps == 1) {
-              match.team1_score = mapStats.team1_score;
-              match.team2_score = mapStats.team2_score;
+              match.team1_score =
+                mapStats.team1_score == null
+                  ? match.team1_score
+                  : mapStats.team1_score;
+              match.team2_score =
+                mapStats.team2_score == null
+                  ? match.team2_score
+                  : mapStats.team2_score;
             }
             match.map_name = mapStats.map_name;
             match.img_error = false;
