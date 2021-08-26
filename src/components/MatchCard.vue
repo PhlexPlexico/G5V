@@ -75,6 +75,9 @@ export default {
             match.img_error = false;
             this.matches.push(match);
           });
+          this.matches.sort((a, b) => {
+            return a.id - b.id;
+          });
         }
       } catch (error) {
         console.log(error);
@@ -84,7 +87,6 @@ export default {
       return;
     },
     imageError(matchIdx) {
-      console.log(this.matches[matchIdx].map_name);
       this.matches[matchIdx].map_name = "_unknown";
       return;
     }
