@@ -148,7 +148,7 @@ export default {
       this.allUsers = await this.GetAllUsers();
       this.allTeams = await this.GetAllTeams();
       this.allMatches = await this.GetAllMatches();
-      this.allServers = await this.GetAllServers();
+      this.allServers = await this.GetPublicServerCount();
       this.allMaps = await this.GetAllMapStats();
       this.allUniquePlayers = await this.GetAllPlayers();
       this.allSeasons = await this.GetAllSeasons();
@@ -178,7 +178,7 @@ export default {
       }).length;
     },
     serverCount() {
-      return this.allServers.length;
+      return this.allServers.servers;
     },
     mapCount() {
       return this.allMaps.filter(mtch => {
