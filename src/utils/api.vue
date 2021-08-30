@@ -496,6 +496,19 @@ export default {
       }
       return message;
     },
+    async GetPublicServerCount() {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/servers/publiccount`
+        );
+        return res.data.servers;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMyServers() {
       let res;
       let message;
