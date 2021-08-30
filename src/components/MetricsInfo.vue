@@ -178,7 +178,7 @@ export default {
       }).length;
     },
     serverCount() {
-      return this.allServers.servers;
+      return this.allServers;
     },
     mapCount() {
       return this.allMaps.filter(mtch => {
