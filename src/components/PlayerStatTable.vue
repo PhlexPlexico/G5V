@@ -144,6 +144,14 @@ export default {
           groupable: false
         },
         {
+          text: this.$t("PlayerStats.EnemyFlash"),
+          value: "enemies_flashed"
+        },
+        {
+          text: this.$t("PlayerStats.FriendFlash"),
+          value: "friendlies_flashed"
+        },
+        {
           text: this.$t("PlayerStats.Rating"),
           value: "rating",
           groupable: false
@@ -168,6 +176,14 @@ export default {
         {
           text: this.$t("PlayerStats.ADR"),
           value: "adr"
+        },
+        {
+          text: this.$t("PlayerStats.UtilDamage"),
+          value: "util_damage"
+        },
+        {
+          text: this.$t("PlayerStats.KnifeKills"),
+          value: "knife_kills"
         },
         {
           text: this.$t("PlayerStats.BombPlants"),

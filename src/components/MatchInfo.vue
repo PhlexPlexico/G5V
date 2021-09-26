@@ -13,7 +13,7 @@
         v-if="matchInfo.team1.id != 0"
         :to="{ path: '/teams/' + matchInfo.team1_id }"
       >
-        <div v-if="matchInfo.team1.logo != null">
+        <div v-if="matchInfo.team1.logo != ''">
           <img
             :src="apiUrl + '/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
@@ -36,7 +36,7 @@
         v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"
       >
-        <div v-if="matchInfo.team2.logo != null">
+        <div v-if="matchInfo.team2.logo != ''">
           <img
             :src="apiUrl + '/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"

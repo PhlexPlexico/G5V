@@ -400,6 +400,17 @@ export default {
       }
       return message;
     },
+    async GetLimitMatches(limit) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(`/api/matches/limit/${limit}`);
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMyMatches() {
       let res;
       let message;
@@ -448,6 +459,23 @@ export default {
         res = await axios({
           method: "delete",
           url: `${process.env?.VUE_APP_G5V_API_URL || "/api"}/matches/`,
+          data: [{ all_cancelled: true }],
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        });
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async DeleteMyCancelledMatches() {
+      let res;
+      let message;
+      try {
+        res = await axios({
+          method: "delete",
+          url: "/api/matches/",
           data: [{ all_cancelled: true }],
           headers: { "Content-Type": "application/json" },
           withCredentials: true
@@ -941,16 +969,44 @@ export default {
     // BEGIN VETO CALLS
     async GetVetoesOfMatch(matchid) {
       let res;
-      let message;
+      let vetoMessage = "";
+      let vetoSideMessage;
+      let combinedVetoInfo = [];
       try {
-        res = await this.axioCall.get(
-          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetoes/${matchid}`
-        );
-        return res.data.vetoes;
+        res = await this.axioCall.get(`/api/vetoes/${matchid}`);
+        vetoMessage = res.data.vetoes;
+        res = await this.axioCall.get(`/api/vetosides/${matchid}`);
+        vetoSideMessage = res.data.vetoes;
+        vetoMessage.forEach((vetoData) => {
+          let combinedFind = vetoSideMessage.find((vetoSideChoice) => {
+            return (
+              vetoData["id"] === vetoSideChoice["veto_id"] &&
+              vetoData["map"] === vetoSideChoice["map"]
+            );
+          });
+          combinedFind
+            ? combinedVetoInfo.push({
+                id: vetoData.id,
+                match_id: vetoData.match_id,
+                team_name: vetoData.team_name,
+                map: vetoData.map,
+                pick_or_veto: vetoData.pick_or_veto,
+                team_name_side: combinedFind.team_name,
+                side: combinedFind.side,
+              })
+            : combinedVetoInfo.push({
+                id: vetoData.id,
+                match_id: vetoData.match_id,
+                team_name: vetoData.team_name,
+                map: vetoData.map,
+                pick_or_veto: vetoData.pick_or_veto,
+              });
+        });
+        return combinedVetoInfo;
       } catch (error) {
-        message = error.response.data.message;
+        combinedVetoInfo = error.response.data.message;
       }
-      return message;
+      return combinedVetoInfo;
     },
     // END VETO CALLS
     // BEGIN LEADERBOARD CALLS

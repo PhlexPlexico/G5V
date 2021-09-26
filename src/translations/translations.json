@@ -102,6 +102,10 @@
       "Deaths": "Deaths",
       "Assists": "Assists",
       "FlashbangAssists": "Flashbang Assists",
+      "EnemyFlash": "Enemies Flashed",
+      "FriendFlash": "Teammates Flashed",
+      "KnifeKills": "Knife Kills",
+      "UtilDamage": "Utility Damage",
       "Headshot": "Headshot",
       "RoundsPlayed": "Rounds Played",
       "Rating": "Rating",
@@ -282,7 +286,8 @@
       "DeciderTeam": "Decider",
       "TeamHeader": "Team",
       "MapHeader": "Map",
-      "PickBan": "Pick or Ban?"
+      "PickBan": "Pick or Ban?",
+      "SidePick": "Side Picked"
     },
     "lang": {
       "LanguageName": "English",
@@ -428,6 +433,10 @@
       "Deaths": "死者数",
       "Assists": "アシスト",
       "FlashbangAssists": "フラッシュバング アシスト",
+      "EnemyFlash": "敵のフラッシング",
+      "FriendFlash": "チームメイトのフラッシュ",
+      "KnifeKills": "ナイフで殺す",
+      "UtilDamage": "ユーティリティーダメージ",
       "Headshot": "ヘッドショット",
       "RoundsPlayed": "ラウンド数",
       "Rating": "レーティング",
@@ -608,7 +617,8 @@
       "DeciderTeam": "決定者",
       "TeamHeader": "チーム",
       "MapHeader": "地図",
-      "PickBan": "選ぶか禁止するか？"
+      "PickBan": "選ぶか禁止するか？",
+      "SidePick": "サイドピック"
     },
     "lang": {
       "LanguageName": "日本語",
