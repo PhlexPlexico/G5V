@@ -145,11 +145,13 @@ export default {
         },
         {
           text: this.$t("PlayerStats.EnemyFlash"),
-          value: "enemies_flashed"
+          value: "enemies_flashed",
+          groupable: false
         },
         {
           text: this.$t("PlayerStats.FriendFlash"),
-          value: "friendlies_flashed"
+          value: "friendlies_flashed",
+          groupable: false
         },
         {
           text: this.$t("PlayerStats.Rating"),
@@ -226,7 +228,7 @@ export default {
       allowRefresh: false,
       timeoutId: -1,
       isFinished: true,
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api",
     };
   },
   created() {
@@ -253,16 +255,16 @@ export default {
         let allMapIds = [];
         let totalMatchTeam = [];
         let allTeamIds = [];
-        res.filter(item => {
-          let i = allMapIds.findIndex(x => x == item.map_id);
-          let j = allTeamIds.findIndex(x => x == item.team_id);
+        res.filter((item) => {
+          let i = allMapIds.findIndex((x) => x == item.map_id);
+          let j = allTeamIds.findIndex((x) => x == item.team_id);
           if (i <= -1) allMapIds.push(item.map_id);
           if (j <= -1) allTeamIds.push(item.team_id);
           return null;
         });
-        allMapIds.forEach(map_id => {
+        allMapIds.forEach((map_id) => {
           totalMatchTeam.push(
-            res.filter(stats => {
+            res.filter((stats) => {
               return stats.map_id == map_id;
             })
           );
@@ -270,35 +272,37 @@ export default {
         this.playerstats = totalMatchTeam;
         await this.playerstats.forEach((matchStats, idx) => {
           matchStats.forEach(async (player, pIdx) => {
-            let getRating = this.GetRating(
-              player.kills,
-              player.roundsplayed,
-              player.deaths,
-              player.k1,
-              player.k2,
-              player.k3,
-              player.k4,
-              player.k5
-            );
-            let adr = this.GetADR(player);
-            let hsp = this.GetHSP(player);
-            let kdr = this.GetKDR(player);
-            let fpr = this.GetFPR(player);
-            let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
-            let newName =
-              player.team_id == getMatchTeamIds.team1_id
-                ? getMatchTeamIds.team1_string
-                : getMatchTeamIds.team2_string;
-            this.$set(
-              this.playerstats[idx][pIdx],
-              "Team",
-              teamNum + " " + newName
-            );
-            this.$set(this.playerstats[idx][pIdx], "rating", getRating);
-            this.$set(this.playerstats[idx][pIdx], "adr", adr);
-            this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
-            this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
-            this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
+            if (player.roundsplayed > 0) {
+              let getRating = this.GetRating(
+                player.kills,
+                player.roundsplayed,
+                player.deaths,
+                player.k1,
+                player.k2,
+                player.k3,
+                player.k4,
+                player.k5
+              );
+              let adr = this.GetADR(player);
+              let hsp = this.GetHSP(player);
+              let kdr = this.GetKDR(player);
+              let fpr = this.GetFPR(player);
+              let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
+              let newName =
+                player.team_id == getMatchTeamIds.team1_id
+                  ? getMatchTeamIds.team1_string
+                  : getMatchTeamIds.team2_string;
+              this.$set(
+                this.playerstats[idx][pIdx],
+                "Team",
+                teamNum + " " + newName
+              );
+              this.$set(this.playerstats[idx][pIdx], "rating", getRating);
+              this.$set(this.playerstats[idx][pIdx], "adr", adr);
+              this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
+              this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
+              this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
+            }
           });
         });
         if (getMatchTeamIds.end_time != null) this.isFinished = false;
