@@ -61,6 +61,7 @@
         <v-data-table
           item-key="id"
           class="elevation-1"
+          items-per-page="12"
           :loading="isLoading"
           :loading-text="$t('misc.LoadText')"
           :headers="headers"
