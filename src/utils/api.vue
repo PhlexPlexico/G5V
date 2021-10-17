@@ -949,12 +949,17 @@ export default {
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetoes/${matchid}`
         );
         vetoMessage = res.data.vetoes;
-        res = await this.axioCall.get(
-          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetosides/${matchid}`
-        );
-        vetoSideMessage = res.data.vetoes;
+        try {
+          res = await this.axioCall.get(
+            `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetosides/${matchid}`
+          );
+          vetoSideMessage = res.data.vetoes;
+        } catch (error) {
+          console.log("No veto sides found.");
+        }
         vetoMessage.forEach((vetoData) => {
-          let combinedFind = vetoSideMessage.find((vetoSideChoice) => {
+          if(vetoSideMessage) {
+            let combinedFind = vetoSideMessage.find((vetoSideChoice) => {
             return (
               vetoData["id"] === vetoSideChoice["veto_id"] &&
               vetoData["map"] === vetoSideChoice["map"]
@@ -977,6 +982,16 @@ export default {
                 map: vetoData.map,
                 pick_or_veto: vetoData.pick_or_veto,
               });
+          } else {
+            combinedVetoInfo.push({
+                id: vetoData.id,
+                match_id: vetoData.match_id,
+                team_name: vetoData.team_name,
+                map: vetoData.map,
+                pick_or_veto: vetoData.pick_or_veto,
+              });
+          }
+          
         });
         return combinedVetoInfo;
       } catch (error) {
