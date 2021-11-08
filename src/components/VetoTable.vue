@@ -7,6 +7,8 @@
       :sort-by="['id']"
       hide-default-footer
       :no-data-text="$t('Veto.NoData')"
+      :expanded.sync="expanded"
+      show-expand
     >
       <template v-slot:item.map="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
@@ -37,21 +39,37 @@
           {{ item.team_name }}
         </div>
       </template>
-      <template v-slot:expanded-item="{ item }" class="text-center">
-            <td :colspan="headers.length">
-              <v-data-table
-                item-key="id"
-                class="elevation-1"
-                :headers="additionalHeaders"
-                hide-default-footer
-                dense
-                :key="item.id"
-                :items="[item]"
-                disable-sort
-                :colspan="headers.length"
-              />
-            </td>
-          </template>
+
+      <template
+        v-slot:[`item.data-table-expand`]="{ item, isExpanded, expand }"
+      >
+        <v-icon
+          v-if="item.side"
+          :class="[
+            'v-data-table__expand-icon',
+            { 'v-data-table__expand-icon--active': isExpanded },
+          ]"
+          @click.stop="expand(!isExpanded)"
+          >$expand</v-icon
+        >
+      </template>
+
+      <template v-slot:expanded-item="{ item, headers }">
+        <td :colspan="headers.length">
+            <v-data-table
+              item-key="id"
+              class="elevation-1"
+              :headers="additionalHeaders"
+              hide-default-footer
+              dense
+              :key="item.id"
+              :items="[item]"
+              disable-sort
+              :colspan="headers.length"
+            />
+          </td>
+      </template>
+      
     </v-data-table>
   </v-container>
 </template>
@@ -79,6 +97,10 @@ export default {
           text: this.$t("Veto.PickBan"),
           sortable: false,
           value: "pick_or_veto"
+        },
+        {
+          text: "",
+          value: "data-table-expand"
         }
       ],
       vetoInfo: [
@@ -121,6 +143,12 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    expandAll: function () {
+      this.expanded = this.people.filter((item) => item.description);
+    },
+    collapseAll: function () {
+      this.expanded = [];
     }
   }
 };
