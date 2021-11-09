@@ -1,0 +1,10 @@
+REPLACEDBYDOCKER
+root * /usr/share/caddy
+route /API_END_POINT/* {
+	uri strip_prefix /API_END_POINT
+	reverse_proxy PROXY_URL_REPLACE
+}
+route {
+    try_files {path} {path}/ /index.html
+	file_server
+}

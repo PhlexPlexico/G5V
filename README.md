@@ -39,7 +39,7 @@ Spins up a development server where you can make all your calls, and run it like
 This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled, and reverse proxy enabled for the API calls. There is some setup involved, depending on your flavour of web servers, but some setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
 ### Docker Build Instructions:
-There are 2 dockerfiles included, ```DockerfileLight``` and ```DockerfileFull```.
+There are 3 dockerfiles included, `DockerfileLight`,  `DockerfileFull` and `DockerfileFullCaddy`.
 
 #### DockerfileLight:
 This should be used if yarn is already installed on your local machine. 
@@ -56,6 +56,32 @@ Now, you can run your application by running ```docker container run --name g5v 
 
 G5V requires G5API to be running at `/api`, you can change this behavior run `docker build -t yourname\g5v:latest -f DockerfileFull --build-arg VUE_APP_G5V_API_URL=<your_api_url>` (be sure to include `http(s)://` and not to have a trailing `/`). If you are using Docker Compose refer to [this](https://docs.docker.com/compose/compose-file/compose-file-v3/#args).
 Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
+
+#### DockerfileFullCaddy:
+This should be used if you do not have yarn, and do not want to install it. 
+This file will install yarn in the container, build the application, and execute it. 
+To use it, run ```docker build -t yourname\g5v:latest -f DockerfileFullCaddy .```
+This can take over a minute to complete.
+Now, you can run your application by running 
+```
+docker container run --name g5v \
+-p 80:80 \
+-p 443:443 \
+-e CADDY_URL="" \
+-e CADDY_PROXY_URL="" \
+-e CADDY_API_ENDPOINT="api" \
+yourname\g5v:latest
+```
+
+Where `CADDY_URL` is your URL to the front end **without https:// or trailing slashes** (i.e. `get5.phlexplexi.co`)  
+`CADDY_PROXY_URL` is your URL with the port to your API (in case it is hosted not locally!)  
+And `CADDY_API_ENDPOINT` is the end point where the reverse proxy should lead to.
+Please note that if your api endpoint (mentioned below) is different, please ensure this value is the **same** `URI`. I.e. if you are running your API at `/newAPI` make sure `CADDY_API_ENDPOINT="newAPI"`. 
+
+G5V requires G5API to be running at `/api`, you can change this behavior run `docker build -t yourname\g5v:latest -f DockerfileFullCaddy --build-arg VUE_APP_G5V_API_URL=<your_api_url>` (be sure to include `http(s)://` and not to have a trailing `/`). If you are using Docker Compose refer to [this](https://docs.docker.com/compose/compose-file/compose-file-v3/#args).
+Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
+
+By default with this docker command, Caddy should setup HTTPS by default, and will handle the reverse proxy requests as well.
 
 ## Contribution
 Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed.

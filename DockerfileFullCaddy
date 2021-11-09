@@ -1,0 +1,28 @@
+FROM caddy:2.4.6-alpine
+
+ARG VUE_APP_G5V_API_URL
+RUN touch .env.production
+RUN echo $VUE_APP_G5V_API_URL < .env.production
+
+# install prerequisits 
+RUN apk update && apk add \
+	nodejs \
+	yarn	
+
+# Move default.conf into /etc/nginx/conf.d/
+RUN sed -i "s|REPLACEDBYDOCKER|$CADDY_URL|g" Caddyfile
+RUN sed -i "s|PROXY_URL_REPLACE|$CADDY_PROXY_URL|g" Caddyfile
+RUN sed -i "s|API_END_POINT|$CADDY_API_ENDPOINT|g" Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
+
+
+# create folder and copy application into folder
+RUN mkdir G5V
+COPY ./ /G5V/
+WORKDIR /G5V
+
+# build application using yarn
+RUN yarn && yarn build
+
+# copy results to Caddy directory
+RUN cp -R ./dist/* /usr/share/caddy/
