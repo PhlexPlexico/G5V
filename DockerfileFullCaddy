@@ -1,4 +1,6 @@
 FROM caddy:2.4.6-alpine
+EXPOSE 80
+EXPOSE 443
 
 ARG VUE_APP_G5V_API_URL
 RUN touch .env.production
