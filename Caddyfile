@@ -1,0 +1,6 @@
+localhost
+root * /usr/share/caddy
+route {
+    try_files {path} {path}/ /index.html
+	file_server
+}

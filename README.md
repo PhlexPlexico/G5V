@@ -39,7 +39,7 @@ Spins up a development server where you can make all your calls, and run it like
 This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled, and reverse proxy enabled for the API calls. There is some setup involved, depending on your flavour of web servers, but some setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
 ### Docker Build Instructions:
-There are 2 dockerfiles included, ```DockerfileLight``` and ```DockerfileFull```.
+There are 3 dockerfiles included, `DockerfileLight`,  `DockerfileFull` and `DockerfileLightCaddy`.
 
 #### DockerfileLight:
 This should be used if yarn is already installed on your local machine. 
@@ -57,6 +57,17 @@ Now, you can run your application by running ```docker container run --name g5v 
 G5V requires G5API to be running at `/api`, you can change this behavior run `docker build -t yourname\g5v:latest -f DockerfileFull --build-arg VUE_APP_G5V_API_URL=<your_api_url>` (be sure to include `http(s)://` and not to have a trailing `/`). If you are using Docker Compose refer to [this](https://docs.docker.com/compose/compose-file/compose-file-v3/#args).
 Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
+#### DockerfileLightCaddy:
+This Docker file should only be used if you wish to run Caddy on the Vue webserver itself. It's rather niche and doesn't offer a lot of difference from NGINX because you will need to run a reverse proxy into this container (that is going to do all the hard lifting). However, if you wish to run everything Caddy you can do so with the following build and run command. Please note there is only a light file included, so yarn will be required to be installed on your host machine and you will need to build the app before running this via `yarn; yarn build`.
+
+To use it, run ```docker build -t yourname\g5v:caddy -f DockerfileLightCaddy .```
+Now, you can run your application by running `docker container run --name g5v -p 80:80 yourname\g5v:caddy` 
+
+G5V requires G5API to be running at `/api`, you can change this behavior run `docker build -t yourname\g5v:caddy -f DockerfileLightCaddy --build-arg VUE_APP_G5V_API_URL=<your_api_url>` (be sure to include `http(s)://` and not to have a trailing `/`). If you are using Docker Compose refer to [this](https://docs.docker.com/compose/compose-file/compose-file-v3/#args).
+Some example setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
+
+By default with this docker command, Caddy should setup HTTPS by default, and will handle the reverse proxy requests as well.
+
 ## Contribution
 Sure! If you have a knack for APIs and a penchant for JavaScript, I could always use help! Create a fork of this application, make your changes, and submit a PR. I will be using the [Issues](https://github.com/G5V/issues) page to track what calls still need to be completed.
 
@@ -65,6 +76,7 @@ Sure! If you have a knack for APIs and a penchant for JavaScript, I could always
 - [Sean Lewis](https://github.com/splewis) for the creation of get5.
 - Smimabo for helping me test endlessly for the match API to ensure stats record as they should.
 - ebuttonsdude for letting me host an instance for testing on his server.
+- [kubo6472](https://github.com/kubo6472) for helping with Github Actions and creating packages for use with docker-compose.
 
 ### Screenshots  
 ![](./screenshots/MainPage.png)  
