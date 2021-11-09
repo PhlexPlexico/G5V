@@ -1,8 +1,8 @@
-REPLACEDBYDOCKER
+{$CADDY_URL}
 root * /usr/share/caddy
-route /API_END_POINT/* {
+route /{$CADDY_API_ENDPOINT}/* {
 	uri strip_prefix /API_END_POINT
-	reverse_proxy PROXY_URL_REPLACE
+	reverse_proxy {$CADDY_PROXY_URL}
 }
 route {
     try_files {path} {path}/ /index.html

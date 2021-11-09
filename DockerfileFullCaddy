@@ -9,17 +9,15 @@ RUN apk update && apk add \
 	nodejs \
 	yarn	
 
-
-
+# Move default Caddyfile with our new one that has variables.
+COPY Caddyfile /etc/caddy/Caddyfile
 
 # create folder and copy application into folder
 RUN mkdir G5V
 COPY ./ /G5V/
 WORKDIR /G5V
 
-# Copy over Caddyfile with replacements via sed.
-CMD sh /G5V/G5V/setEnv.sh
-COPY Caddyfile /etc/caddy/Caddyfile
+
 
 # build application using yarn
 RUN yarn && yarn build
