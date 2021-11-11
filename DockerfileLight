@@ -1,3 +1,4 @@
-FROM nginx:mainline-alpine
-COPY ./dist /usr/share/nginx/html
-COPY default.conf /etc/nginx/conf.d/default.conf
+FROM caddy:alpine
+ARG DOMAIN
+COPY ./dist /usr/share/caddy
+COPY Caddyfile /etc/caddy/Caddyfile
