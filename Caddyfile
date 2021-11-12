@@ -1,10 +1,10 @@
-{$CADDY_URL}
-root * /usr/share/caddy
-route /{$CADDY_API_ENDPOINT}/* {
-	uri strip_prefix /API_END_POINT
-	reverse_proxy {$CADDY_PROXY_URL}
-}
-route {
-    try_files {path} {path}/ /index.html
-	file_server
+{$CADDY_URL} {
+    handle_path /{$CADDY_API_ENDPOINT}* {
+        reverse_proxy {$CADDY_PROXY_URL}
+    }
+    handle {
+        root * /usr/share/caddy
+        try_files {path} /index.html
+        file_server
+    }
 }
