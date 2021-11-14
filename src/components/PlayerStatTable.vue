@@ -333,17 +333,13 @@ export default {
           this.arrMapString[index].start =
             "Map Start: " +
             new Date(singleMapStat.start_time)
-              .toISOString()
-              .slice(0, 19)
-              .replace("T", " ");
+              .toLocaleString();
           this.arrMapString[index].end =
             singleMapStat.end_time == null
               ? null
               : "Map End: " +
                 new Date(singleMapStat.end_time)
-                  .toISOString()
-                  .slice(0, 19)
-                  .replace("T", " ");
+                  .toLocaleString();
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
           this.arrMapString[index].demo = singleMapStat.demoFile;
         });
