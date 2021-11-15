@@ -194,7 +194,9 @@
       "Owner": "Owner",
       "FormTitleNew": "Create New Server",
       "FormTitleEdit": "Edit Server Info",
-      "Flag": "Location"
+      "Flag": "Location",
+      "ShowPublicServers": "Show All Available Servers",
+      "ShowMyServers": "Show My Servers"
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "Your server information will not be exposed to other users.",
@@ -525,7 +527,9 @@
       "Owner": "オーナー",
       "FormTitleNew": "新規サーバーの作成",
       "FormTitleEdit": "サーバー情報の編集",
-      "Flag": "場所は"
+      "Flag": "場所は",
+      "ShowPublicServers": "利用可能なサーバーをすべて表示",
+      "ShowMyServers": "マイサーバーの表示"
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "あなたのサーバー情報は他のユーザーには公開されません。",

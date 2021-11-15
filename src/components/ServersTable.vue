@@ -15,6 +15,18 @@
           {{ $t("MyServers.Title") }}
           <v-spacer />
           <v-btn
+            color="secondary"
+            @click="allServers = !allServers"
+            v-if="user.id != null"
+          >
+            <div v-if="displayAllServerText">
+              {{ $t("MyServers.ShowMyServers") }}
+            </div>
+            <div v-else>
+              {{ $t("MyServers.ShowPublicServers") }}
+            </div>
+          </v-btn>
+          <v-btn
             color="primary"
             @click="newDialog = true"
             v-if="user.id != null"
@@ -203,6 +215,8 @@ export default {
         flag: "",
         gotv_port: 0
       },
+      allServers: false,
+      displayAllServerText: false,
       formTitle: this.$t("MyServers.FormTitleNew")
     };
   },
@@ -215,6 +229,9 @@ export default {
         this.formTitle = this.$t("MyServers.FormTitleNew");
         this.newServer = {};
       }
+    },
+    allServers() {
+      this.GetServers(true);
     }
   },
   methods: {
@@ -226,8 +243,11 @@ export default {
         this.servers = [];
         this.selectedHeaders = JSON.parse(JSON.stringify(this.headers));
         this.isLoading = true;
-        if (this.$route.path == "/myservers") res = await this.GetMyServers();
-        else res = await this.GetAllServers();
+        if (this.$route.path == "/myservers" && this.allServers === false) res = await this.GetMyServers();
+        else {
+          this.displayAllServerText = true;
+          res = await this.GetAllServers();
+        }
         if (typeof res == "string") res = [];
         res.forEach(async season => {
           season.showRcon = false;
