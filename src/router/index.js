@@ -24,6 +24,7 @@ const routes = [
     children: [
       {
         path: "/create",
+        name: "Create Team",
         component: () =>
           import(/* webpackChunkName: "Teams" */ "../views/Team.vue")
       }

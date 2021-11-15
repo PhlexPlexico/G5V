@@ -64,11 +64,11 @@
             <v-list-item-title>{{ $t("Navbar.MyTeams") }}</v-list-item-title>
           </v-list-item>
 
-          <v-list-item :to="'/teams'">
+          <v-list-item :to="'/teams'" exact>
             <v-list-item-title>{{ $t("Navbar.AllTeams") }}</v-list-item-title>
           </v-list-item>
 
-          <v-list-item v-if="user.id != null" :to="'/teams/create'">
+          <v-list-item v-if="user.id != null" :to="'/teams/create'" exact>
             <v-list-item-title>{{ $t("Navbar.CreateTeam") }}</v-list-item-title>
           </v-list-item>
 
