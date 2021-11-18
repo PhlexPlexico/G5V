@@ -1,10 +1,7 @@
-{$CADDY_URL} {
-    handle_path /{$CADDY_API_ENDPOINT}* {
-        reverse_proxy {$CADDY_PROXY_URL}
-    }
+localhost {
     handle {
         root * /usr/share/caddy
-        try_files {path} /index.html
-        file_server
+        try_files {path} {path}/ /index.html
+	      file_server
     }
 }
