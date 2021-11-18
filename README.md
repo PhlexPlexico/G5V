@@ -39,6 +39,7 @@ Spins up a development server where you can make all your calls, and run it like
 This will generate a minified and buildable version of the website in the `dist` folder to use on a web server. In order to use history, you must have a proxy enabled, and reverse proxy enabled for the API calls. There is some setup involved, depending on your flavour of web servers, but some setup configs can be found [here](https://github.com/PhlexPlexico/G5V/wiki).
 
 ### Docker Build Instructions:
+
 There are 3 dockerfiles included, `DockerfileLight`,  `DockerfileFull` and `DockerfileLightCaddy`.
 
 #### DockerfileLight:
