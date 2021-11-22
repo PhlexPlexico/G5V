@@ -95,6 +95,9 @@ Here are a few organizations that have used this webpanel for tournaments/pugs/s
 
  - [Irish Challenger League](https://www.iclhub.ie/)
  - [PixlWalk](https://discord.gg/dUN5G5ttQ5)
+ - [UniCup](https://fb.com/UniCupSVK)
+ - [OVG](https://ovg.cz)
+ - [ESA](https://esportsa.cz)
 
 Want your org to be here? Shoot me a DM on Twitter or email and I can add it to the list!
 
