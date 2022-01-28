@@ -419,7 +419,14 @@ export default {
   async created() {
     this.servers = await this.GetAllAvailableServers();
     if (this.IsAnyAdmin(this.user)) this.teams = await this.GetAllTeams();
-    else this.teams = await this.GetMyTeams();
+    else {
+      let tmpPublicTeams = await this.GetAllTeams();
+      this.teams = await this.GetMyTeams();
+      tmpPublicTeams.forEach(async team => {
+        if (typeof this.teams === "string") this.teams = [];
+        if (team.public_team == 1) this.teams.push(team);
+      });
+    }
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];
     this.MapList = await this.GetUserEnabledMapList(this.user.id);
