@@ -1,24 +1,25 @@
-FROM nginx:mainline-alpine
+FROM node:16 as builder
 
 ARG VUE_APP_G5V_API_URL
-RUN touch .env.production
-RUN echo $VUE_APP_G5V_API_URL < .env.production
+ENV VUE_APP_G5V_API_URL=$VUE_APP_G5V_API_URL
 
-# install prerequisits 
-RUN apk update && apk add \
-	nodejs \
-	yarn	
+# create folder and copy application into folder
+WORKDIR /G5V
+COPY package*.json .
+COPY yarn.lock .
+
+# build application using yarn
+RUN yarn
+
+COPY . .
+
+ENV NODE_ENV=production
+
+RUN yarn build
+
+
+FROM nginx:latest
 
 # Move default.conf into /etc/nginx/conf.d/
 COPY default.conf /etc/nginx/conf.d/default.conf
-
-# create folder and copy application into folder
-RUN mkdir G5V
-COPY ./ /G5V/
-WORKDIR /G5V
-
-# build application using yarn
-RUN yarn && yarn build
-
-# copy results to nginx directory
-RUN cp -R ./dist/* /usr/share/nginx/html
+COPY --from=builder /G5V/dist /usr/share/nginx/html
