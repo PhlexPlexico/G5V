@@ -47,7 +47,7 @@
           v-if="item.side"
           :class="[
             'v-data-table__expand-icon',
-            { 'v-data-table__expand-icon--active': isExpanded },
+            { 'v-data-table__expand-icon--active': isExpanded }
           ]"
           @click.stop="expand(!isExpanded)"
           >$expand</v-icon
@@ -56,20 +56,19 @@
 
       <template v-slot:expanded-item="{ item, headers }">
         <td :colspan="headers.length">
-            <v-data-table
-              item-key="id"
-              class="elevation-1"
-              :headers="additionalHeaders"
-              hide-default-footer
-              dense
-              :key="item.id"
-              :items="[item]"
-              disable-sort
-              :colspan="headers.length"
-            />
-          </td>
+          <v-data-table
+            item-key="id"
+            class="elevation-1"
+            :headers="additionalHeaders"
+            hide-default-footer
+            dense
+            :key="item.id"
+            :items="[item]"
+            disable-sort
+            :colspan="headers.length"
+          />
+        </td>
       </template>
-      
     </v-data-table>
   </v-container>
 </template>
@@ -144,10 +143,10 @@ export default {
         console.log(error);
       }
     },
-    expandAll: function () {
-      this.expanded = this.people.filter((item) => item.description);
+    expandAll: function() {
+      this.expanded = this.people.filter(item => item.description);
     },
-    collapseAll: function () {
+    collapseAll: function() {
       this.expanded = [];
     }
   }

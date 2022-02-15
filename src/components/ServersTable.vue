@@ -243,7 +243,8 @@ export default {
         this.servers = [];
         this.selectedHeaders = JSON.parse(JSON.stringify(this.headers));
         this.isLoading = true;
-        if (this.$route.path == "/myservers" && this.allServers === false) res = await this.GetMyServers();
+        if (this.$route.path == "/myservers" && this.allServers === false)
+          res = await this.GetMyServers();
         else {
           this.displayAllServerText = true;
           res = await this.GetAllServers();

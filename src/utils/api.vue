@@ -957,41 +957,40 @@ export default {
         } catch (error) {
           console.log("No veto sides found.");
         }
-        vetoMessage.forEach((vetoData) => {
-          if(vetoSideMessage) {
-            let combinedFind = vetoSideMessage.find((vetoSideChoice) => {
-            return (
-              vetoData["id"] === vetoSideChoice["veto_id"] &&
-              vetoData["map"] === vetoSideChoice["map"]
-            );
-          });
-          combinedFind
-            ? combinedVetoInfo.push({
-                id: vetoData.id,
-                match_id: vetoData.match_id,
-                team_name: vetoData.team_name,
-                map: vetoData.map,
-                pick_or_veto: vetoData.pick_or_veto,
-                team_name_side: combinedFind.team_name,
-                side: combinedFind.side,
-              })
-            : combinedVetoInfo.push({
-                id: vetoData.id,
-                match_id: vetoData.match_id,
-                team_name: vetoData.team_name,
-                map: vetoData.map,
-                pick_or_veto: vetoData.pick_or_veto,
-              });
+        vetoMessage.forEach(vetoData => {
+          if (vetoSideMessage) {
+            let combinedFind = vetoSideMessage.find(vetoSideChoice => {
+              return (
+                vetoData["id"] === vetoSideChoice["veto_id"] &&
+                vetoData["map"] === vetoSideChoice["map"]
+              );
+            });
+            combinedFind
+              ? combinedVetoInfo.push({
+                  id: vetoData.id,
+                  match_id: vetoData.match_id,
+                  team_name: vetoData.team_name,
+                  map: vetoData.map,
+                  pick_or_veto: vetoData.pick_or_veto,
+                  team_name_side: combinedFind.team_name,
+                  side: combinedFind.side
+                })
+              : combinedVetoInfo.push({
+                  id: vetoData.id,
+                  match_id: vetoData.match_id,
+                  team_name: vetoData.team_name,
+                  map: vetoData.map,
+                  pick_or_veto: vetoData.pick_or_veto
+                });
           } else {
             combinedVetoInfo.push({
-                id: vetoData.id,
-                match_id: vetoData.match_id,
-                team_name: vetoData.team_name,
-                map: vetoData.map,
-                pick_or_veto: vetoData.pick_or_veto,
-              });
+              id: vetoData.id,
+              match_id: vetoData.match_id,
+              team_name: vetoData.team_name,
+              map: vetoData.map,
+              pick_or_veto: vetoData.pick_or_veto
+            });
           }
-          
         });
         return combinedVetoInfo;
       } catch (error) {

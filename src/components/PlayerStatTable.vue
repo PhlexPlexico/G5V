@@ -229,7 +229,7 @@ export default {
       allowRefresh: false,
       timeoutId: -1,
       isFinished: true,
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api",
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   created() {
@@ -256,16 +256,16 @@ export default {
         let allMapIds = [];
         let totalMatchTeam = [];
         let allTeamIds = [];
-        res.filter((item) => {
-          let i = allMapIds.findIndex((x) => x == item.map_id);
-          let j = allTeamIds.findIndex((x) => x == item.team_id);
+        res.filter(item => {
+          let i = allMapIds.findIndex(x => x == item.map_id);
+          let j = allTeamIds.findIndex(x => x == item.team_id);
           if (i <= -1) allMapIds.push(item.map_id);
           if (j <= -1) allTeamIds.push(item.team_id);
           return null;
         });
-        allMapIds.forEach((map_id) => {
+        allMapIds.forEach(map_id => {
           totalMatchTeam.push(
-            res.filter((stats) => {
+            res.filter(stats => {
               return stats.map_id == map_id;
             })
           );
@@ -331,15 +331,11 @@ export default {
             " " +
             singleMapStat.team2_score;
           this.arrMapString[index].start =
-            "Map Start: " +
-            new Date(singleMapStat.start_time)
-              .toLocaleString();
+            "Map Start: " + new Date(singleMapStat.start_time).toLocaleString();
           this.arrMapString[index].end =
             singleMapStat.end_time == null
               ? null
-              : "Map End: " +
-                new Date(singleMapStat.end_time)
-                  .toLocaleString();
+              : "Map End: " + new Date(singleMapStat.end_time).toLocaleString();
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
           this.arrMapString[index].demo = singleMapStat.demoFile;
         });
