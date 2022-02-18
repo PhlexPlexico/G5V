@@ -517,6 +517,7 @@ export default {
     async saveNewSeason() {
       if (this.$refs.newSeasonForm.validate()) {
         let serverRes;
+        let newCvar;
         const splitStr = x => {
           const y = x.split(" ");
           let retVal;
@@ -532,11 +533,13 @@ export default {
           }
           return retVal;
         };
-        let newCvar = Object.assign(
-          {},
-          ...this.newSeason.cvars.map(splitStr),
-          this.seasonDefaults
-        );
+        if (this.newSeason.cvars) {
+          newCvar = Object.assign(
+            {},
+            ...this.newSeason.cvars.map(splitStr),
+            this.seasonDefaults
+          );
+        }
         newCvar.spectators =
           newCvar.spectators != "" ? newCvar.spectators.join(" ") : "";
         newCvar.map_pool = newCvar.map_pool.join(" ");

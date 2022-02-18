@@ -19,7 +19,7 @@
             @click="allServers = !allServers"
             v-if="user.id != null"
           >
-            <div v-if="displayAllServerText">
+            <div v-if="allServers">
               {{ $t("MyServers.ShowMyServers") }}
             </div>
             <div v-else>
@@ -216,7 +216,6 @@ export default {
         gotv_port: 0
       },
       allServers: false,
-      displayAllServerText: false,
       formTitle: this.$t("MyServers.FormTitleNew")
     };
   },
@@ -243,9 +242,9 @@ export default {
         this.servers = [];
         this.selectedHeaders = JSON.parse(JSON.stringify(this.headers));
         this.isLoading = true;
-        if (this.$route.path == "/myservers" && this.allServers === false) res = await this.GetMyServers();
+        if (this.$route.path == "/myservers" && this.allServers === false)
+          res = await this.GetMyServers();
         else {
-          this.displayAllServerText = true;
           res = await this.GetAllServers();
         }
         if (typeof res == "string") res = [];
