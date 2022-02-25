@@ -17,6 +17,15 @@
       "PlayerLeader": "Player Leaderboard",
       "Home": "Home"
     },
+    "Login": {
+      "title": "Login/Register",
+      "Login": "Login",
+      "Register": "Register",
+      "Info": "Please ensure you have your Steam 64 ID and a username. Example - 76561198025644194",
+      "SteamIdLabel": "Steam ID",
+      "UsernameLabel": "Username",
+      "PasswordLabel": "Password"
+    },
     "MatchAdmin": {
       "AdminTools": "Admin Actions",
       "CancelMatchConfirm": "Are you sure you wish to cancel the match?",

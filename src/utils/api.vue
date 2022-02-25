@@ -1055,6 +1055,34 @@ export default {
       return message;
     },
     // END LEADERBOARD CALLS
+    // BEGIN REGISTRATION CALLS
+    async login(userinfo) {
+      let message;
+      try {
+        await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/login`,
+          userinfo
+        );
+        return;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async register(userinfo) {
+      let message;
+      try {
+        await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/register`,
+          userinfo
+        );
+        return;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    // END REGISTRATION CALLS
     GetSteamURL: function(steamid) {
       return `https://steamcommunity.com/profiles/${steamid}`;
     },

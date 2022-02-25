@@ -96,24 +96,28 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <ServerDialog v-model="newDialog" :serverInfo="{}" title="New Server" />
+    <ServerDialog v-model="newDialog" :serverInfo="{}" :title="$t('MyServers.New')" />
+    <LoginDialog v-model="loginDialog" :userInfo="{}" :title="$t('Login.title')" />
   </v-card>
 </template>
 <script>
 import ServerDialog from "./ServerDialog";
+import LoginDialog from "./LoginDialog";
 export default {
   name: "Navbar",
   props: {
     user: Object
   },
   components: {
-    ServerDialog
+    ServerDialog,
+    LoginDialog
   },
   data() {
     return {
       drawer: false,
       group: null,
       newDialog: false,
+      loginDialog: true,
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
