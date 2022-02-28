@@ -65,6 +65,20 @@
           </v-btn>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12" md="11" sm="11" lg="6">
+          <v-btn
+            class="ma-2"
+            :loading="apiResetLoading"
+            :disabled="apiResetLoading"
+            name="apiReset"
+            @click="passwordResetDialog = true"
+            color="secondary"
+          >
+            {{ $t("User.ResetPass") }}
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
     <v-container>
       <v-card-title class="headline">
@@ -84,19 +98,25 @@
       </v-card-title>
       <MapList v-if="retrievedUser.id != -1" :user="retrievedUser" />
     </v-container>
+    <PasswordResetDialog
+      v-model="passwordResetDialog"
+      :title="$t('User.ResetPass')"
+    />
   </v-card>
 </template>
 <script>
 import MatchesTable from "@/components/MatchesTable";
 import PlayerStats from "@/components/PlayerStatInfo";
 import MapList from "@/components/NewMap";
+import PasswordResetDialog from "@/components/PasswordResetDialog";
 
 export default {
   name: "User",
   components: {
     MatchesTable,
     PlayerStats,
-    MapList
+    MapList,
+    PasswordResetDialog
   },
   data() {
     return {
@@ -122,7 +142,9 @@ export default {
       }, // should be object from JSON response
       userStats: [],
       showAPI: false,
-      apiResetLoading: false
+      apiResetLoading: false,
+      showPass: false,
+      passwordResetDialog: false
     };
   },
   async created() {
