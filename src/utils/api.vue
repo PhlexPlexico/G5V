@@ -1058,12 +1058,13 @@ export default {
     // BEGIN REGISTRATION CALLS
     async login(userinfo) {
       let message;
+      let res;
       try {
-        await this.axioCall.post(
+        res = await this.axioCall.post(
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/login`,
           userinfo
         );
-        return;
+        return res.data.message;
       } catch (error) {
         message = error.response.data.message;
       }
@@ -1071,12 +1072,13 @@ export default {
     },
     async register(userinfo) {
       let message;
+      let res;
       try {
-        await this.axioCall.post(
+        res = await this.axioCall.post(
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/register`,
           userinfo
         );
-        return;
+        return res.data.mesasge;
       } catch (error) {
         message = error.response.data.message;
       }

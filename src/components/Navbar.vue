@@ -24,6 +24,22 @@
         </template>
         <span>{{ $t("Navbar.Logout") }}</span>
       </v-tooltip>
+      <v-tooltip v-else bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            rounded
+            fab
+            small
+            color="grey darken-2"
+            @click="loginDialog = true"
+            v-if="user.id === null"
+          >
+            <v-icon>mdi-login-variant</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Login.Login") }}</span>
+      </v-tooltip>
       <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
@@ -117,7 +133,7 @@ export default {
       drawer: false,
       group: null,
       newDialog: false,
-      loginDialog: true,
+      loginDialog: false,
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },

@@ -1,11 +1,15 @@
 <template>
-  <v-container>
-    <v-dialog shake v-model="show" persistent max-width="800px">
+  <v-container style="padding: 0px">
+    <v-dialog shake v-model="show" max-width="800px">
       <v-card color="lighten-4">
         <v-card-title>
           <span class="headline">
             {{ title }}
           </span>
+          <v-spacer></v-spacer>
+          <button type="button" class="close" @click="show = false">
+            X
+          </button>
         </v-card-title>
         <v-card-text>
           <v-form ref="loginForm">
@@ -24,35 +28,33 @@
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
-                      v-model="serverInfo.steam_id"
+                      v-model="userInfo.steam_id"
                       ref="SteamId"
                       :label="$t('Login.SteamIdLabel')"
-                      required
-                      :rules="[
-                        () => !!serverInfo.steam_id || $t('misc.Required')
-                      ]"
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="6">
                     <v-text-field
-                      v-model="serverInfo.username"
+                      v-model="userInfo.username"
                       :label="$t('Login.UsernameLabel')"
                       ref="Username"
                       required
                       :rules="[
-                        () => !!serverInfo.username || $t('misc.Required')
+                        () => !!userInfo.username || $t('misc.Required')
                       ]"
                     />
                   </v-col>
                   <v-col cols="12" sm="12" md="12" lg="6">
                     <v-text-field
-                      v-model="serverInfo.password"
+                      v-model="userInfo.password"
                       :label="$t('Login.PasswordLabel')"
-                      ref="Port"
-                      type="password"
+                      ref="Password"
+                      :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="showPass ? 'text' : 'password'"
                       :rules="[
-                        () => !!serverInfo.password || $t('misc.Required')
+                        () => !!userInfo.password || $t('misc.Required')
                       ]"
+                      @click:append="showPass = !showPass"
                     />
                   </v-col>
                 </v-row>
@@ -65,17 +67,17 @@
           <v-btn
             color="darken-1"
             text
-            @click.stop="show = false"
-            :disabled="serverLoading"
+            @click="userRegister"
+            :disabled="userLoading"
           >
             {{ $t("Login.Register") }}
           </v-btn>
           <v-btn
             color="primary"
             text
-            @click="saveServer()"
-            :loading="serverLoading"
-            :disabled="serverLoading"
+            @click="userLogin()"
+            :loading="userLoading"
+            :disabled="userLoading"
           >
             {{ $t("Login.Login") }}
           </v-btn>
@@ -118,7 +120,7 @@ export default {
       set(value) {
         if (!value) {
           this.$nextTick(() => {
-            this.$refs.serverForm.resetValidation();
+            this.$refs.loginForm.resetValidation();
           });
         }
         this.$emit("input", value);
@@ -130,51 +132,35 @@ export default {
       showPass: false,
       response: "",
       responseSheet: false,
-      serverLoading: false,
-      flags: []
+      userLoading: false
     };
   },
-  created() {
-    this.flags = this.GetFlags();
-  },
   methods: {
-    async saveServer() {
-      let refreshGrid = true;
-      if (this.$refs.serverForm.validate()) {
-        this.serverLoading = true;
-        let serverRes;
-        let serverObj = [
-          {
-            ip_string: this.serverInfo.ip_string,
-            port: this.serverInfo.port,
-            display_name: this.serverInfo.display_name,
-            rcon_password: this.serverInfo.rcon_password,
-            public_server:
-              this.serverInfo.public_server == null
-                ? false
-                : this.serverInfo.public_server,
-            flag: this.serverInfo.flag,
-            gotv_port: this.serverInfo.gotv_port
-          }
-        ];
-        if (this.serverInfo.id == null)
-          serverRes = await this.InsertServer(serverObj);
-        else {
-          serverObj[0].server_id = this.serverInfo.id;
-          serverRes = await this.UpdateServer(serverObj);
+    async userLogin() {
+      if (this.$refs.loginForm.validate()) {
+        this.userLoading = true;
+        let userResponse;
+        let userObject = {
+          username: this.userInfo.username,
+          password: this.userInfo.password
+        };
+        userResponse = await this.login(userObject);
+        if (!userResponse.includes("Success")) {
+          this.response = userResponse;
+          this.responseSheet = true;
+          this.show = false;
+          this.userLoading = false;
+        } else {
+          window.location.reload();
         }
-        if (serverRes.includes("inserted"))
-          this.response = this.$t("ServerCreate.MessageRegisterSuccess");
-        else if (serverRes.includes("updated")) {
-          this.response = this.$t("ServerCreate.MessageeEditSuccess");
-          refreshGrid = false;
-        } else this.response = serverRes;
-        this.$emit("is-new-server", refreshGrid);
-        this.responseSheet = true;
-        this.show = false;
-        this.serverLoading = false;
       }
+    },
+    async userRegister() {
+      console.log(this.user);
     }
+  },
+  async mounted() {
+    this.user = await this.IsLoggedIn();
   }
 };
 </script>

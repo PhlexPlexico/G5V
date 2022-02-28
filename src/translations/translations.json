@@ -359,6 +359,15 @@
       "PlayerLeader": "プレイヤーリーダーボード",
       "Home": "ホーム"
     },
+    "Login": {
+      "title": "ログイン/登録",
+      "Login": "ログイン",
+      "Register": "登録",
+      "Info": "Steam 64 IDとユーザー名をご確認ください。例）76561198025644194",
+      "SteamIdLabel": "スチームID",
+      "UsernameLabel": "ユーザー名",
+      "PasswordLabel": "パスワード"
+    },
     "MatchAdmin": {
       "AdminTools": "管理者ツール",
       "CancelMatchConfirm": "試合をキャンセルしてもよろしいですか？",
