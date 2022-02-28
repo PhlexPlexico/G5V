@@ -38,7 +38,7 @@
             <v-icon>mdi-login-variant</v-icon>
           </v-btn>
         </template>
-        <span>{{ $t("Login.Login") }}</span>
+        <span>{{ $t("Login.title") }}</span>
       </v-tooltip>
       <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
@@ -112,8 +112,12 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <ServerDialog v-model="newDialog" :serverInfo="{}" :title="$t('MyServers.New')" />
-    <LoginDialog v-model="loginDialog" :userInfo="{}" :title="$t('Login.title')" />
+    <ServerDialog
+      v-model="newDialog"
+      :serverInfo="{}"
+      :title="$t('MyServers.New')"
+    />
+    <LoginDialog v-model="loginDialog" :title="$t('Login.title')" />
   </v-card>
 </template>
 <script>

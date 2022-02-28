@@ -109,7 +109,6 @@
 export default {
   props: {
     value: Boolean,
-    userInfo: Object,
     title: String
   },
   computed: {
@@ -121,6 +120,7 @@ export default {
         if (!value) {
           this.$nextTick(() => {
             this.$refs.loginForm.resetValidation();
+            this.$refs.loginForm.reset();
           });
         }
         this.$emit("input", value);
@@ -132,7 +132,8 @@ export default {
       showPass: false,
       response: "",
       responseSheet: false,
-      userLoading: false
+      userLoading: false,
+      userInfo: Object
     };
   },
   methods: {
@@ -148,7 +149,6 @@ export default {
         if (!userResponse.includes("Success")) {
           this.response = userResponse;
           this.responseSheet = true;
-          this.show = false;
           this.userLoading = false;
         } else {
           window.location.reload();
@@ -156,7 +156,30 @@ export default {
       }
     },
     async userRegister() {
-      console.log(this.user);
+      if (this.$refs.loginForm.validate()) {
+        if (!this.userInfo.steam_id) {
+          console.log("Failed successfully");
+          this.response = "Invalid Steam 64 ID. Please enter a Steam ID.";
+          this.responseSheet = true;
+          this.userLoading = false;
+          return;
+        }
+        this.userLoading = true;
+        let userResponse;
+        let userObject = {
+          username: this.userInfo.username,
+          password: this.userInfo.password,
+          steam_id: this.userInfo.steam_id
+        };
+        userResponse = await this.register(userObject);
+        if (!userResponse.includes("Success")) {
+          this.response = userResponse;
+          this.responseSheet = true;
+          this.userLoading = false;
+        } else {
+          window.location.reload();
+        }
+      }
     }
   },
   async mounted() {

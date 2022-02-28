@@ -1078,7 +1078,7 @@ export default {
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/register`,
           userinfo
         );
-        return res.data.mesasge;
+        return res.data.message;
       } catch (error) {
         message = error.response.data.message;
       }
