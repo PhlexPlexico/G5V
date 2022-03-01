@@ -17,6 +17,17 @@
       "PlayerLeader": "Player Leaderboard",
       "Home": "Home"
     },
+    "Login": {
+      "title": "Login/Register",
+      "Login": "Login",
+      "Register": "Register",
+      "Info": "Please ensure you have your Steam 64 ID and a username. Example - 76561198025644194",
+      "SteamIdLabel": "Steam ID",
+      "UsernameLabel": "Username",
+      "PasswordLabel": "Password",
+      "OldPasswordLabel": "Old Password",
+      "NewPasswordLabel": "New Password"
+    },
     "MatchAdmin": {
       "AdminTools": "Admin Actions",
       "CancelMatchConfirm": "Are you sure you wish to cancel the match?",
@@ -267,7 +278,8 @@
       "MapName": "Map Name",
       "MapDeleteTitle": "Delete Map?",
       "MapDeleteExplain": "Are you sure you wish to delete {map}?",
-      "MapNew": "New Map"
+      "MapNew": "New Map",
+      "ResetPass": "Reset Password"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -349,6 +361,17 @@
       "DarkMode": "ダークモードを切り替えます",
       "PlayerLeader": "プレイヤーリーダーボード",
       "Home": "ホーム"
+    },
+    "Login": {
+      "title": "ログイン/登録",
+      "Login": "ログイン",
+      "Register": "登録",
+      "Info": "Steam 64 IDとユーザー名をご確認ください。例）76561198025644194",
+      "SteamIdLabel": "スチームID",
+      "UsernameLabel": "ユーザー名",
+      "PasswordLabel": "パスワード",
+      "OldPasswordLabel": "旧パスワード",
+      "NewPasswordLabel": "新しいパスワード"
     },
     "MatchAdmin": {
       "AdminTools": "管理者ツール",
@@ -600,7 +623,8 @@
       "MapName": "地図名",
       "MapDeleteTitle": "地図を削除する？",
       "MapDeleteExplain": "削除してもよろしいですか {map}？",
-      "MapNew": "新しい地図"
+      "MapNew": "新しい地図",
+      "ResetPass": "パスワードの再設定"
     },
     "TeamCreate": {
       "FormTeamName": "チーム名",

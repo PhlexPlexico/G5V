@@ -24,6 +24,22 @@
         </template>
         <span>{{ $t("Navbar.Logout") }}</span>
       </v-tooltip>
+      <v-tooltip v-else bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            v-on="on"
+            rounded
+            fab
+            small
+            color="grey darken-2"
+            @click="loginDialog = true"
+            v-if="user.id === null"
+          >
+            <v-icon>mdi-login-variant</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $t("Login.title") }}</span>
+      </v-tooltip>
       <v-btn :to="'/user/' + user.id" v-if="user.id !== null" fab small>
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
@@ -96,24 +112,32 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <ServerDialog v-model="newDialog" :serverInfo="{}" title="New Server" />
+    <ServerDialog
+      v-model="newDialog"
+      :serverInfo="{}"
+      :title="$t('MyServers.New')"
+    />
+    <LoginDialog v-model="loginDialog" :title="$t('Login.title')" />
   </v-card>
 </template>
 <script>
 import ServerDialog from "./ServerDialog";
+import LoginDialog from "./LoginDialog";
 export default {
   name: "Navbar",
   props: {
     user: Object
   },
   components: {
-    ServerDialog
+    ServerDialog,
+    LoginDialog
   },
   data() {
     return {
       drawer: false,
       group: null,
       newDialog: false,
+      loginDialog: false,
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
