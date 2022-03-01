@@ -116,13 +116,16 @@ export default {
       if (this.$refs.loginForm.validate()) {
         this.userLoading = true;
         let userResponse;
-        let userObject = {
-          username: this.userInfo.username,
-          password: this.userInfo.password
-        };
-        userResponse = await this.login(userObject);
-        if (!userResponse.includes("Success")) {
-          this.response = userResponse;
+        let userObject = [{
+          old_password: this.userInfo.old_password,
+          password: this.userInfo.password,
+          steam_id: this.user.steam_id,
+          force_reset: true
+        }];
+        userResponse = await this.UpdateUserInfo(userObject);
+        console.log(userResponse);
+        if (!userResponse.message.includes("successfully")) {
+          this.response = userResponse.message;
           this.responseSheet = true;
           this.userLoading = false;
         } else {
