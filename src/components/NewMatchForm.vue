@@ -418,6 +418,23 @@ export default {
   },
   async created() {
     this.servers = await this.GetAllAvailableServers();
+    if (typeof this.servers != "string") {
+      this.servers.sort((a,b) => {
+        console.log
+        if (a.user_id == this.user.id) {
+          if(a.public_server == 0) {
+            return 1;
+          } else {
+            return -1;
+          }
+        } else {
+          if (b.public_server == 1) {
+            return 1;
+          } else
+            return 0;
+        }
+      });
+    }
     if (this.IsAnyAdmin(this.user)) this.teams = await this.GetAllTeams();
     else {
       let tmpPublicTeams = await this.GetAllTeams();
@@ -427,6 +444,21 @@ export default {
         if (team.public_team == 1) this.teams.push(team);
       });
     }
+    this.teams.sort((a,b) => {
+      console.log
+      if (a.user_id == this.user.id) {
+        if(a.public_team == 0) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        if (b.public_team == 1) {
+          return -1;
+        } else
+          return 0;
+      }
+    });
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];
     this.MapList = await this.GetUserEnabledMapList(this.user.id);
