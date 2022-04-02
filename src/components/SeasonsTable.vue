@@ -617,8 +617,10 @@ export default {
         dateArray.push(new Date(item.end_date).toISOString().substr(0, 10));
       let seasonCvars = await this.GetSeasonCVARs(item.id);
       let tmpArr = [];
-      if (typeof seasonCvars == "string") seasonCvars = null;
+      // If our cvars are empty, make an empty object instead to allow future saving.
+      if (typeof seasonCvars == "string") seasonCvars = {};
       else {
+        console.log(seasonCvars);
         for (let obj in seasonCvars) {
           if (
             obj !== "min_players_to_ready" &&
