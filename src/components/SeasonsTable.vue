@@ -540,9 +540,11 @@ export default {
             this.seasonDefaults
           );
         }
-        newCvar.spectators =
-          newCvar.spectators != "" ? newCvar.spectators.join(" ") : "";
-        newCvar.map_pool = newCvar.map_pool.join(" ");
+        if (newCvar) {
+          newCvar.spectators =
+            newCvar.spectators != "" ? newCvar.spectators.join(" ") : "";
+          newCvar.map_pool = newCvar.map_pool.join(" ");
+        }
         if (this.newSeason.id == null) {
           let serverObj = [
             {

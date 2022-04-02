@@ -419,10 +419,9 @@ export default {
   async created() {
     this.servers = await this.GetAllAvailableServers();
     if (typeof this.servers != "string") {
-      this.servers.sort((a,b) => {
-        console.log
+      this.servers.sort((a, b) => {
         if (a.user_id == this.user.id) {
-          if(a.public_server == 0) {
+          if (a.public_server == 0) {
             return 1;
           } else {
             return -1;
@@ -430,8 +429,7 @@ export default {
         } else {
           if (b.public_server == 1) {
             return 1;
-          } else
-            return 0;
+          } else return 0;
         }
       });
     }
@@ -444,19 +442,15 @@ export default {
         if (team.public_team == 1) this.teams.push(team);
       });
     }
-    this.teams.sort((a,b) => {
-      console.log
+    this.teams.sort((a, b) => {
       if (a.user_id == this.user.id) {
-        if(a.public_team == 0) {
+        if (a.public_team == 0) {
           return -1;
-        } else {
-          return 1;
-        }
+        } else return 1;
       } else {
         if (b.public_team == 1) {
           return -1;
-        } else
-          return 0;
+        } else return 0;
       }
     });
     this.seasons = await this.GetMyAvailableSeasons();
