@@ -128,10 +128,12 @@ export default {
           sortable: false,
           value: "side"
         }
-      ]
+      ],
+      expanded: []
     };
   },
-  created() {
+  mounted() {
+    
     this.getVetoInfo();
   },
   methods: {
