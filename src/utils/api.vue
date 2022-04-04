@@ -320,6 +320,20 @@ export default {
       }
       return message;
     },
+    async ImportChallongeTeams(tournamentInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/challonge`,
+          tournamentInfo
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     // END TEAM CALLS
     // BEGIN MATCH CALLS
     async GetMatchData(matchid) {
@@ -714,6 +728,20 @@ export default {
         res = await this.axioCall.put(
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/`,
           seasonInfo
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async ImportSeason(challongeInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/challonge`,
+          challongeInfo
         );
         message = res.data;
       } catch (error) {

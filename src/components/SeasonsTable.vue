@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-data-table
-      item-key="name"
+      item-key="id"
       class="elevation-1"
       :loading="isLoading"
       :loading-text="$t('misc.LoadText')"
@@ -21,6 +21,13 @@
             v-if="user.id != null"
           >
             {{ $t("Seasons.New") }}
+          </v-btn>
+          <v-btn
+            color="secondary"
+            @click="newImportDialog = true"
+            v-if="user.id != null"
+          >
+            {{ $t("Seasons.ImportSeason") }}
           </v-btn>
         </v-toolbar>
       </template>
@@ -92,6 +99,53 @@
           </v-btn>
           <v-btn color="red darken-1" text @click="deleteSeasonConfirm()">
             {{ $t("misc.Yes") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog
+      v-model="newImportDialog"
+      transition="dialog-bottom-transition"
+      hide-overlay
+      max-width="600px"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            {{ $t("Seasons.Import") }}
+          </span>
+        </v-card-title>
+        <v-card-text v-html="$t('Seasons.ImportExplanation')" />
+        <v-card-text>
+          <v-form ref="newImportForm">
+            <v-container>
+              <v-row>
+                <v-col cols="10">
+                  <v-text-field
+                    v-model="challongeInfo.tournament_id"
+                    ref="ChallongeUrl"
+                    :label="$t('Seasons.ImportUrl')"
+                    required
+                  />
+                </v-col>
+                <v-col cols="2">
+                  <v-switch
+                    v-model="challongeInfo.import_teams"
+                    :label="$t('Seasons.ImportTeams')"
+                    ref="skipveto"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red darken-1" text @click="newImportDialog = false">
+            {{ $t("misc.Cancel") }}
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="importChallongeSeason()">
+            {{ $t("misc.Import") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -396,6 +450,7 @@ export default {
       removeIndex: -1,
       removeSeason: {},
       newDialog: false,
+      newImportDialog: false,
       newSeason: {
         name: "",
         dates: [],
@@ -422,6 +477,10 @@ export default {
           } else
             return tmpDateArr[0] <= tmpDateArr[1] || this.$t("misc.LessThan");
         }
+      },
+      challongeInfo: {
+        tournament_id: "",
+        import_teams: true
       }
     };
   },
@@ -456,6 +515,11 @@ export default {
           };
           this.$refs.newSeasonForm.resetValidation();
         });
+      }
+    },
+    newImportDialog(val) {
+      if (!val) {
+        this.$refs.newImportForm.resetValidation();
       }
     }
   },
@@ -654,6 +718,25 @@ export default {
         name: item.name
       };
       this.newDialog = true;
+    },
+    async importChallongeSeason() {
+      let importData = [this.challongeInfo];
+      let isImport = await this.ImportSeason(importData);
+      if (isImport.id) {
+        this.seasons = [];
+        this.GetSeasons();
+        this.newImportDialog = false;
+      } else {
+        this.response = this.$t("Seasons.ImportError");
+        this.responseSheet = true;
+        this.$nextTick(() => {
+          this.challongeInfo = {
+            tournament_id: "",
+            import_teams: true
+          };
+        });
+      }
+      return;
     }
   },
   computed: {

@@ -66,6 +66,34 @@
         </v-col>
       </v-row>
       <v-row>
+        <v-col cols="12" md="12" sm="12" lg="12">
+          <v-card-title class="headline">
+            {{ $t("User.Challonge") }}
+          </v-card-title>
+        </v-col>
+        <v-col cols="12" md="11" sm="11" lg="6">
+          <v-text-field
+            v-model="retrievedUser.challonge_api_key"
+            :append-icon="showChallongeAPI ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showChallongeAPI ? 'text' : 'password'"
+            name="apiKeyInput"
+            @click:append="showChallongeAPI = !showChallongeAPI"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="11" sm="11" lg="6">
+          <v-btn
+            class="ma-2"
+            :loading="challongeApiResetLoading"
+            :disabled="challongeApiResetLoading"
+            name="challongeApiSave"
+            @click="saveChallongeApiKey"
+            color="secondary"
+          >
+            {{ $t("User.ChallongeSave") }}
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col cols="12" md="11" sm="11" lg="6">
           <v-btn
             class="ma-2"
@@ -142,9 +170,11 @@ export default {
       }, // should be object from JSON response
       userStats: [],
       showAPI: false,
+      showChallongeAPI: false,
       apiResetLoading: false,
       showPass: false,
-      passwordResetDialog: false
+      passwordResetDialog: false,
+      challongeApiResetLoading: false
     };
   },
   async created() {
@@ -166,6 +196,19 @@ export default {
       await this.UpdateUserInfo(renewKey);
       this.retrievedUser = await this.GetUserData(this.retrievedUser.id);
       this.apiResetLoading = false;
+    },
+    async saveChallongeApiKey() {
+      this.challongeApiResetLoading = true;
+      let updateData = [
+        {
+          steam_id: this.retrievedUser.steam_id,
+          id: this.retrievedUser.id,
+          challonge_api_key: this.retrievedUser.challonge_api_key
+        }
+      ];
+      await this.UpdateUserInfo(updateData);
+      this.retrievedUser = await this.GetUserData(this.retrievedUser.id);
+      this.challongeApiResetLoading = false;
     }
   }
 };
