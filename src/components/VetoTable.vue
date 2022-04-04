@@ -1,5 +1,5 @@
 <template>
-  <v-container class="vetoInfo" fluid>
+  <v-container class="vetoInfo" fluid v-if="vetoInfo.length > 1">
     <v-data-table
       :headers="headers"
       :items="vetoInfo"
@@ -133,7 +133,7 @@ export default {
     };
   },
   mounted() {
-    
+    console.log(this.vetoInfo.length);
     this.getVetoInfo();
   },
   methods: {
