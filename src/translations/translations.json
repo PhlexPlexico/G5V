@@ -163,7 +163,13 @@
       "SeasonUpdated": "Season updated successfully!",
       "SeasonDeleted": "Season deleted successfully!",
       "DeleteConfirmation": "Are you sure you wish to remove this season?",
-      "DeleteExplain": "This will remove all match associations to the season."
+      "DeleteExplain": "This will remove all match associations to the season.",
+      "ImportSeason": "Import",
+      "Import": "Import From Challonge",
+      "ImportExplanation": "Tournament ID (e.g. 10230) or URL (e.g. 'single_elim' for challonge.com/single_elim). If assigned to a subdomain, URL format must be :subdomain-:tournament_url (e.g. 'test-mytourney' for test.challonge.com/mytourney)",
+      "ImportUrl": "Challonge URL",
+      "ImportTeams": "Import Teams?",
+      "ImportError": "Error importing season. Please ensure the Challonge URL is correct."
     },
     "Matches": {
       "YourMatches": "Your matches",
@@ -255,7 +261,9 @@
     },
     "Teams": {
       "YourTeams": "Your teams",
-      "NoTeamFound": "No teams found."
+      "NoTeamFound": "No teams found.",
+      "ImportTeam": "ImportTeam",
+      "Title": "Teams"
     },
     "User": {
       "Name": "Name",
@@ -279,7 +287,9 @@
       "MapDeleteTitle": "Delete Map?",
       "MapDeleteExplain": "Are you sure you wish to delete {map}?",
       "MapNew": "New Map",
-      "ResetPass": "Reset Password"
+      "ResetPass": "Reset Password",
+      "Challonge": "Challonge API Key",
+      "ChallongeSave": "Save Challonge Key"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -336,7 +346,8 @@
       "GreaterThanZero": "Value must be greater than zero.",
       "PLeader": "Player Leaderboard",
       "TWins": "Total Wins",
-      "LessThan": "Date two must be greater than or equal to date one."
+      "LessThan": "Date two must be greater than or equal to date one.",
+      "Import": "Import"
     },
     "Footer": {
       "company": "Phlex Plexico",
@@ -508,7 +519,13 @@
       "SeasonUpdated": "シーズンの更新に成功しました",
       "SeasonDeleted": "シーズンの削除に成功しました",
       "DeleteConfirmation": "今の季節に外しても大丈夫ですか？",
-      "DeleteExplain": "これにより、今シーズンの試合関連がすべて削除されます。"
+      "DeleteExplain": "これにより、今シーズンの試合関連がすべて削除されます。",
+      "ImportSeason": "Challongeからのインポート",
+      "Import": "輸入",
+      "ImportExplanation": "トーナメントID（例：10230）またはURL（例：challonge.com/single_elimの場合は「single_elim」）です。サブドメインに割り当てられた場合、URLの形式は :subdomain-:tournament_url でなければなりません (例: 'test-mytourney' は test.challonge.com/mytourney の場合)。",
+      "ImportUrl": "チャロンギURL",
+      "ImportTeams": "輸入チーム？",
+      "ImportError": "シーズンのインポートにエラーが発生しました。ChallongeのURLが正しいかどうか確認してください。"
     },
     "Matches": {
       "YourMatches": "あなたのマッチ",
@@ -681,7 +698,8 @@
       "GreaterThanZero": "値はゼロより大きくなければなりません。",
       "PLeader": "プレイヤーリーダーボード",
       "TWins": "合計勝利数",
-      "LessThan": "日付2は日付1以上でなければなりません。"
+      "LessThan": "日付2は日付1以上でなければなりません。",
+      "Import": "輸入"
     },
     "Footer": {
       "company": "Phlex Plexico",
