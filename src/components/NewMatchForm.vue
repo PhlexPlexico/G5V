@@ -420,7 +420,7 @@ export default {
     this.servers = await this.GetAllAvailableServers();
     if (typeof this.servers != "string") {
       this.servers.sort((a, b) => {
-        return a.user_id - this.user.id || a.public_server - b.public_server;
+        return a.user_id - this.user.id || b.public_server - a.public_server;
       });
     }
     if (this.IsAnyAdmin(this.user)) this.teams = await this.GetAllTeams();
