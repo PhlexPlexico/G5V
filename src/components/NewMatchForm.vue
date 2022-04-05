@@ -420,17 +420,7 @@ export default {
     this.servers = await this.GetAllAvailableServers();
     if (typeof this.servers != "string") {
       this.servers.sort((a, b) => {
-        if (a.user_id == this.user.id) {
-          if (a.public_server == 0) {
-            return 1;
-          } else {
-            return -1;
-          }
-        } else {
-          if (b.public_server == 1) {
-            return 1;
-          } else return 0;
-        }
+        return a.user_id - this.user.id || a.public_server - b.public_server;
       });
     }
     if (this.IsAnyAdmin(this.user)) this.teams = await this.GetAllTeams();
@@ -443,15 +433,7 @@ export default {
       });
     }
     this.teams.sort((a, b) => {
-      if (a.user_id == this.user.id) {
-        if (a.public_team == 0) {
-          return -1;
-        } else return 1;
-      } else {
-        if (b.public_team == 1) {
-          return -1;
-        } else return 0;
-      }
+      return a.user_id - this.user.id || a.public_team - b.public_team;
     });
     this.seasons = await this.GetMyAvailableSeasons();
     if (typeof this.seasons == "string") this.seasons = [];

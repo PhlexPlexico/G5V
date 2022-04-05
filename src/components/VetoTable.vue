@@ -133,7 +133,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.vetoInfo.length);
     this.getVetoInfo();
   },
   methods: {
