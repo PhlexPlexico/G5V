@@ -144,7 +144,8 @@
       "KAST": "KAST",
       "ContribScore": "Contribution Score",
       "MVP": "MVPs",
-      "RefreshData": "Data will refresh in {sec} seconds."
+      "RefreshData": "Data will refresh in {sec} seconds.",
+      "RefreshForce": "Force Refresh"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -500,7 +501,8 @@
       "KAST": "KAST",
       "ContribScore": "貢献度",
       "MVP": "M V P",
-      "RefreshData": "データは{sec}秒で更新されます。"
+      "RefreshData": "データは{sec}秒で更新されます。",
+      "RefreshForce": "強制リフレッシュ"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",

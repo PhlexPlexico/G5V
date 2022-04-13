@@ -49,12 +49,20 @@
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].end == null
+              arrMapString[index] != null && arrMapString[index].end != null
             "
             align="left"
           >
             <div class="text-caption" v-if="!isFinished">
               {{ $t("PlayerStats.RefreshData", { sec: countDownTimer }) }}
+              <v-btn
+                x-small
+                color="secondary"
+                @click="refreshStats"
+                :disabled="countDownTimer >= 55"
+              >
+                {{ $t("PlayerStats.RefreshForce") }}
+              </v-btn>
             </div>
           </div>
         </v-container>
@@ -246,16 +254,12 @@ export default {
         this.countDownTimer--;
       }, 1000);
     }
-
   },
   beforeDestroy() {
     if (!this.isFinished && this.timeoutId != -1) {
-      if (this.timeoutId != -1)
-        clearInterval(this.timeoutId);
-      if (this.playerInterval != -1)
-        clearInterval(this.playerInterval);
+      if (this.timeoutId != -1) clearInterval(this.timeoutId);
+      if (this.playerInterval != -1) clearInterval(this.playerInterval);
     }
-      
   },
   methods: {
     async GetMapPlayerStats() {
@@ -316,7 +320,7 @@ export default {
             }
           });
         });
-        if (getMatchTeamIds.end_time != null) this.isFinished = false;
+        if (getMatchTeamIds.end_time != null) this.isFinished = true;
       } catch (error) {
         console.log("Our error: " + error);
       } finally {
@@ -352,6 +356,21 @@ export default {
       } catch (error) {
         console.log("String error " + error);
       }
+    },
+    async refreshStats() {
+      clearInterval(this.timeoutId);
+      clearInterval(this.playerInterval);
+      this.countDownTimer = 60;
+      this.playerInterval = setInterval(async () => {
+        this.isLoading = true;
+        this.GetMapPlayerStats();
+        this.countDownTimer = 60;
+      }, 60000);
+      this.timeoutId = setInterval(() => {
+        this.countDownTimer--;
+      }, 1000);
+      this.GetMapPlayerStats();
+      return;
     }
   }
 };
