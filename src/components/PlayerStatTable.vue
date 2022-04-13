@@ -235,17 +235,27 @@ export default {
   created() {
     // Template will contain v-rows/etc like on main Team page.
     this.GetMapPlayerStats();
-    // Grab new data every minute. Since a match is 1:55+40 bomb, a good time would be 1 min.
-    if (!this.isFinished)
+    this.getMapString();
+    if (!this.isFinished) {
       this.playerInterval = setInterval(async () => {
         this.isLoading = true;
         this.GetMapPlayerStats();
+        this.countDownTimer = 60;
       }, 60000);
-    this.getMapString();
+      this.timeoutId = setInterval(() => {
+        this.countDownTimer--;
+      }, 1000);
+    }
+
   },
   beforeDestroy() {
-    if (!this.isFinished && this.timeoutId != -1)
-      clearInterval(this.playerInterval);
+    if (!this.isFinished && this.timeoutId != -1) {
+      if (this.timeoutId != -1)
+        clearInterval(this.timeoutId);
+      if (this.playerInterval != -1)
+        clearInterval(this.playerInterval);
+    }
+      
   },
   methods: {
     async GetMapPlayerStats() {
