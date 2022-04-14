@@ -236,14 +236,14 @@ export default {
       countDownTimer: 60,
       allowRefresh: false,
       timeoutId: -1,
-      isFinished: true,
+      isFinished: false,
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
-  created() {
+  async created() {
     // Template will contain v-rows/etc like on main Team page.
-    this.GetMapPlayerStats();
-    this.getMapString();
+    await this.GetMapPlayerStats();
+    await this.getMapString();
     if (!this.isFinished) {
       this.playerInterval = setInterval(async () => {
         this.isLoading = true;
@@ -256,7 +256,7 @@ export default {
     }
   },
   beforeDestroy() {
-    if (!this.isFinished && this.timeoutId != -1) {
+    if (!this.isFinished) {
       if (this.timeoutId != -1) clearInterval(this.timeoutId);
       if (this.playerInterval != -1) clearInterval(this.playerInterval);
     }
