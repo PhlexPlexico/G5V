@@ -791,6 +791,21 @@ export default {
       }
       return message;
     },
+    async GetPlayerStatRecentMatches(steamid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/playerstats/${steamid}/recent`
+        );
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      console.log(message);
+      return message;
+    },
     // END PLAYER STATS
     // BEGIN MAP STATS
     async GetAllMapStats() {

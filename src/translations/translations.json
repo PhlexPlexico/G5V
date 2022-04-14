@@ -144,7 +144,8 @@
       "KAST": "KAST",
       "ContribScore": "Contribution Score",
       "MVP": "MVPs",
-      "RefreshData": "Data will refresh in {sec} seconds."
+      "RefreshData": "Stats will refresh in {sec} seconds.",
+      "RefreshForce": "Force Refresh"
     },
     "Seasons": {
       "Title": "Seasons/Tournaments",
@@ -311,7 +312,8 @@
       "TeamHeader": "Team",
       "MapHeader": "Map",
       "PickBan": "Pick or Ban?",
-      "SidePick": "Side Picked"
+      "SidePick": "Side Picked",
+      "RefreshData": "Veto data will refresh in {sec} seconds."
     },
     "lang": {
       "LanguageName": "English",
@@ -500,7 +502,8 @@
       "KAST": "KAST",
       "ContribScore": "貢献度",
       "MVP": "M V P",
-      "RefreshData": "データは{sec}秒で更新されます。"
+      "RefreshData": "統計情報は{sec}秒後に更新されます。",
+      "RefreshForce": "強制リフレッシュ"
     },
     "Seasons": {
       "Title": "シーズンズ/トーナメント",
@@ -663,7 +666,8 @@
       "TeamHeader": "チーム",
       "MapHeader": "地図",
       "PickBan": "選ぶか禁止するか？",
-      "SidePick": "サイドピック"
+      "SidePick": "サイドピック",
+      "RefreshData": "ベトデータは{sec}秒後に更新されます。"
     },
     "lang": {
       "LanguageName": "日本語",

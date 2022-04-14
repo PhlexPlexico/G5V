@@ -49,13 +49,22 @@
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].end == null
+              arrMapString[index] != null && arrMapString[index].end != null
             "
             align="left"
           >
             <div class="text-caption" v-if="!isFinished">
               {{ $t("PlayerStats.RefreshData", { sec: countDownTimer }) }}
+              <v-btn
+                x-small
+                color="secondary"
+                @click="refreshStats"
+                :disabled="countDownTimer >= 55"
+              >
+                {{ $t("PlayerStats.RefreshForce") }}
+              </v-btn>
             </div>
+            <div v-else />
           </div>
         </v-container>
         <v-data-table
@@ -228,24 +237,20 @@ export default {
       countDownTimer: 60,
       allowRefresh: false,
       timeoutId: -1,
-      isFinished: true,
+      isFinished: false,
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
   created() {
     // Template will contain v-rows/etc like on main Team page.
     this.GetMapPlayerStats();
-    // Grab new data every minute. Since a match is 1:55+40 bomb, a good time would be 1 min.
-    if (!this.isFinished)
-      this.playerInterval = setInterval(async () => {
-        this.isLoading = true;
-        this.GetMapPlayerStats();
-      }, 60000);
     this.getMapString();
   },
   beforeDestroy() {
-    if (!this.isFinished && this.timeoutId != -1)
-      clearInterval(this.playerInterval);
+    if (!this.isFinished) {
+      if (this.timeoutId != -1) clearInterval(this.timeoutId);
+      if (this.playerInterval != -1) clearInterval(this.playerInterval);
+    }
   },
   methods: {
     async GetMapPlayerStats() {
@@ -306,7 +311,17 @@ export default {
             }
           });
         });
-        if (getMatchTeamIds.end_time != null) this.isFinished = false;
+        if (getMatchTeamIds.end_time != null) this.isFinished = true;
+        if (!this.isFinished) {
+          this.playerInterval = setInterval(async () => {
+            this.isLoading = true;
+            this.GetMapPlayerStats();
+            this.countDownTimer = 60;
+          }, 60000);
+          this.timeoutId = setInterval(() => {
+            this.countDownTimer--;
+          }, 1000);
+        }
       } catch (error) {
         console.log("Our error: " + error);
       } finally {
@@ -342,6 +357,21 @@ export default {
       } catch (error) {
         console.log("String error " + error);
       }
+    },
+    async refreshStats() {
+      clearInterval(this.timeoutId);
+      clearInterval(this.playerInterval);
+      this.countDownTimer = 60;
+      this.playerInterval = setInterval(async () => {
+        this.isLoading = true;
+        this.GetMapPlayerStats();
+        this.countDownTimer = 60;
+      }, 60000);
+      this.timeoutId = setInterval(() => {
+        this.countDownTimer--;
+      }, 1000);
+      this.GetMapPlayerStats();
+      return;
     }
   }
 };

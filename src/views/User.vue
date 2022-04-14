@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto">
     <v-container>
-      <v-card-title v-if="retrievedUser.id != 0">
+      <v-card-title v-if="retrievedUser.steam_id != 0">
         {{ retrievedUser.name }}
         <a
           :href="
@@ -118,13 +118,13 @@
       <v-card-title class="headline">
         {{ $t("User.Past5") }}
       </v-card-title>
-      <MatchesTable v-if="retrievedUser.id != ''" :user="retrievedUser" />
+      <MatchesTable v-if="retrievedUser.steam_id != ''" :user="retrievedUser" />
     </v-container>
     <v-container v-if="retrievedUser.id == user.id || IsAnyAdmin(user)">
       <v-card-title class="headline">
         {{ $t("User.UserMaps", { players: retrievedUser.name }) }}
       </v-card-title>
-      <MapList v-if="retrievedUser.id != -1" :user="retrievedUser" />
+      <MapList v-if="retrievedUser.id > 0" :user="retrievedUser" />
     </v-container>
     <PasswordResetDialog
       v-model="passwordResetDialog"
@@ -181,7 +181,15 @@ export default {
     this.user = await this.IsLoggedIn();
     if (this.$route.params.id == undefined) this.retrievedUser = this.user;
     else this.retrievedUser = await this.GetUserData(this.$route.params.id);
-    this.userStats = await this.GetUserPlayerStats(this.retrievedUser.steam_id);
+
+    if (this.retrievedUser.id === 0) {
+      this.userStats = await this.GetUserPlayerStats(this.$route.params.id);
+      this.retrievedUser.name = this.userStats[0].name;
+      this.retrievedUser.steam_id = this.userStats[0].steam_id;
+    } else
+      this.userStats = await this.GetUserPlayerStats(
+        this.retrievedUser.steam_id
+      );
     if (typeof this.userStats == "string") this.userStats = [];
   },
   methods: {
