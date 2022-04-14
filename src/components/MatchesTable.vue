@@ -122,11 +122,12 @@ export default {
         if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
         else if (this.$route.path.includes("team"))
           res = await this.GetTeamRecentMatches(this.$route.params.id);
-        else if (this.$route.path.includes("user"))
+        else if (this.$route.path.includes("user")) {
           if (this.$route.params.id == undefined) {
             res = await this.GetUserRecentMatches(this.user.id);
           } else res = await this.GetUserRecentMatches(this.$route.params.id);
-        else if (this.$route.path.includes("season"))
+          if (res.length == 0)res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
+        } else if (this.$route.path.includes("season"))
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();
         if (typeof res == "string") res = [];

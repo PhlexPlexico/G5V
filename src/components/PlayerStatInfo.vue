@@ -139,7 +139,7 @@ export default {
         });
       if (totalRating > 0)
         return (totalRating / this.statArray.length).toFixed(2);
-      return totalRating;
+      return 0;
     },
     isKillsLoading() {
       if (this.totalKills >= 0) return false;
