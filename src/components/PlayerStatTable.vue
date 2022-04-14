@@ -245,16 +245,6 @@ export default {
     // Template will contain v-rows/etc like on main Team page.
     this.GetMapPlayerStats();
     this.getMapString();
-    if (!this.isFinished) {
-      this.playerInterval = setInterval(async () => {
-        this.isLoading = true;
-        this.GetMapPlayerStats();
-        this.countDownTimer = 60;
-      }, 60000);
-      this.timeoutId = setInterval(() => {
-        this.countDownTimer--;
-      }, 1000);
-    }
   },
   beforeDestroy() {
     if (!this.isFinished) {
@@ -322,6 +312,16 @@ export default {
           });
         });
         if (getMatchTeamIds.end_time != null) this.isFinished = true;
+        if (!this.isFinished) {
+          this.playerInterval = setInterval(async () => {
+            this.isLoading = true;
+            this.GetMapPlayerStats();
+            this.countDownTimer = 60;
+          }, 60000);
+          this.timeoutId = setInterval(() => {
+            this.countDownTimer--;
+          }, 1000);
+        }
       } catch (error) {
         console.log("Our error: " + error);
       } finally {
@@ -335,7 +335,6 @@ export default {
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
-          console.log(singleMapStat);
           this.arrMapString[index].score =
             "Score: " +
             singleMapStat.team1_score +
