@@ -64,6 +64,7 @@
                 {{ $t("PlayerStats.RefreshForce") }}
               </v-btn>
             </div>
+            <div v-else />
           </div>
         </v-container>
         <v-data-table
@@ -240,10 +241,10 @@ export default {
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
-  async created() {
+  created() {
     // Template will contain v-rows/etc like on main Team page.
-    await this.GetMapPlayerStats();
-    await this.getMapString();
+    this.GetMapPlayerStats();
+    this.getMapString();
     if (!this.isFinished) {
       this.playerInterval = setInterval(async () => {
         this.isLoading = true;
@@ -334,6 +335,7 @@ export default {
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
+          console.log(singleMapStat);
           this.arrMapString[index].score =
             "Score: " +
             singleMapStat.team1_score +
