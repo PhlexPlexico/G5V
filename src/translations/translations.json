@@ -646,7 +646,9 @@
       "MapDeleteTitle": "地図を削除する？",
       "MapDeleteExplain": "削除してもよろしいですか {map}？",
       "MapNew": "新しい地図",
-      "ResetPass": "パスワードの再設定"
+      "ResetPass": "パスワードの再設定",
+      "Challonge": "Challonge APIキー",
+      "ChallongeSave": "セーブチャレンジキー"
     },
     "TeamCreate": {
       "FormTeamName": "チーム名",

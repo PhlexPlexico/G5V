@@ -413,35 +413,6 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          text: this.$t("Seasons.ID"),
-          align: "start",
-          sortable: true,
-          value: "id"
-        },
-        {
-          text: this.$t("Seasons.Name"),
-          value: "name"
-        },
-        {
-          text: this.$t("Seasons.StartTitle"),
-          value: "start_date"
-        },
-        {
-          text: this.$t("Seasons.EndTitle"),
-          value: "end_date"
-        },
-        {
-          text: this.$t("Matches.Owner"),
-          value: "owner"
-        },
-        {
-          text: "",
-          value: "actions",
-          sortable: false
-        }
-      ],
       seasons: [],
       isLoading: true,
       deleteDialog: false,
@@ -742,6 +713,37 @@ export default {
   computed: {
     dateRangeText() {
       return this.newSeason.dates.join(" ~ ");
+    },
+    headers() {
+      return [
+        {
+          text: this.$t("Seasons.ID"),
+          align: "start",
+          sortable: true,
+          value: "id"
+        },
+        {
+          text: this.$t("Seasons.Name"),
+          value: "name"
+        },
+        {
+          text: this.$t("Seasons.StartTitle"),
+          value: "start_date"
+        },
+        {
+          text: this.$t("Seasons.EndTitle"),
+          value: "end_date"
+        },
+        {
+          text: this.$t("Matches.Owner"),
+          value: "owner"
+        },
+        {
+          text: "",
+          value: "actions",
+          sortable: false
+        }
+      ];
     }
   }
 };
