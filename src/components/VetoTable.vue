@@ -83,28 +83,6 @@ export default {
   },
   data() {
     return {
-      headers: [
-        {
-          text: this.$t("Veto.TeamHeader"),
-          sortable: false,
-          align: "start",
-          value: "team_name"
-        },
-        {
-          text: this.$t("Veto.MapHeader"),
-          sortable: false,
-          value: "map"
-        },
-        {
-          text: this.$t("Veto.PickBan"),
-          sortable: false,
-          value: "pick_or_veto"
-        },
-        {
-          text: "",
-          value: "data-table-expand"
-        }
-      ],
       vetoInfo: [
         {
           id: -1,
@@ -114,22 +92,6 @@ export default {
           map: "",
           pick_or_veto: "",
           side: ""
-        }
-      ],
-      additionalHeaders: [
-        {
-          text: this.$t("Veto.TeamHeader"),
-          value: "team_name_side"
-        },
-        {
-          text: this.$t("Veto.MapHeader"),
-          sortable: false,
-          value: "map"
-        },
-        {
-          text: this.$t("Veto.SidePick"),
-          sortable: false,
-          value: "side"
         }
       ],
       expanded: [],
@@ -175,6 +137,50 @@ export default {
     },
     collapseAll: function() {
       this.expanded = [];
+    }
+  },
+  computed: {
+    headers() {
+      return [
+        {
+          text: this.$t("Veto.TeamHeader"),
+          sortable: false,
+          align: "start",
+          value: "team_name"
+        },
+        {
+          text: this.$t("Veto.MapHeader"),
+          sortable: false,
+          value: "map"
+        },
+        {
+          text: this.$t("Veto.PickBan"),
+          sortable: false,
+          value: "pick_or_veto"
+        },
+        {
+          text: "",
+          value: "data-table-expand"
+        }
+      ];
+    },
+    additionalHeaders() {
+      return [
+        {
+          text: this.$t("Veto.TeamHeader"),
+          value: "team_name_side"
+        },
+        {
+          text: this.$t("Veto.MapHeader"),
+          sortable: false,
+          value: "map"
+        },
+        {
+          text: this.$t("Veto.SidePick"),
+          sortable: false,
+          value: "side"
+        }
+      ];
     }
   }
 };

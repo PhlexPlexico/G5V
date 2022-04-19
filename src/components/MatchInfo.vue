@@ -31,7 +31,7 @@
       <div v-else>
         {{ matchInfo.team1_name }}
       </div>
-      vs
+      {{ $t("Matches.Versus") }}
       <router-link
         v-if="matchInfo.team2.id != 0"
         :to="{ path: '/teams/' + matchInfo.team2_id }"

@@ -181,7 +181,8 @@
       "Status": "Status",
       "Server": "Server",
       "Owner": "Owner",
-      "DeleteButton": "Delete My Cancelled Matches"
+      "DeleteButton": "Delete My Cancelled Matches",
+      "Versus": "vs"
     },
     "Metrics": {
       "Get5Metrics": "Get5 Metrics",
@@ -539,7 +540,8 @@
       "Status": "状態",
       "Server": "サーバ",
       "Owner": "オーナー",
-      "DeleteButton": "キャンセルされたマッチを削除する"
+      "DeleteButton": "キャンセルされたマッチを削除する",
+      "Versus": "対"
     },
     "Metrics": {
       "Get5Metrics": "Get5 メトリクス",

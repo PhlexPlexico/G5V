@@ -319,8 +319,40 @@ export default {
       selectedBackup: "",
       selectedServer: "",
       servers: [],
-      isLoading: false,
-      items: [
+      isLoading: false
+    };
+  },
+
+  watch: {
+    addDialog() {
+      this.$nextTick(() => {
+        this.steamID = "";
+        this.nickname = "";
+        this.$refs.addPlayerForm.resetValidation();
+      });
+    },
+    rconDialog() {
+      this.$nextTick(() => {
+        this.rconCommand = "";
+        this.$refs.rconForm.resetValidation();
+      });
+    },
+    backupDialog() {
+      this.$nextTick(() => {
+        this.selectedBackup = "";
+        this.$refs.backupForm.resetValidation();
+      });
+    },
+    serverChangeDialog() {
+      this.$nextTick(() => {
+        this.selectedServer = "";
+        this.$refs.serverForm.resetValidation();
+      });
+    }
+  },
+  computed: {
+    items() {
+      return [
         {
           title: this.$t("MatchAdmin.PauseMatch"),
           apiCall: async () => {
@@ -383,8 +415,10 @@ export default {
             }
           }
         }
-      ],
-      superAdminItems: [
+      ];
+    },
+    superAdminItems() {
+      return [
         {
           title: this.$t("MatchAdmin.PauseMatch"),
           apiCall: async () => {
@@ -453,35 +487,7 @@ export default {
             }
           }
         }
-      ]
-    };
-  },
-
-  watch: {
-    addDialog() {
-      this.$nextTick(() => {
-        this.steamID = "";
-        this.nickname = "";
-        this.$refs.addPlayerForm.resetValidation();
-      });
-    },
-    rconDialog() {
-      this.$nextTick(() => {
-        this.rconCommand = "";
-        this.$refs.rconForm.resetValidation();
-      });
-    },
-    backupDialog() {
-      this.$nextTick(() => {
-        this.selectedBackup = "";
-        this.$refs.backupForm.resetValidation();
-      });
-    },
-    serverChangeDialog() {
-      this.$nextTick(() => {
-        this.selectedServer = "";
-        this.$refs.serverForm.resetValidation();
-      });
+      ];
     }
   },
   methods: {
