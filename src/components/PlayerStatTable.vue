@@ -125,7 +125,31 @@ export default {
   },
   data() {
     return {
-      headers: [
+      playerstats: [],
+      isLoading: true,
+      arrMapString: [{}],
+      playerInterval: -1,
+      countDownTimer: 60,
+      allowRefresh: false,
+      timeoutId: -1,
+      isFinished: false,
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
+    };
+  },
+  created() {
+    // Template will contain v-rows/etc like on main Team page.
+    this.GetMapPlayerStats();
+    this.getMapString();
+  },
+  beforeDestroy() {
+    if (!this.isFinished) {
+      if (this.timeoutId != -1) clearInterval(this.timeoutId);
+      if (this.playerInterval != -1) clearInterval(this.playerInterval);
+    }
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("PlayerStats.User"),
           align: "start",
@@ -179,8 +203,10 @@ export default {
           groupable: false,
           align: "end"
         }
-      ],
-      additionalHeaders: [
+      ];
+    },
+    additionalHeaders() {
+      return [
         {
           text: this.$t("PlayerStats.Suicides"),
           value: "suicides"
@@ -229,27 +255,7 @@ export default {
           text: this.$t("PlayerStats.MVP"),
           value: "mvp"
         }
-      ],
-      playerstats: [],
-      isLoading: true,
-      arrMapString: [{}],
-      playerInterval: -1,
-      countDownTimer: 60,
-      allowRefresh: false,
-      timeoutId: -1,
-      isFinished: false,
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
-    };
-  },
-  created() {
-    // Template will contain v-rows/etc like on main Team page.
-    this.GetMapPlayerStats();
-    this.getMapString();
-  },
-  beforeDestroy() {
-    if (!this.isFinished) {
-      if (this.timeoutId != -1) clearInterval(this.timeoutId);
-      if (this.playerInterval != -1) clearInterval(this.playerInterval);
+      ];
     }
   },
   methods: {

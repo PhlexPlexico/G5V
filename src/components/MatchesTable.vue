@@ -70,7 +70,28 @@ export default {
   },
   data() {
     return {
-      headers: [
+      matches: [],
+      isLoading: true,
+      deletePending: false,
+      isThereCancelledMatches: false
+    };
+  },
+  created() {
+    this.GetMatches();
+  },
+  computed: {
+    myMatches() {
+      return (
+        this.$route.path != "/mymatches" &&
+        this.$route.path != "/" &&
+        !this.$route.path.toString().includes("season")
+      );
+    },
+    isMyMatches() {
+      return this.$route.path == "/mymatches";
+    },
+    headers() {
+      return [
         {
           text: this.$t("Matches.MatchID"),
           align: "start",
@@ -93,26 +114,7 @@ export default {
           text: this.$t("Matches.Owner"),
           value: "owner"
         }
-      ],
-      matches: [],
-      isLoading: true,
-      deletePending: false,
-      isThereCancelledMatches: false
-    };
-  },
-  created() {
-    this.GetMatches();
-  },
-  computed: {
-    myMatches() {
-      return (
-        this.$route.path != "/mymatches" &&
-        this.$route.path != "/" &&
-        !this.$route.path.toString().includes("season")
-      );
-    },
-    isMyMatches() {
-      return this.$route.path == "/mymatches";
+      ];
     }
   },
   methods: {
@@ -126,7 +128,8 @@ export default {
           if (this.$route.params.id == undefined) {
             res = await this.GetUserRecentMatches(this.user.id);
           } else res = await this.GetUserRecentMatches(this.$route.params.id);
-          if (res.length == 0)res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
+          if (res.length == 0)
+            res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
         } else if (this.$route.path.includes("season"))
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
         else res = await this.GetAllMatches();

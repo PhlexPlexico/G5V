@@ -997,8 +997,8 @@ export default {
             `${process.env?.VUE_APP_G5V_API_URL || "/api"}/vetosides/${matchid}`
           );
           vetoSideMessage = res.data.vetoes;
-        } catch (error) {
-          console.log("No veto sides found.");
+        } catch (ignored) {
+          // ignore errors
         }
         vetoMessage.forEach(vetoData => {
           if (vetoSideMessage) {

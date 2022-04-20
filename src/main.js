@@ -21,6 +21,10 @@ const i18n = new VueI18n({
   messages: translations
 });
 
+Vue.filter("translate", function(value) {
+  return i18n.t(value);
+});
+
 new Vue({
   router,
   store,

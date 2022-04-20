@@ -147,7 +147,45 @@ export default {
   },
   data() {
     return {
-      headers: [
+      //selectedHeaders: [],
+      servers: [],
+      isLoading: true,
+      deleteDialog: false,
+      response: "",
+      responseSheet: false,
+      removeIndex: -1,
+      removeServer: {},
+      newDialog: false,
+      newServer: {
+        display_name: "",
+        ip_string: "",
+        port: 0,
+        rcon_password: "",
+        public_server: 0,
+        flag: "",
+        gotv_port: 0
+      },
+      allServers: false,
+      formTitle: this.$t("MyServers.FormTitleNew")
+    };
+  },
+  created() {
+    this.GetServers();
+  },
+  watch: {
+    newDialog(val) {
+      if (!val) {
+        this.formTitle = this.$t("MyServers.FormTitleNew");
+        this.newServer = {};
+      }
+    },
+    allServers() {
+      this.GetServers(true);
+    }
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("MyServers.ID"),
           align: "start",
@@ -196,41 +234,44 @@ export default {
           value: "status",
           sortable: false
         }
-      ],
-      selectedHeaders: [],
-      servers: [],
-      isLoading: true,
-      deleteDialog: false,
-      response: "",
-      responseSheet: false,
-      removeIndex: -1,
-      removeServer: {},
-      newDialog: false,
-      newServer: {
-        display_name: "",
-        ip_string: "",
-        port: 0,
-        rcon_password: "",
-        public_server: 0,
-        flag: "",
-        gotv_port: 0
-      },
-      allServers: false,
-      formTitle: this.$t("MyServers.FormTitleNew")
-    };
-  },
-  created() {
-    this.GetServers();
-  },
-  watch: {
-    newDialog(val) {
-      if (!val) {
-        this.formTitle = this.$t("MyServers.FormTitleNew");
-        this.newServer = {};
-      }
+      ];
     },
-    allServers() {
-      this.GetServers(true);
+    selectedHeaders() {
+      let tmpHeaders = JSON.parse(JSON.stringify(this.headers));
+      let arrIndex;
+      if (this.servers.length > 0 && this.servers[0].rcon_password == null) {
+        arrIndex = tmpHeaders
+          .map(obj => {
+            return obj.value;
+          })
+          .indexOf("rcon_password");
+        tmpHeaders.splice(arrIndex, 1);
+      }
+      if (this.servers.length > 0 && this.servers[0].ip_string == null) {
+        arrIndex = tmpHeaders
+          .map(obj => {
+            return obj.value;
+          })
+          .indexOf("ip_string");
+        tmpHeaders.splice(arrIndex, 1);
+      }
+      if (this.servers.length > 0 && this.servers[0].port == null) {
+        arrIndex = tmpHeaders
+          .map(obj => {
+            return obj.value;
+          })
+          .indexOf("port");
+        tmpHeaders.splice(arrIndex, 1);
+      }
+      if (this.servers.length > 0 && this.servers[0].gotv_port == null) {
+        arrIndex = tmpHeaders
+          .map(obj => {
+            return obj.value;
+          })
+          .indexOf("gotv_port");
+        tmpHeaders.splice(arrIndex, 1);
+      }
+      return tmpHeaders;
     }
   },
   methods: {
@@ -238,9 +279,7 @@ export default {
       if (refreshGrid === false) return;
       try {
         let res;
-        let arrIndex;
         this.servers = [];
-        this.selectedHeaders = JSON.parse(JSON.stringify(this.headers));
         this.isLoading = true;
         if (this.$route.path == "/myservers" && this.allServers === false)
           res = await this.GetMyServers();
@@ -254,38 +293,6 @@ export default {
           season.isLoading = false;
           this.servers.push(season);
         });
-        if (this.servers.length > 0 && this.servers[0].rcon_password == null) {
-          arrIndex = this.selectedHeaders
-            .map(obj => {
-              return obj.value;
-            })
-            .indexOf("rcon_password");
-          this.selectedHeaders.splice(arrIndex, 1);
-        }
-        if (this.servers.length > 0 && this.servers[0].ip_string == null) {
-          arrIndex = this.selectedHeaders
-            .map(obj => {
-              return obj.value;
-            })
-            .indexOf("ip_string");
-          this.selectedHeaders.splice(arrIndex, 1);
-        }
-        if (this.servers.length > 0 && this.servers[0].port == null) {
-          arrIndex = this.selectedHeaders
-            .map(obj => {
-              return obj.value;
-            })
-            .indexOf("port");
-          this.selectedHeaders.splice(arrIndex, 1);
-        }
-        if (this.servers.length > 0 && this.servers[0].gotv_port == null) {
-          arrIndex = this.selectedHeaders
-            .map(obj => {
-              return obj.value;
-            })
-            .indexOf("gotv_port");
-          this.selectedHeaders.splice(arrIndex, 1);
-        }
       } catch (error) {
         console.log(error);
       } finally {

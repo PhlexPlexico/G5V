@@ -51,7 +51,16 @@ export default {
   },
   data() {
     return {
-      headers: [
+      players: [],
+      isLoading: true
+    };
+  },
+  created() {
+    this.GetLeaderboard();
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("PlayerStats.User"),
           align: "start",
@@ -100,8 +109,10 @@ export default {
           groupable: false,
           align: "end"
         }
-      ],
-      additionalHeaders: [
+      ];
+    },
+    additionalHeaders() {
+      return [
         {
           text: this.$t("PlayerStats.ADR"),
           value: "adr"
@@ -138,13 +149,8 @@ export default {
           text: this.$t("PlayerStats.v4"),
           value: "v4"
         }
-      ],
-      players: [],
-      isLoading: true
-    };
-  },
-  created() {
-    this.GetLeaderboard();
+      ];
+    }
   },
   methods: {
     async GetLeaderboard() {
