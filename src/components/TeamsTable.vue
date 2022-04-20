@@ -105,7 +105,32 @@ export default {
   },
   data() {
     return {
-      headers: [
+      teams: [],
+      isLoading: true,
+      newImportDialog: false,
+      challongeInfo: {
+        tournament_id: ""
+      },
+      responseSheet: false,
+      response: ""
+    };
+  },
+  mounted() {
+    this.GetTeams();
+  },
+  watch: {
+    newImportDialog(val) {
+      if (!val) {
+        this.$refs.newImportForm.resetValidation();
+        this.challongeInfo = {
+          tournament_id: ""
+        };
+      }
+    }
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("Team.ID"),
           align: "start",
@@ -128,28 +153,7 @@ export default {
           text: this.$t("Team.Owner"),
           value: "owner"
         }
-      ],
-      teams: [],
-      isLoading: true,
-      newImportDialog: false,
-      challongeInfo: {
-        tournament_id: ""
-      },
-      responseSheet: false,
-      response: ""
-    };
-  },
-  mounted() {
-    this.GetTeams();
-  },
-  watch: {
-    newImportDialog(val) {
-      if (!val) {
-        this.$refs.newImportForm.resetValidation();
-        this.challongeInfo = {
-          tournament_id: ""
-        };
-      }
+      ];
     }
   },
   methods: {

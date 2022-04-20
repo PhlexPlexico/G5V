@@ -28,7 +28,16 @@ export default {
   },
   data() {
     return {
-      headers: [
+      teams: [],
+      isLoading: true
+    };
+  },
+  created() {
+    this.GetLeaderboard();
+  },
+  computed: {
+    headers() {
+      return [
         {
           text: this.$t("Leaderboard.TName"),
           align: "start",
@@ -52,13 +61,8 @@ export default {
           value: "rounddiff",
           groupable: false
         }
-      ],
-      teams: [],
-      isLoading: true
-    };
-  },
-  created() {
-    this.GetLeaderboard();
+      ];
+    }
   },
   methods: {
     async GetLeaderboard() {

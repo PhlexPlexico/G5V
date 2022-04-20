@@ -384,28 +384,6 @@ export default {
   },
   data() {
     return {
-      userAuthHeaders: [
-        {
-          text: "",
-          value: "tag",
-          sortable: false
-        },
-        {
-          text: this.$t("Team.Username"),
-          value: "username"
-        },
-        {
-          text: this.$t("Team.SteamIDTitle"),
-          align: "start",
-          sortable: true,
-          value: "steamid"
-        },
-        {
-          text: "",
-          value: "actions",
-          sortable: false
-        }
-      ],
       teamAuth: [],
       steamIdList: [],
       newAuth: {},
@@ -445,6 +423,30 @@ export default {
       if (this.teamAuth.length == 0) return this.$t("Team.NewMember");
       else if (this.newTeam) return this.$t("Team.NewMember");
       else return this.$t("Team.EditMember");
+    },
+    userAuthHeaders() {
+      return [
+        {
+          text: "",
+          value: "tag",
+          sortable: false
+        },
+        {
+          text: this.$t("Team.Username"),
+          value: "username"
+        },
+        {
+          text: this.$t("Team.SteamIDTitle"),
+          align: "start",
+          sortable: true,
+          value: "steamid"
+        },
+        {
+          text: "",
+          value: "actions",
+          sortable: false
+        }
+      ];
     }
   },
   watch: {
