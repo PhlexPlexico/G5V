@@ -321,6 +321,7 @@ export default {
           this.playerInterval = setInterval(async () => {
             this.isLoading = true;
             this.GetMapPlayerStats();
+            this.getMapString();
             this.countDownTimer = 60;
           }, 60000);
           this.timeoutId = setInterval(() => {
@@ -370,12 +371,14 @@ export default {
       this.playerInterval = setInterval(async () => {
         this.isLoading = true;
         this.GetMapPlayerStats();
+        this.getMapString();
         this.countDownTimer = 60;
       }, 60000);
       this.timeoutId = setInterval(() => {
         this.countDownTimer--;
       }, 1000);
       this.GetMapPlayerStats();
+      this.getMapString();
       return;
     }
   }
