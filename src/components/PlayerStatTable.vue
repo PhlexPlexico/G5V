@@ -81,7 +81,6 @@
           group-by="Team"
           show-group-by
           hide-default-footer
-          :expanded="[]"
           show-expand
         >
           <template v-slot:item.name="{ item }">
