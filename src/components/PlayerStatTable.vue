@@ -49,7 +49,7 @@
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].end != null
+              arrMapString[index] != null && arrMapString[index].end == null
             "
             align="left"
           >
@@ -318,7 +318,7 @@ export default {
           });
         });
         if (getMatchTeamIds.end_time != null) this.isFinished = true;
-        if (!this.isFinished) {
+        if (!this.isFinished && this.playerInterval == -1) {
           this.playerInterval = setInterval(async () => {
             this.isLoading = true;
             this.GetMapPlayerStats();
