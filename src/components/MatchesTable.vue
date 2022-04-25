@@ -6,8 +6,11 @@
     :loading-text="$t('misc.LoadText')"
     :headers="headers"
     :items="matches"
-    :sort-by="['id']"
-    sort-desc
+    :page.sync="currentPage"
+    @update:items-per-page="itemPerPageUpdate"
+    :items-per-page.sync="itemPerPage"
+    @update:page="pageUpdate"
+    :server-items-length="totalMatches"
     ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
@@ -73,7 +76,11 @@ export default {
       matches: [],
       isLoading: true,
       deletePending: false,
-      isThereCancelledMatches: false
+      isThereCancelledMatches: false,
+      currentPage: 1,
+      itemPerPage: 10,
+      totalMatches: 0,
+      pageCount: 2
     };
   },
   created() {
@@ -121,37 +128,81 @@ export default {
     async GetMatches() {
       try {
         let res;
+        let count = [];
         if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
-        else if (this.$route.path.includes("team"))
+        else if (this.$route.path.includes("team")) {
           res = await this.GetTeamRecentMatches(this.$route.params.id);
-        else if (this.$route.path.includes("user")) {
+          this.totalMatches = res.length;
+        } else if (this.$route.path.includes("user")) {
           if (this.$route.params.id == undefined) {
             res = await this.GetUserRecentMatches(this.user.id);
           } else res = await this.GetUserRecentMatches(this.$route.params.id);
           if (res.length == 0)
             res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
-        } else if (this.$route.path.includes("season"))
+          this.totalMatches = res.length;
+        } else if (this.$route.path.includes("season")) {
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
-        else res = await this.GetAllMatches();
-        if (typeof res == "string") res = [];
-        else {
-          res.forEach(async match => {
-            const ownerRes = await this.GetUserData(match.user_id);
-            let teamId =
-              match.team1_id == null ? match.team2_id : match.team1_id;
-            const statusRes = await this.GetMatchResult(teamId, match.id);
-            match.owner = ownerRes.name;
-            match.match_status = statusRes;
-            if (match.cancelled == 1) this.isThereCancelledMatches = true;
-            this.matches.push(match);
-          });
+          this.totalMatches = res.length;
+        } else {
+          count = await this.GetAllMatches();
+          this.totalMatches = count.length;
+          res = await this.GetPagedMatches(0, this.itemPerPage);
         }
+        if (typeof res == "string") res = [];
+        else this.pushMatchData(res);
       } catch (error) {
         console.log(error);
       } finally {
         this.isLoading = false;
       }
       return;
+    },
+    async pushMatchData(resultArray) {
+      resultArray.forEach(async match => {
+        const ownerRes = await this.GetUserData(match.user_id);
+        let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
+        const statusRes = await this.GetMatchResult(teamId, match.id);
+        match.owner = ownerRes.name;
+        match.match_status = statusRes;
+        if (match.cancelled == 1) this.isThereCancelledMatches = true;
+        this.matches.push(match);
+      });
+    },
+    async itemPerPageUpdate(newVal) {
+      let newData;
+      if (newVal > this.itemPerPage) {
+        newData = await this.checkRoute(
+          this.currentPage * this.itemPerPage,
+          newVal - this.itemPerPage
+        );
+        this.pushMatchData(newData);
+      } else {
+        console.log(newVal - this.itemPerPage);
+        console.log(this.matches);
+        this.matches.splice(newVal - this.itemPerPage);
+        console.log(this.matches);
+        return;
+      }
+    },
+    async pageUpdate() {
+      let res = await this.checkRoute(
+        (this.currentPage - 1) * this.itemPerPage,
+        this.itemPerPage
+      );
+      if (typeof res == "string") res = [];
+      this.isLoading = true;
+      this.matches = [];
+      await this.pushMatchData(res);
+      this.isLoading = false;
+    },
+    async checkRoute(offset, amount) {
+      let res;
+      if (this.$route.path == "/mymatches") return;
+      else if (this.$route.path.includes("team")) return;
+      else if (this.$route.path.includes("user")) return;
+      else if (this.$route.path.includes("season")) return;
+      else res = await this.GetPagedMatches(offset, amount);
+      return res;
     },
     async deleteCancelled() {
       this.deletePending = true;
