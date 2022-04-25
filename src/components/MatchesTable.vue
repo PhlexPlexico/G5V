@@ -12,6 +12,8 @@
     @update:page="pageUpdate"
     :server-items-length="totalMatches"
     ref="MatchesTable"
+    :sort-by="['id']"
+    sort-desc
   >
     <template v-slot:item.id="{ item }">
       <router-link
@@ -79,8 +81,10 @@ export default {
       isThereCancelledMatches: false,
       currentPage: 1,
       itemPerPage: 10,
-      totalMatches: 0,
-      pageCount: 2
+      totalMatches: -1,
+      pageCount: 2,
+      sortBy: 'id',
+      sortDesc: false
     };
   },
   created() {
@@ -135,17 +139,14 @@ export default {
         if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
         else if (this.$route.path.includes("team")) {
           res = await this.GetTeamRecentMatches(this.$route.params.id);
-          this.totalMatches = res.length;
         } else if (this.$route.path.includes("user")) {
           if (this.$route.params.id == undefined) {
             res = await this.GetUserRecentMatches(this.user.id);
           } else res = await this.GetUserRecentMatches(this.$route.params.id);
           if (res.length == 0)
             res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
-          this.totalMatches = res.length;
         } else if (this.$route.path.includes("season")) {
           res = await this.GetSeasonRecentMatches(this.$route.params.id);
-          this.totalMatches = res.length;
         } else {
           count = await this.GetAllMatches();
           this.totalMatches = count.length;
