@@ -97,6 +97,9 @@ export default {
     isMyMatches() {
       return this.$route.path == "/mymatches";
     },
+    isAllMatches() {
+      return this.$route.path !== "/matches";
+    },
     headers() {
       return [
         {
@@ -170,17 +173,21 @@ export default {
     },
     async itemPerPageUpdate(newVal) {
       let newData;
-      if (newVal > this.itemPerPage) {
+      if (newVal > this.itemPerPage && this.itemPerPage != -1) {
         newData = await this.checkRoute(
           this.currentPage * this.itemPerPage,
           newVal - this.itemPerPage
         );
         this.pushMatchData(newData);
       } else {
-        console.log(newVal - this.itemPerPage);
-        console.log(this.matches);
-        this.matches.splice(newVal - this.itemPerPage);
-        console.log(this.matches);
+        if (newVal == -1) {
+          newData = await this.checkRoute(-1, -1);
+          this.matches = [];
+          await this.pushMatchData(newData);
+        } else {
+          if (this.itemPerPage == -1) this.matches.splice(newVal);
+          else this.matches.splice(newVal - this.itemPerPage);
+        }
         return;
       }
     },
@@ -201,7 +208,10 @@ export default {
       else if (this.$route.path.includes("team")) return;
       else if (this.$route.path.includes("user")) return;
       else if (this.$route.path.includes("season")) return;
-      else res = await this.GetPagedMatches(offset, amount);
+      else {
+        if (offset < 0) res = await this.GetAllMatches();
+        else res = await this.GetPagedMatches(offset, amount);
+      }
       return res;
     },
     async deleteCancelled() {
