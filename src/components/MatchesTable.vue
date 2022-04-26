@@ -122,17 +122,18 @@ export default {
   methods: {
     async pushMatchData(resultArray) {
       this.isLoading = true;
-      this.matches = [];
-      resultArray.forEach(async match => {
+      let matches = [];
+      await resultArray.forEach(async match => {
         const ownerRes = await this.GetUserData(match.user_id);
         let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
         const statusRes = await this.GetMatchResult(teamId, match.id);
         match.owner = ownerRes.name;
         match.match_status = statusRes;
         if (match.cancelled == 1) this.isThereCancelledMatches = true;
-        this.matches.push(match);
+        matches.push(match);
       });
       this.isLoading = false;
+      return matches;
     },
     async pageUpdate() {
       let count =
@@ -160,7 +161,7 @@ export default {
       if (itemsPerPage > 0) {
         count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
       }
-      await this.pushMatchData(count);
+      this.matches = await this.pushMatchData(count);
       return;
     },
     async deleteCancelled() {
