@@ -7,7 +7,8 @@
       :loading-text="$t('misc.LoadText')"
       :headers="headers"
       :items="teams"
-      :sort-by="['id']"
+      :options.sync="options"
+      :server-items-length="totalTeams"
       ref="TeamsTable"
     >
       <template v-slot:top>
@@ -112,11 +113,10 @@ export default {
         tournament_id: ""
       },
       responseSheet: false,
-      response: ""
+      response: "",
+      options: {},
+      totalTeams: -1
     };
-  },
-  mounted() {
-    this.GetTeams();
   },
   watch: {
     newImportDialog(val) {
@@ -126,6 +126,12 @@ export default {
           tournament_id: ""
         };
       }
+    },
+    options: {
+      handler() {
+        this.GetTeams();
+      },
+      deep: true
     }
   },
   computed: {
@@ -143,7 +149,8 @@ export default {
         },
         {
           text: this.$t("Team.TeamTag"),
-          value: "tag"
+          value: "tag",
+          sortable: false
         },
         {
           text: this.$t("Team.Flag"),
@@ -151,42 +158,68 @@ export default {
         },
         {
           text: this.$t("Team.Owner"),
-          value: "owner"
+          value: "owner",
+          sortable: false
         }
       ];
     }
   },
   methods: {
     async GetTeams() {
-      try {
-        const res =
-          this.$route.path == "/teams"
-            ? await this.GetAllTeams()
-            : await this.GetMyTeams();
-        await res.forEach(async team => {
-          const ownerRes = await this.GetUserData(team.user_id);
-          team.owner = ownerRes.name;
-          if (
-            team.user_id == this.user.id ||
-            team.public_team == 1 ||
-            (await this.IsAnyAdmin(this.user))
-          ) {
-            this.teams.push(team);
+      this.isLoading = true;
+      this.teams = [];
+      let count =
+        this.$route.path == "/teams"
+          ? await this.GetAllTeams()
+          : await this.GetMyTeams();
+
+      const { sortBy, sortDesc, page, itemsPerPage } = this.options;
+      if (typeof count == "string") count = [];
+      if (sortBy.length === 1 && sortDesc.length === 1) {
+        count = count.sort((a, b) => {
+          const sortA = a[sortBy[0]];
+          const sortB = b[sortBy[0]];
+          if (sortDesc[0]) {
+            if (sortA < sortB) return 1;
+            if (sortA > sortB) return -1;
+            return 0;
+          } else {
+            if (sortA < sortB) return -1;
+            if (sortA > sortB) return 1;
+            return 0;
           }
         });
-      } catch (err) {
-        console.error(err);
-      } finally {
-        this.isLoading = false;
       }
+
+      this.totalTeams = count.length;
+      if (itemsPerPage > 0) {
+        count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+      }
+
+      await count.forEach(async team => {
+        const ownerRes = await this.GetUserData(team.user_id);
+        team.owner = ownerRes.name;
+        if (
+          team.user_id == this.user.id ||
+          team.public_team == 1 ||
+          (await this.IsAnyAdmin(this.user))
+        ) {
+          this.teams.push(team);
+        }
+      });
+      this.isLoading = false;
       return;
     },
     async importChallongeTeams() {
       let importData = [this.challongeInfo];
       let isImport = await this.ImportChallongeTeams(importData);
-      if (isImport.includes("successfully")) {
+      console.log(isImport);
+      if (isImport.message.includes("successfully")) {
         this.teams = [];
         this.GetTeams();
+        this.response = isImport.message;
+        this.responseSheet = true;
+        this.newImportDialog = false;
       } else {
         this.response = this.$t("Seasons.ImportError");
         this.responseSheet = true;

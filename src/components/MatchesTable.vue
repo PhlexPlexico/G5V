@@ -48,6 +48,18 @@
         {{ item.team2_string }}
       </div>
     </template>
+    <template v-slot:top>
+      <div v-if="isMyMatches && isThereCancelledMatches">
+        <v-toolbar flat>
+          <v-toolbar-title>
+            <v-btn primary @click="deleteCancelled" :loading="deletePending">
+              {{ $t("Matches.DeleteButton") }}
+            </v-btn>
+          </v-toolbar-title>
+        </v-toolbar>
+      </div>
+      <div v-else />
+    </template>
   </v-data-table>
 </template>
 
@@ -62,7 +74,8 @@ export default {
       isLoading: true,
       isThereCancelledMatches: false,
       totalMatches: -1,
-      options: {}
+      options: {},
+      deletePending: false
     };
   },
   computed: {
@@ -84,7 +97,8 @@ export default {
         },
         {
           text: this.$t("Matches.Status"),
-          value: "match_status"
+          value: "match_status",
+          sortable: false
         },
         {
           text: this.$t("Matches.Owner"),
@@ -92,12 +106,15 @@ export default {
           sortable: false
         }
       ];
+    },
+    isMyMatches() {
+      return this.$route.path == "/mymatches";
     }
   },
   watch: {
     options: {
-      handler() {
-        this.pageUpdate();
+      async handler() {
+        await this.pageUpdate();
       },
       deep: true
     }
@@ -118,14 +135,16 @@ export default {
       this.isLoading = false;
     },
     async pageUpdate() {
-      let count = await this.GetAllMatches();
+      let count =
+        this.$route.path == "/mymatches"
+          ? await this.GetMyMatches()
+          : await this.GetAllMatches();
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
       if (typeof count == "string") count = [];
       if (sortBy.length === 1 && sortDesc.length === 1) {
         count = count.sort((a, b) => {
           const sortA = a[sortBy[0]];
           const sortB = b[sortBy[0]];
-
           if (sortDesc[0]) {
             if (sortA < sortB) return 1;
             if (sortA > sortB) return -1;
@@ -144,11 +163,14 @@ export default {
       await this.pushMatchData(count);
       return;
     },
-    async checkRoute(offset, amount) {
-      let res;
-      if (offset < 0) res = await this.GetAllMatches();
-      else res = await this.GetPagedMatches(offset, amount);
-      return res;
+    async deleteCancelled() {
+      this.deletePending = true;
+      await this.DeleteMyCancelledMatches();
+      this.deletePending = false;
+      this.matches = [];
+      this.isLoading = true;
+      this.isThereCancelledMatches = false;
+      await this.pageUpdate();
     }
   }
 };
