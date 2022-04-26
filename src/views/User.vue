@@ -133,7 +133,7 @@
   </v-card>
 </template>
 <script>
-import MatchesTable from "@/components/MatchesTable";
+import MatchesTable from "@/components/MatchesTableNoLimits";
 import PlayerStats from "@/components/PlayerStatInfo";
 import MapList from "@/components/NewMap";
 import PasswordResetDialog from "@/components/PasswordResetDialog";

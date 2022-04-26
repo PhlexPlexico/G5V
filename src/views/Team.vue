@@ -21,7 +21,7 @@
 <script>
 // @ is an alias to /src
 import TeamTable from "@/components/TeamTable";
-import MatchTable from "@/components/MatchesTable";
+import MatchTable from "@/components/MatchesTableNoLimits";
 export default {
   name: "Teams",
   components: {

@@ -6,8 +6,8 @@
     :loading-text="$t('misc.LoadText')"
     :headers="headers"
     :items="matches"
-    :sort-by="['id']"
-    sort-desc
+    :options.sync="options"
+    :server-items-length="totalMatches"
     ref="MatchesTable"
   >
     <template v-slot:item.id="{ item }">
@@ -48,18 +48,6 @@
         {{ item.team2_string }}
       </div>
     </template>
-    <template v-slot:top>
-      <div v-if="isMyMatches && isThereCancelledMatches">
-        <v-toolbar flat>
-          <v-toolbar-title>
-            <v-btn primary @click="deleteCancelled" :loading="deletePending">
-              {{ $t("Matches.DeleteButton") }}
-            </v-btn>
-          </v-toolbar-title>
-        </v-toolbar>
-      </div>
-      <div v-else />
-    </template>
   </v-data-table>
 </template>
 
@@ -72,24 +60,12 @@ export default {
     return {
       matches: [],
       isLoading: true,
-      deletePending: false,
-      isThereCancelledMatches: false
+      isThereCancelledMatches: false,
+      totalMatches: -1,
+      options: {}
     };
   },
-  created() {
-    this.GetMatches();
-  },
   computed: {
-    myMatches() {
-      return (
-        this.$route.path != "/mymatches" &&
-        this.$route.path != "/" &&
-        !this.$route.path.toString().includes("season")
-      );
-    },
-    isMyMatches() {
-      return this.$route.path == "/mymatches";
-    },
     headers() {
       return [
         {
@@ -112,55 +88,67 @@ export default {
         },
         {
           text: this.$t("Matches.Owner"),
-          value: "owner"
+          value: "owner",
+          sortable: false
         }
       ];
     }
   },
+  watch: {
+    options: {
+      handler() {
+        this.pageUpdate();
+      },
+      deep: true
+    }
+  },
   methods: {
-    async GetMatches() {
-      try {
-        let res;
-        if (this.$route.path == "/mymatches") res = await this.GetMyMatches();
-        else if (this.$route.path.includes("team"))
-          res = await this.GetTeamRecentMatches(this.$route.params.id);
-        else if (this.$route.path.includes("user")) {
-          if (this.$route.params.id == undefined) {
-            res = await this.GetUserRecentMatches(this.user.id);
-          } else res = await this.GetUserRecentMatches(this.$route.params.id);
-          if (res.length == 0)
-            res = await this.GetPlayerStatRecentMatches(this.$route.params.id);
-        } else if (this.$route.path.includes("season"))
-          res = await this.GetSeasonRecentMatches(this.$route.params.id);
-        else res = await this.GetAllMatches();
-        if (typeof res == "string") res = [];
-        else {
-          res.forEach(async match => {
-            const ownerRes = await this.GetUserData(match.user_id);
-            let teamId =
-              match.team1_id == null ? match.team2_id : match.team1_id;
-            const statusRes = await this.GetMatchResult(teamId, match.id);
-            match.owner = ownerRes.name;
-            match.match_status = statusRes;
-            if (match.cancelled == 1) this.isThereCancelledMatches = true;
-            this.matches.push(match);
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.isLoading = false;
+    async pushMatchData(resultArray) {
+      this.isLoading = true;
+      this.matches = [];
+      resultArray.forEach(async match => {
+        const ownerRes = await this.GetUserData(match.user_id);
+        let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
+        const statusRes = await this.GetMatchResult(teamId, match.id);
+        match.owner = ownerRes.name;
+        match.match_status = statusRes;
+        if (match.cancelled == 1) this.isThereCancelledMatches = true;
+        this.matches.push(match);
+      });
+      this.isLoading = false;
+    },
+    async pageUpdate() {
+      let count = await this.GetAllMatches();
+      const { sortBy, sortDesc, page, itemsPerPage } = this.options;
+      if (typeof count == "string") count = [];
+      if (sortBy.length === 1 && sortDesc.length === 1) {
+        count = count.sort((a, b) => {
+          const sortA = a[sortBy[0]];
+          const sortB = b[sortBy[0]];
+
+          if (sortDesc[0]) {
+            if (sortA < sortB) return 1;
+            if (sortA > sortB) return -1;
+            return 0;
+          } else {
+            if (sortA < sortB) return -1;
+            if (sortA > sortB) return 1;
+            return 0;
+          }
+        });
       }
+      this.totalMatches = count.length;
+      if (itemsPerPage > 0) {
+        count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+      }
+      await this.pushMatchData(count);
       return;
     },
-    async deleteCancelled() {
-      this.deletePending = true;
-      await this.DeleteMyCancelledMatches();
-      this.deletePending = false;
-      this.matches = [];
-      this.isLoading = true;
-      this.isThereCancelledMatches = false;
-      await this.GetMatches();
+    async checkRoute(offset, amount) {
+      let res;
+      if (offset < 0) res = await this.GetAllMatches();
+      else res = await this.GetPagedMatches(offset, amount);
+      return res;
     }
   }
 };

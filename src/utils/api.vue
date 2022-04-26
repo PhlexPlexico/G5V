@@ -414,6 +414,20 @@ export default {
       }
       return message;
     },
+    async GetPagedMatches(offset, limit) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/page/${offset}&${limit}`
+        );
+        message = res.data.matches;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async GetMyMatches() {
       let res;
       let message;
