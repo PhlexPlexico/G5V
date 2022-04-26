@@ -191,21 +191,19 @@ export default {
         });
       }
 
-      this.totalTeams = count.length;
+      // Filter based on what the user is. Maybe swap this over to the API?
+      if (!this.user.id || !this.IsAnyAdmin(this.user)) {
+        count = count.filter(team => team.public_team == 1 || team.user_id == this.user.id);
+      }
+
       if (itemsPerPage > 0) {
         count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
       }
-
+      this.totalTeams = count.length;
       await count.forEach(async team => {
         const ownerRes = await this.GetUserData(team.user_id);
         team.owner = ownerRes.name;
-        if (
-          team.user_id == this.user.id ||
-          team.public_team == 1 ||
-          (await this.IsAnyAdmin(this.user))
-        ) {
-          this.teams.push(team);
-        }
+        this.teams.push(team);
       });
       this.isLoading = false;
       return;
