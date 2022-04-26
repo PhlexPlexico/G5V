@@ -213,7 +213,6 @@ export default {
     async importChallongeTeams() {
       let importData = [this.challongeInfo];
       let isImport = await this.ImportChallongeTeams(importData);
-      console.log(isImport);
       if (isImport.message.includes("successfully")) {
         this.teams = [];
         this.GetTeams();
