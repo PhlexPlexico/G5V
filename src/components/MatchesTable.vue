@@ -6,14 +6,9 @@
     :loading-text="$t('misc.LoadText')"
     :headers="headers"
     :items="matches"
-    :page.sync="currentPage"
-    @update:items-per-page="itemPerPageUpdate"
-    :items-per-page.sync="itemPerPage"
-    @update:page="pageUpdate"
+    :options.sync="options"
     :server-items-length="totalMatches"
     ref="MatchesTable"
-    :sort-by="['id']"
-    sort-desc
   >
     <template v-slot:item.id="{ item }">
       <router-link
@@ -53,18 +48,6 @@
         {{ item.team2_string }}
       </div>
     </template>
-    <template v-slot:top>
-      <div v-if="isMyMatches && isThereCancelledMatches">
-        <v-toolbar flat>
-          <v-toolbar-title>
-            <v-btn primary @click="deleteCancelled" :loading="deletePending">
-              {{ $t("Matches.DeleteButton") }}
-            </v-btn>
-          </v-toolbar-title>
-        </v-toolbar>
-      </div>
-      <div v-else />
-    </template>
   </v-data-table>
 </template>
 
@@ -77,33 +60,12 @@ export default {
     return {
       matches: [],
       isLoading: true,
-      deletePending: false,
       isThereCancelledMatches: false,
-      currentPage: 1,
-      itemPerPage: 10,
       totalMatches: -1,
-      pageCount: 1,
-      sortBy: 'id',
-      sortDesc: false
+      options: {}
     };
   },
-  created() {
-    this.GetMatches();
-  },
   computed: {
-    myMatches() {
-      return (
-        this.$route.path != "/mymatches" &&
-        this.$route.path != "/" &&
-        !this.$route.path.toString().includes("season")
-      );
-    },
-    isMyMatches() {
-      return this.$route.path == "/mymatches";
-    },
-    isAllMatches() {
-      return this.$route.path !== "/matches";
-    },
     headers() {
       return [
         {
@@ -126,30 +88,24 @@ export default {
         },
         {
           text: this.$t("Matches.Owner"),
-          value: "owner"
+          value: "owner",
+          sortable: false
         }
       ];
     }
   },
-  // TODO: Sorting
+  watch: {
+    options: {
+      handler() {
+        this.pageUpdate();
+      },
+      deep: true
+    }
+  },
   methods: {
-    async GetMatches() {
-      try {
-        let res;
-        let count = [];
-        count = await this.GetAllMatches();
-        this.totalMatches = count.length;
-        res = await this.GetPagedMatches(0, this.itemPerPage);
-        if (typeof res == "string") res = [];
-        else this.pushMatchData(res);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        this.isLoading = false;
-      }
-      return;
-    },
     async pushMatchData(resultArray) {
+      this.isLoading = true;
+      this.matches = [];
       resultArray.forEach(async match => {
         const ownerRes = await this.GetUserData(match.user_id);
         let teamId = match.team1_id == null ? match.team2_id : match.team1_id;
@@ -159,37 +115,33 @@ export default {
         if (match.cancelled == 1) this.isThereCancelledMatches = true;
         this.matches.push(match);
       });
-    },
-    async itemPerPageUpdate(newVal) {
-      let newData;
-      if (newVal > this.itemPerPage && this.itemPerPage != -1) {
-        newData = await this.checkRoute(
-          this.currentPage * this.itemPerPage,
-          newVal - this.itemPerPage
-        );
-        this.pushMatchData(newData);
-      } else {
-        if (newVal == -1) {
-          newData = await this.checkRoute(-1, -1);
-          this.matches = [];
-          await this.pushMatchData(newData);
-        } else {
-          if (this.itemPerPage == -1) this.matches.splice(newVal);
-          else this.matches.splice(newVal - this.itemPerPage);
-        }
-        return;
-      }
+      this.isLoading = false;
     },
     async pageUpdate() {
-      let res = await this.checkRoute(
-        (this.currentPage - 1) * this.itemPerPage,
-        this.itemPerPage
-      );
-      if (typeof res == "string") res = [];
-      this.isLoading = true;
-      this.matches = [];
-      await this.pushMatchData(res);
-      this.isLoading = false;
+      let count = await this.GetAllMatches();
+      const { sortBy, sortDesc, page, itemsPerPage } = this.options;
+      if (typeof count == "string") count = [];
+      if (sortBy.length === 1 && sortDesc.length === 1) {
+        count = count.sort((a, b) => {
+          const sortA = a[sortBy[0]];
+          const sortB = b[sortBy[0]];
+
+          if (sortDesc[0]) {
+            if (sortA < sortB) return 1;
+            if (sortA > sortB) return -1;
+            return 0;
+          } else {
+            if (sortA < sortB) return -1;
+            if (sortA > sortB) return 1;
+            return 0;
+          }
+        });
+      }
+      this.totalMatches = count.length;
+      if (itemsPerPage > 0) {
+        count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+      }
+      await this.pushMatchData(count);
       return;
     },
     async checkRoute(offset, amount) {
@@ -197,15 +149,6 @@ export default {
       if (offset < 0) res = await this.GetAllMatches();
       else res = await this.GetPagedMatches(offset, amount);
       return res;
-    },
-    async deleteCancelled() {
-      this.deletePending = true;
-      await this.DeleteMyCancelledMatches();
-      this.deletePending = false;
-      this.matches = [];
-      this.isLoading = true;
-      this.isThereCancelledMatches = false;
-      await this.GetMatches();
     }
   }
 };
