@@ -199,7 +199,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-file-input
                         :label="$t('TeamCreate.TeamLogo')"
-                        accept="image/png"
+                        accept="image/svg+xml, image/png"
                         @change="getFile"
                         truncate-length="12"
                       ></v-file-input>
@@ -650,8 +650,9 @@ export default {
       if (!file) {
         this.logoFile = null;
         this.logoPreview = null;
-      } else if (file.type == "svg") {
-        this.logoFile = file;
+      } else if (file.type == "image/svg+xml") {
+        this.logoFile = await file2Base64(file);
+        //this.logoPreview = URL.createObjectURL(await resizeImage(file));
       } else {
         this.logoFile = await file2Base64(await resizeImage(file));
         this.logoPreview = URL.createObjectURL(await resizeImage(file));
