@@ -99,7 +99,7 @@
           inset
           vertical
         />
-        <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
+        <div v-if="teamInfo.logo != null && teamInfo.logo != '' && imageLoaded">
           <v-toolbar-title>
             <img
               :src="apiUrl + '/static/img/logos/' + teamInfo.logo + '.png'"
@@ -415,7 +415,8 @@ export default {
       teamDeleted: false,
       logoFile: null,
       logoPreview: null,
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api",
+      imageLoaded: true
     };
   },
   computed: {
@@ -516,7 +517,7 @@ export default {
   },
   methods: {
     imgUrlAlt(event) {
-      if (event.target.src.includes("svg")) event.target.src = "";
+      if (event.target.src.includes("svg")) this.imageLoaded = false;
       else event.target.src = event.target.src.replace("png", "svg");
     },
     async GetTeamInfo() {
