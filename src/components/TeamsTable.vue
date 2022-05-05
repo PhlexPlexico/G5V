@@ -193,13 +193,14 @@ export default {
 
       // Filter based on what the user is. Maybe swap this over to the API?
       if (!this.user.id || !this.IsAnyAdmin(this.user)) {
-        count = count.filter(team => team.public_team == 1 || team.user_id == this.user.id);
+        count = count.filter(
+          team => team.public_team == 1 || team.user_id == this.user.id
+        );
       }
       this.totalTeams = count.length;
       if (itemsPerPage > 0) {
         count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
       }
-      
       await count.forEach(async team => {
         const ownerRes = await this.GetUserData(team.user_id);
         team.owner = ownerRes.name;

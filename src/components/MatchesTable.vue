@@ -130,7 +130,7 @@ export default {
         match.owner = ownerRes.name;
         match.match_status = statusRes;
         if (match.cancelled == 1) this.isThereCancelledMatches = true;
-        matches.push(match);
+        await matches.push(match);
       });
       this.isLoading = false;
       return matches;

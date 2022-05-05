@@ -28,7 +28,10 @@
     </template>
     <v-spacer />
     <template v-slot:item.logo="{ item }">
-      <img :src="apiUrl + '/static/img/logos/' + item + '.png'" />
+      <img
+        :src="apiUrl + '/static/img/logos/' + item + '.png'"
+        @error="imgUrlAlt"
+      />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -96,11 +99,12 @@
           inset
           vertical
         />
-        <div v-if="teamInfo.logo != null && teamInfo.logo != ''">
+        <div v-if="teamInfo.logo != null && teamInfo.logo != '' && imageLoaded">
           <v-toolbar-title>
             <img
               :src="apiUrl + '/static/img/logos/' + teamInfo.logo + '.png'"
               style="padding-top: 5px;; width: 32px; height: 32px;"
+              @error="imgUrlAlt"
             />
           </v-toolbar-title>
         </div>
@@ -199,7 +203,7 @@
                     <v-col cols="12" sm="6" md="4">
                       <v-file-input
                         :label="$t('TeamCreate.TeamLogo')"
-                        accept="image/png"
+                        accept="image/svg+xml, image/png"
                         @change="getFile"
                         truncate-length="12"
                       ></v-file-input>
@@ -356,7 +360,7 @@ const resizeImage = file => {
   };
 
   return new Promise((ok, no) => {
-    if (!file.type.match(/image.png/)) {
+    if (!file.type.match(/image.png/) && !file.type.match(/image.svg\+xml/)) {
       no(new Error("Not an image"));
       return;
     }
@@ -411,7 +415,8 @@ export default {
       teamDeleted: false,
       logoFile: null,
       logoPreview: null,
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api",
+      imageLoaded: true
     };
   },
   computed: {
@@ -511,6 +516,10 @@ export default {
     this.flags = this.GetFlags();
   },
   methods: {
+    imgUrlAlt(event) {
+      if (event.target.src.includes("svg")) this.imageLoaded = false;
+      else event.target.src = event.target.src.replace("png", "svg");
+    },
     async GetTeamInfo() {
       try {
         const res = await this.GetTeamData(this.$route.params.id);
@@ -650,8 +659,9 @@ export default {
       if (!file) {
         this.logoFile = null;
         this.logoPreview = null;
-      } else if (file.type == "svg") {
-        this.logoFile = file;
+      } else if (file.type == "image/svg+xml") {
+        this.logoFile = await file2Base64(file);
+        this.logoPreview = URL.createObjectURL(await resizeImage(file));
       } else {
         this.logoFile = await file2Base64(await resizeImage(file));
         this.logoPreview = URL.createObjectURL(await resizeImage(file));
