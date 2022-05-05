@@ -28,7 +28,10 @@
     </template>
     <v-spacer />
     <template v-slot:item.logo="{ item }">
-      <img :src="apiUrl + '/static/img/logos/' + item + '.png'" />
+      <img
+        :src="apiUrl + '/static/img/logos/' + item + '.png'"
+        @error="imgUrlAlt"
+      />
     </template>
     <v-spacer />
     <template v-slot:item.actions="{ item }">
@@ -101,6 +104,7 @@
             <img
               :src="apiUrl + '/static/img/logos/' + teamInfo.logo + '.png'"
               style="padding-top: 5px;; width: 32px; height: 32px;"
+              @error="imgUrlAlt"
             />
           </v-toolbar-title>
         </div>
@@ -356,7 +360,7 @@ const resizeImage = file => {
   };
 
   return new Promise((ok, no) => {
-    if (!file.type.match(/image.png/)) {
+    if (!file.type.match(/image.png/) && !file.type.match(/image.svg\+xml/)) {
       no(new Error("Not an image"));
       return;
     }
@@ -511,6 +515,10 @@ export default {
     this.flags = this.GetFlags();
   },
   methods: {
+    imgUrlAlt(event) {
+      if (event.target.src.includes("svg")) event.target.src = "";
+      else event.target.src = event.target.src.replace("png","svg");
+    },
     async GetTeamInfo() {
       try {
         const res = await this.GetTeamData(this.$route.params.id);
@@ -652,7 +660,7 @@ export default {
         this.logoPreview = null;
       } else if (file.type == "image/svg+xml") {
         this.logoFile = await file2Base64(file);
-        //this.logoPreview = URL.createObjectURL(await resizeImage(file));
+        this.logoPreview = URL.createObjectURL(await resizeImage(file));
       } else {
         this.logoFile = await file2Base64(await resizeImage(file));
         this.logoPreview = URL.createObjectURL(await resizeImage(file));
