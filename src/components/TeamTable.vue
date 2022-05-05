@@ -517,7 +517,7 @@ export default {
   methods: {
     imgUrlAlt(event) {
       if (event.target.src.includes("svg")) event.target.src = "";
-      else event.target.src = event.target.src.replace("png","svg");
+      else event.target.src = event.target.src.replace("png", "svg");
     },
     async GetTeamInfo() {
       try {
