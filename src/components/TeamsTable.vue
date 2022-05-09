@@ -158,8 +158,7 @@ export default {
         },
         {
           text: this.$t("Team.Owner"),
-          value: "owner",
-          sortable: false
+          value: "owner"
         }
       ];
     }
@@ -201,11 +200,7 @@ export default {
       if (itemsPerPage > 0) {
         count = count.slice((page - 1) * itemsPerPage, page * itemsPerPage);
       }
-      await count.forEach(async team => {
-        const ownerRes = await this.GetUserData(team.user_id);
-        team.owner = ownerRes.name;
-        this.teams.push(team);
-      });
+      this.teams = count;
       this.isLoading = false;
       return;
     },
