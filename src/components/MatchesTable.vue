@@ -127,11 +127,13 @@ export default {
         team2Score = 0;
       resultArray.forEach(async match => {
         if (match.max_maps == 1) {
-          team1Score = match.team1_mapscore;
-          team2Score = match.team2_mapscore;
+          team1Score =
+            match.team1_mapscore == undefined ? 0 : match.team1_mapscore;
+          team2Score =
+            match.team2_mapscore == undefined ? 0 : match.team2_mapscore;
         } else {
-          team1Score = match.team1_score;
-          team2Score = match.team2_score;
+          team1Score = match.team1_score == undefined ? 0 : match.team1_score;
+          team2Score = match.team2_score == undefined ? 0 : match.team2_score;
         }
         if (
           match.end_time == null &&
@@ -143,6 +145,8 @@ export default {
           matchString = `Lost, ${team1Score}:${team2Score} vs ${match.team2_string}`;
         } else if (team1Score > team2Score) {
           matchString = `Won, ${team1Score}:${team2Score} vs ${match.team2_string}`;
+        } else if (team1Score == team2Score) {
+          matchString = `Tied, ${team1Score}:${team2Score} vs ${match.team2_string}`;
         } else if (match.winner != null) {
           matchString = `Forfeit win vs ${match.team2_string}`;
         } else if (match.cancelled == 1) {
