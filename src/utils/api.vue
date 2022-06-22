@@ -994,6 +994,20 @@ export default {
       }
       return message;
     },
+    async RestartCurrentMatch(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/restart/`
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
     // END MATCH ADMIN CALLS
     // BEGIN VETO CALLS
     async GetVetoesOfMatch(matchid) {

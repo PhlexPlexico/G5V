@@ -68,6 +68,34 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-dialog v-model="restartDialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">
+            {{ $t("MatchAdmin.MatchRestartInfo") }}
+          </span>
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            :disabled="isLoading"
+            color="blue darken-1"
+            text
+            @click="restartDialog = false"
+          >
+            {{ $t("misc.No") }}
+          </v-btn>
+          <v-btn
+            :disabled="isLoading"
+            color="red darken-1"
+            text
+            @click="sendRestartMatch()"
+          >
+            {{ $t("misc.Yes") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="addDialog" persistent max-width="600px">
       <v-card>
         <v-card-title>
@@ -308,6 +336,7 @@ export default {
       responseSheet: false,
       cancelDialog: false,
       addDialog: false,
+      restartDialog: false,
       forfeitDialog: false,
       rconDialog: false,
       backupDialog: false,
@@ -391,6 +420,12 @@ export default {
           }
         },
         {
+          title: this.$t("MatchAdmin.MatchRestart"),
+          apiCall: () => {
+            this.restartDialog = true;
+          }
+        },
+        {
           title: this.$t("MatchAdmin.CancelMatch"),
           apiCall: () => {
             this.cancelDialog = true;
@@ -466,6 +501,12 @@ export default {
           title: this.$t("MatchAdmin.ForfeitMatch"),
           apiCall: () => {
             this.forfeitDialog = true;
+          }
+        },
+        {
+          title: this.$t("MatchAdmin.MatchRestart"),
+          apiCall: () => {
+            this.restartDialog = true;
           }
         },
         {
@@ -593,7 +634,17 @@ export default {
         this.serverChangeDialog = false;
         this.isLoading = false;
         this.responseSheet = true;
+        // TODO: Another API call to send the match backup to the new server.
       }
+    },
+    async sendRestartMatch() {
+      this.isLoading = true;
+      let matchRes = await this.RestartCurrentMatch(this.matchInfo.id);
+      this.response = matchRes;
+      this.restartDialog = false;
+      this.responseSheet = true;
+      this.isLoading = false;
+      return;
     }
   }
 };
