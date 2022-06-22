@@ -57,7 +57,9 @@
       "ForfeitMatch": "Forfeit Match",
       "Backup": "Backup",
       "RCONCommand": "RCON Command",
-      "RCONHint": "Like working in the console!"
+      "RCONHint": "Like working in the console!",
+      "MatchRestart": "Restart Current Match",
+      "MatchRestartInfo": "Restarting the current match will remove all map stats. Continue?"
     },
     "Match": {
       "MatchHasBeenCancelled": "This match has been cancelled.",
@@ -416,7 +418,9 @@
       "ForfeitMatch": "没収試合",
       "Backup": "バックアップ",
       "RCONCommand": "RCONコマンド",
-      "RCONHint": "コンソールで仕事をしているような！？"
+      "RCONHint": "コンソールで仕事をしているような！？",
+      "MatchRestart": "カレントマッチのリスタート",
+      "MatchRestartInfo": "現在のマッチをリスタートすると、すべてのマップ統計が削除されます。続ける？"
     },
     "Match": {
       "MatchHasBeenCancelled": "このマッチはキャンセルされました。",
