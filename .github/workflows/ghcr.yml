@@ -25,10 +25,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: borales/actions-yarn@3.0.0
+      - uses: borales/actions-yarn@v3.0.0
         with:
           cmd: install
-      - uses: borales/actions-yarn@3.0.0
+      - uses: borales/actions-yarn@v3.0.0
         with:
           cmd: build
       - uses: docker/build-push-action@v2
