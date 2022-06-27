@@ -27,6 +27,9 @@
           />
           {{ matchInfo.team1_name }}
         </div>
+        <div v-else>
+          {{ matchInfo.team1_name }}
+        </div>
       </router-link>
       <div v-else>
         {{ matchInfo.team1_name }}
