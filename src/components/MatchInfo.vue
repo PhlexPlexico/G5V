@@ -44,6 +44,7 @@
           <img
             :src="apiUrl + '/static/img/logos/' + matchInfo.team2.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
+            @error="imgUrlAlt"
           />
           {{ matchInfo.team2_name }}
         </div>
