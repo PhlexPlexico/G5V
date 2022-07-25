@@ -17,6 +17,7 @@
           <img
             :src="apiUrl + '/static/img/logos/' + matchInfo.team1.logo + '.png'"
             style="border-radius: 5px; width: 40px; height: 32px;"
+            @error="imgUrlAlt"
           />
           {{ matchInfo.team1_name }}
         </div>
@@ -180,7 +181,8 @@ export default {
         port: 0,
         gotv_port: 0
       },
-      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
+      apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api",
+      imageLoaded: true
     };
   },
   created() {
@@ -224,6 +226,10 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    imgUrlAlt(event) {
+      if (event.target.src.includes("svg")) this.imageLoaded = false;
+      else event.target.src = event.target.src.replace("png", "svg");
     }
   }
 };
