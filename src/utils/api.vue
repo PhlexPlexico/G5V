@@ -979,6 +979,20 @@ export default {
       }
       return message;
     },
+    async GetRemoteBackups(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/backup/remote`
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     async RestoreFromBackup(matchid, backupBody) {
       let res;
       let message;
@@ -986,6 +1000,21 @@ export default {
         res = await this.axioCall.post(
           `${process.env?.VUE_APP_G5V_API_URL ||
             "/api"}/matches/${matchid}/backup/`,
+          backupBody
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async RestoreFromRemoteBackup(matchid, backupBody) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/matches/${matchid}/backup/remote`,
           backupBody
         );
         message = res.data;

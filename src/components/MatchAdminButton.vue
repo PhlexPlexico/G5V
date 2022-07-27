@@ -280,7 +280,7 @@
       </v-card>
     </v-dialog>
     <v-dialog shake v-model="serverChangeDialog" persistent max-width="600px">
-      <v-card color="warning lighten-4">
+      <v-card color="lighten-4">
         <v-card-title>
           <span class="headline">
             {{ $t("MatchAdmin.ChangeServer") }}
@@ -305,6 +305,16 @@
                     :label="$t('CreateMatch.ServerLabel')"
                     required
                     ref="newServer"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <v-select
+                    v-model="selectedBackup"
+                    :items="backups"
+                    :rules="[v => !!v || $t('misc.Required')]"
+                    :label="$t('MatchAdmin.Backup')"
+                    required
+                    ref="currentBackup"
                   />
                 </v-col>
               </v-row>
@@ -440,13 +450,24 @@ export default {
         {
           title: this.$t("MatchAdmin.ChangeServer"),
           apiCall: async () => {
-            let res = await this.GetAllAvailableServers();
-            if (Array.isArray(res)) {
-              this.servers = res;
+            try {
+              let res = await this.GetAllAvailableServers();
+              if (Array.isArray(res)) {
+                res.sort((a, b) => {
+                  return (
+                    a.user_id - this.user.id ||
+                    b.public_server - a.public_server
+                  );
+                });
+                this.servers = res;
+                res = await this.GetRemoteBackups(this.matchInfo.id);
+                if (res.response) this.backups = res.response;
+              } else {
+                this.response = res.message;
+                this.responseSheet = true;
+              }
+            } finally {
               this.serverChangeDialog = true;
-            } else {
-              this.response = res.message;
-              this.responseSheet = true;
             }
           }
         }
@@ -518,13 +539,24 @@ export default {
         {
           title: this.$t("MatchAdmin.ChangeServer"),
           apiCall: async () => {
-            let res = await this.GetAllAvailableServers();
-            if (Array.isArray(res)) {
-              this.servers = res;
+            try {
+              let res = await this.GetAllAvailableServers();
+              if (Array.isArray(res)) {
+                res.sort((a, b) => {
+                  return (
+                    a.user_id - this.user.id ||
+                    b.public_server - a.public_server
+                  );
+                });
+                this.servers = res;
+                res = await this.GetRemoteBackups(this.matchInfo.id);
+                if (res.response) this.backups = res.response;
+              } else {
+                this.response = res.message;
+                this.responseSheet = true;
+              }
+            } finally {
               this.serverChangeDialog = true;
-            } else {
-              this.response = res.message;
-              this.responseSheet = true;
             }
           }
         }
@@ -628,13 +660,24 @@ export default {
             server_id: this.selectedServer
           }
         ];
+        let backupObject = [
+          {
+            server_id: this.selectedServer,
+            backup_file: this.selectedBackup
+          }
+        ];
         serverRes = await this.UpdateMatchInfo(matchObject);
         this.response =
           serverRes.response == null ? serverRes.message : serverRes.response;
         this.serverChangeDialog = false;
+        serverRes = await this.RestoreFromRemoteBackup(
+          this.matchInfo.id,
+          backupObject
+        );
+        this.response +=
+          serverRes.response == null ? serverRes.message : serverRes.response;
         this.isLoading = false;
         this.responseSheet = true;
-        // TODO: Another API call to send the match backup to the new server.
       }
     },
     async sendRestartMatch() {
