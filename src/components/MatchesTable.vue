@@ -145,12 +145,12 @@ export default {
           matchString = `Lost, ${team1Score}:${team2Score} vs ${match.team2_string}`;
         } else if (team1Score > team2Score) {
           matchString = `Won, ${team1Score}:${team2Score} vs ${match.team2_string}`;
+        } else if (match.cancelled == 1) {
+          matchString = "Cancelled";
         } else if (team1Score == team2Score) {
           matchString = `Tied, ${team1Score}:${team2Score} vs ${match.team2_string}`;
         } else if (match.winner != null) {
           matchString = `Forfeit win vs ${match.team2_string}`;
-        } else if (match.cancelled == 1) {
-          matchString = "Cancelled";
         }
         match.match_status = matchString;
         if (match.cancelled == 1) this.isThereCancelledMatches = true;

@@ -284,10 +284,16 @@
                     </v-col>
                   </v-row>
                   <v-row>
-                    <v-col cols="2" sm="2" md="2">
+                    <v-col cols="6" sm="6" md="6">
                       <v-switch
                         v-model="newAuth.captain"
                         :label="$t('Team.Captain')"
+                      ></v-switch>
+                    </v-col>
+                    <v-col cols="2" sm="2" md="2">
+                      <v-switch
+                        v-model="newAuth.coach"
+                        :label="$t('Team.Coach')"
                       ></v-switch>
                     </v-col>
                   </v-row>
@@ -477,12 +483,14 @@ export default {
             if (this.teamAuth[key].steamid == val.steam) {
               this.newAuth.name = this.teamAuth[key].username;
               this.newAuth.captain = this.teamAuth[key].captain;
+              this.newAuth.coach = this.teamAuth[key].coach;
               this.editInfo = true;
               break;
             }
             this.editInfo = false;
             this.newAuth.name = "";
             this.newAuth.captain = false;
+            this.newAuth.coach = false;
           }
         }
       },
@@ -543,7 +551,8 @@ export default {
                 tag: mainTeamInfo[steam_id].image,
                 username: mainTeamInfo[steam_id].name,
                 steamid: steam_id,
-                captain: mainTeamInfo[steam_id].captain
+                captain: mainTeamInfo[steam_id].captain,
+                coach: mainTeamInfo[steam_id].coach
               };
               this.steamIdList.push(steam_id);
               this.teamAuth.push(indTeamMember);
@@ -611,7 +620,8 @@ export default {
         let newTeamMember = {
           [this.newAuth.steam.toString()]: {
             name: this.newAuth.name == null ? "" : this.newAuth.name,
-            captain: this.newAuth.captain == null ? 0 : this.newAuth.captain
+            captain: this.newAuth.captain == null ? 0 : this.newAuth.captain,
+            coach: this.newAuth.coach == null ? 0 : this.newAuth.coach
           }
         };
         let updatedTeam = [
