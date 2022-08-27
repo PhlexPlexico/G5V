@@ -805,6 +805,21 @@ export default {
       }
       return message;
     },
+    async GetEventPlayerStats(matchid) {
+      return this.$sse
+        .create({
+          url: `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/playerstats/match/${matchid}/stream`,
+          format: "json",
+          withCredentials: true,
+          polyfill: true
+        })
+        .on("error", err =>
+          console.error("Failed to parse or lost connection:", err)
+        )
+        .connect(msg => console.log("Connected! " + msg))
+        .catch(err => console.error("Failed make initial connection:", err));
+    },
     async GetPlayerStatRecentMatches(steamid) {
       let res;
       let message;
