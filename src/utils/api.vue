@@ -816,9 +816,7 @@ export default {
         })
         .on("error", err =>
           console.error("Failed to parse or lost connection:", err)
-        )
-        .connect(msg => console.log("Connected! " + msg))
-        .catch(err => console.error("Failed make initial connection:", err));
+        );
     },
     async GetPlayerStatRecentMatches(steamid) {
       let res;
@@ -1112,6 +1110,40 @@ export default {
         combinedVetoInfo = error.response.data.message;
       }
       return combinedVetoInfo;
+    },
+    async GetStreamedVetoesOfMatch(matchid) {
+      let combinedVetoInfo;
+      try {
+        combinedVetoInfo = await this.$sse
+          .create({
+            url: `${process.env?.VUE_APP_G5V_API_URL ||
+              "/api"}/vetoes/${matchid}/stream`,
+            format: "json",
+            withCredentials: true,
+            polyfill: true
+          })
+          .on("error", err =>
+            console.error("Failed to parse or lost connection:", err)
+          );
+      } catch (error) {
+        combinedVetoInfo = error.response.data.message;
+      }
+      return combinedVetoInfo;
+    },
+    async GetStreamedVetoSidesOfMatch(matchid) {
+      let retVal;
+      try {
+        retVal = await this.$sse.create({
+          url: `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/vetosides/${matchid}/stream`,
+          format: "json",
+          withCredentials: true,
+          polyfill: true
+        });
+      } catch (error) {
+        retVal = error.response.data.message;
+      }
+      return retVal;
     },
     // END VETO CALLS
     // BEGIN LEADERBOARD CALLS

@@ -52,8 +52,7 @@
               arrMapString[index] != null && arrMapString[index].end == null
             "
             align="left"
-          >
-          </div>
+          ></div>
         </v-container>
         <v-data-table
           item-key="id"
@@ -121,10 +120,8 @@ export default {
       apiUrl: process.env?.VUE_APP_G5V_API_URL || "/api"
     };
   },
-  sse: { cleanup: true, withCredentials: true, Polyfill: true, forcePolyfill: true },
   created() {
-    // Template will contain v-rows/etc like on main Team page.
-    this.GetMapPlayerStats();
+    this.useStreamOrStaticData();
     this.getMapString();
   },
   computed: {
@@ -239,70 +236,87 @@ export default {
     }
   },
   methods: {
-    async handleMessage(message, tmp) {
-      console.log(`Message ${message}, tmp is ${tmp}`);
+    async useStreamOrStaticData() {
+      // Template will contain v-rows/etc like on main Team page.
+      let matchData = await this.GetMatchData(this.match_id);
+      if (matchData.end_time == null) this.GetMapPlayerStatsStream(matchData);
+      else this.GetMapPlayerStats(matchData);
     },
-    async GetMapPlayerStats() {
+    async retrieveStatsHelper(serverResponse, matchData) {
+      if (typeof serverResponse == "string") return;
+      let allMapIds = [];
+      let totalMatchTeam = [];
+      let allTeamIds = [];
+      serverResponse.filter(item => {
+        let i = allMapIds.findIndex(x => x == item.map_id);
+        let j = allTeamIds.findIndex(x => x == item.team_id);
+        if (i <= -1) allMapIds.push(item.map_id);
+        if (j <= -1) allTeamIds.push(item.team_id);
+        return null;
+      });
+      allMapIds.forEach(map_id => {
+        totalMatchTeam.push(
+          serverResponse.filter(stats => {
+            return stats.map_id == map_id;
+          })
+        );
+      });
+      this.playerstats = totalMatchTeam;
+      await this.playerstats.forEach((matchStats, idx) => {
+        matchStats.forEach(async (player, pIdx) => {
+          if (player.roundsplayed > 0) {
+            let getRating = this.GetRating(
+              player.kills,
+              player.roundsplayed,
+              player.deaths,
+              player.k1,
+              player.k2,
+              player.k3,
+              player.k4,
+              player.k5
+            );
+            let adr = this.GetADR(player);
+            let hsp = this.GetHSP(player);
+            let kdr = this.GetKDR(player);
+            let fpr = this.GetFPR(player);
+            let teamNum = player.team_id == matchData.team1_id ? 1 : 2;
+            let newName =
+              player.team_id == matchData.team1_id
+                ? matchData.team1_string
+                : matchData.team2_string;
+            this.$set(
+              this.playerstats[idx][pIdx],
+              "Team",
+              teamNum + " " + newName
+            );
+            this.$set(this.playerstats[idx][pIdx], "rating", getRating);
+            this.$set(this.playerstats[idx][pIdx], "adr", adr);
+            this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
+            this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
+            this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
+          }
+        });
+      });
+      if (matchData.end_time != null) this.isFinished = true;
+    },
+    async GetMapPlayerStatsStream(matchData) {
       try {
         let sseClient = await this.GetEventPlayerStats(this.match_id);
-        sseClient.on("playerstats", async message => {
-          let getMatchTeamIds = await this.GetMatchData(this.match_id);
-          if (typeof message == "string") return;
-          let allMapIds = [];
-          let totalMatchTeam = [];
-          let allTeamIds = [];
-          message.filter(item => {
-            let i = allMapIds.findIndex(x => x == item.map_id);
-            let j = allTeamIds.findIndex(x => x == item.team_id);
-            if (i <= -1) allMapIds.push(item.map_id);
-            if (j <= -1) allTeamIds.push(item.team_id);
-            return null;
-          });
-          allMapIds.forEach(map_id => {
-            totalMatchTeam.push(
-              message.filter(stats => {
-                return stats.map_id == map_id;
-              })
-            );
-          });
-          this.playerstats = totalMatchTeam;
-          await this.playerstats.forEach((matchStats, idx) => {
-            matchStats.forEach(async (player, pIdx) => {
-              if (player.roundsplayed > 0) {
-                let getRating = this.GetRating(
-                  player.kills,
-                  player.roundsplayed,
-                  player.deaths,
-                  player.k1,
-                  player.k2,
-                  player.k3,
-                  player.k4,
-                  player.k5
-                );
-                let adr = this.GetADR(player);
-                let hsp = this.GetHSP(player);
-                let kdr = this.GetKDR(player);
-                let fpr = this.GetFPR(player);
-                let teamNum = player.team_id == getMatchTeamIds.team1_id ? 1 : 2;
-                let newName =
-                  player.team_id == getMatchTeamIds.team1_id
-                    ? getMatchTeamIds.team1_string
-                    : getMatchTeamIds.team2_string;
-                this.$set(
-                  this.playerstats[idx][pIdx],
-                  "Team",
-                  teamNum + " " + newName
-                );
-                this.$set(this.playerstats[idx][pIdx], "rating", getRating);
-                this.$set(this.playerstats[idx][pIdx], "adr", adr);
-                this.$set(this.playerstats[idx][pIdx], "hsp", hsp);
-                this.$set(this.playerstats[idx][pIdx], "kdr", kdr);
-                this.$set(this.playerstats[idx][pIdx], "fpr", fpr);
-              }
-            });
-          });
-          if (getMatchTeamIds.end_time != null) this.isFinished = true;
+        await sseClient.connect();
+        await sseClient.on("playerstats", async message => {
+          await this.retrieveStatsHelper(message, matchData);
         });
+      } catch (error) {
+        console.log("Our error: " + error);
+      } finally {
+        this.isLoading = false;
+      }
+      return;
+    },
+    async GetMapPlayerStats(matchData) {
+      try {
+        let res = await this.GetPlayerStats(this.match_id);
+        await this.retrieveStatsHelper(res, matchData);
       } catch (error) {
         console.log("Our error: " + error);
       } finally {

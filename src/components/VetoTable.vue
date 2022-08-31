@@ -1,8 +1,5 @@
 <template>
   <v-container class="vetoInfo" fluid v-if="vetoInfo.length > 1">
-    <div class="text-caption" v-if="isVetoCountdown">
-      {{ $t("Veto.RefreshData", { sec: countDownTimer }) }}
-    </div>
     <v-data-table
       :headers="headers"
       :items="vetoInfo"
@@ -81,6 +78,9 @@ export default {
   props: {
     match_id: Number
   },
+  sse: {
+    cleanup: true
+  },
   data() {
     return {
       vetoInfo: [
@@ -95,39 +95,50 @@ export default {
         }
       ],
       expanded: [],
-      mapStats: [],
-      countdownId: -1,
-      timerId: -1,
-      countDownTimer: 10,
-      isVetoCountdown: false
+      mapStats: []
     };
   },
-  async created() {
-    await this.getVetoInfo();
-    if (this.isVetoCountdown) {
-      this.countdownId = setInterval(async () => {
-        this.getVetoInfo();
-        this.countDownTimer = 10;
-      }, 10000);
-      this.timerId = setInterval(async () => {
-        this.countDownTimer--;
-      }, 1000);
-    }
-  },
-  beforeDestroy() {
-    if (this.isVetoCountdown) {
-      if (this.timerId != -1) clearInterval(this.timerId);
-      if (this.countdownId != -1) clearInterval(this.countdownId);
-    }
+  created() {
+    this.useStreamOrStaticData();
   },
   methods: {
+    async useStreamOrStaticData() {
+      // Template will contain v-rows/etc like on main Team page.
+      let matchData = await this.GetMatchData(this.match_id);
+      if (matchData.end_time == null) this.getStreamedVetoInfo();
+      else this.getVetoInfo();
+    },
+    async getStreamedVetoInfo() {
+      try {
+        let vetoInformation = await this.GetStreamedVetoesOfMatch(
+          this.match_id
+        );
+        let vetoSideInformation = await this.GetStreamedVetoSidesOfMatch(
+          this.match_id
+        );
+        vetoInformation.connect();
+        vetoSideInformation.connect();
+        
+        vetoInformation.on("vetodata", liveVetoInfo => {
+          vetoSideInformation.on("vetosidedata", async liveSideInfo => {
+            // Update veto information here.
+            console.log(`Live veto info is ${liveVetoInfo[0].id} and side ${liveSideInfo}`);
+            let mapStatRes = await this.GetMapStats(this.match_id);
+            if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
+          });
+        });
+        
+        
+      } catch (err) {
+        console.error(`Error on SSE ${err}`);
+      }
+    },
     async getVetoInfo() {
       try {
         let vetoRes = await this.GetVetoesOfMatch(this.match_id);
         let mapStatRes = await this.GetMapStats(this.match_id);
         if (typeof vetoRes != "string") this.vetoInfo = vetoRes;
         if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
-        else this.isVetoCountdown = true;
       } catch (error) {
         console.log(error);
       }
