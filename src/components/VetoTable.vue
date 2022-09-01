@@ -94,8 +94,7 @@ export default {
           side: ""
         }
       ],
-      expanded: [],
-      mapStats: []
+      expanded: []
     };
   },
   created() {
@@ -118,17 +117,50 @@ export default {
         );
         vetoInformation.connect();
         vetoSideInformation.connect();
-        
+        // Remove the -1 value.
+        this.vetoInfo.pop();
         vetoInformation.on("vetodata", liveVetoInfo => {
           vetoSideInformation.on("vetosidedata", async liveSideInfo => {
+            liveVetoInfo.forEach(vetoData => {
+              if (liveSideInfo) {
+                let combinedFind = liveSideInfo.find(vetoSideChoice => {
+                  return (
+                    vetoData["id"] === vetoSideChoice["veto_id"] &&
+                    vetoData["map"] === vetoSideChoice["map"]
+                  );
+                });
+                combinedFind
+                  ? this.vetoInfo.push({
+                      id: vetoData.id,
+                      match_id: vetoData.match_id,
+                      team_name: vetoData.team_name,
+                      map: vetoData.map,
+                      pick_or_veto: vetoData.pick_or_veto,
+                      team_name_side: combinedFind.team_name,
+                      side: combinedFind.side
+                    })
+                  : this.vetoInfo.push({
+                      id: vetoData.id,
+                      match_id: vetoData.match_id,
+                      team_name: vetoData.team_name,
+                      map: vetoData.map,
+                      pick_or_veto: vetoData.pick_or_veto
+                    });
+              } else {
+                this.vetoInfo.push({
+                  id: vetoData.id,
+                  match_id: vetoData.match_id,
+                  team_name: vetoData.team_name,
+                  map: vetoData.map,
+                  pick_or_veto: vetoData.pick_or_veto
+                });
+              }
+            });
             // Update veto information here.
-            console.log(`Live veto info is ${liveVetoInfo[0].id} and side ${liveSideInfo}`);
             let mapStatRes = await this.GetMapStats(this.match_id);
             if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
           });
         });
-        
-        
       } catch (err) {
         console.error(`Error on SSE ${err}`);
       }
@@ -136,9 +168,7 @@ export default {
     async getVetoInfo() {
       try {
         let vetoRes = await this.GetVetoesOfMatch(this.match_id);
-        let mapStatRes = await this.GetMapStats(this.match_id);
         if (typeof vetoRes != "string") this.vetoInfo = vetoRes;
-        if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
       } catch (error) {
         console.log(error);
       }
