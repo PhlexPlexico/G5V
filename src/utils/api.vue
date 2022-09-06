@@ -361,6 +361,25 @@ export default {
       }
       return message;
     },
+    async GetEventMatchData(matchid) {
+      let retVal;
+      try {
+        retVal = this.$sse
+          .create({
+            url: `${process.env?.VUE_APP_G5V_API_URL ||
+              "/api"}/matches/${matchid}/stream`,
+            format: "json",
+            withCredentials: true,
+            polyfill: true
+          })
+          .on("error", err =>
+            console.error("Failed to parse or lost connection:", err)
+          );
+      } catch (error) {
+        retVal = error.response.data.message;
+      }
+      return retVal;
+    },
     async GetRecentMatches(teamid) {
       let res;
       let message;
