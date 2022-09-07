@@ -214,13 +214,53 @@
                 />
               </v-col>
             </v-row>
+            <v-row class="justify-center" v-if="newMatchData.skip_veto">
+              <v-col
+                lg="3"
+                md="12"
+                sm="12"
+                v-for="(entity, index) in newMatchData.maps_to_win"
+                :key="index"
+              >
+                <v-col class="text-left text-h6">
+                  {{
+                    $t("CreateMatch.MapSides", {
+                      map:
+                        newMatchData.map_pool[index] == null
+                          ? entity
+                          : newMatchData.map_pool[index]
+                    })
+                  }}
+                </v-col>
+                <v-radio-group row v-model="newMatchData.map_sides[index]">
+                  <v-col lg="12" sm="12" align-self="center">
+                    <v-radio
+                      :label="$t('CreateMatch.MapSidesTeam1CT')"
+                      :value="'team1_ct'"
+                    />
+                  </v-col>
+                  <v-col lg="12" sm="12" align-self="center">
+                    <v-radio
+                      :label="$t('CreateMatch.MapSidesTeam2CT')"
+                      :value="'team1_t'"
+                    />
+                  </v-col>
+                  <v-col lg="12" sm="12" align-self="center">
+                    <v-radio
+                      :label="$t('CreateMatch.MapSidesKnife')"
+                      :value="'knife'"
+                    />
+                  </v-col>
+                </v-radio-group>
+              </v-col>
+            </v-row>
             <v-row class="justify-center">
               <v-radio-group
                 v-model="newMatchData.side_type"
                 row
                 class="justify-center"
               >
-                <v-col lg="4" sm="12" align-self="center">
+                <v-col lg="4" sm="13" align-self="center">
                   <v-radio
                     :label="$t('CreateMatch.KnifeDefault')"
                     :value="'standard'"
@@ -241,18 +281,20 @@
               </v-radio-group>
             </v-row>
             <v-divider />
-            <v-row>
+            <v-col cols="12" class="text-center text-h6">
+              <strong>{{ $t("CreateMatch.ConvarTitle") }}</strong>
+            </v-col>
+            <v-row class="justify-center">
               <v-col cols="12">
-                <strong>{{ $t("CreateMatch.ConvarTitle") }}</strong>
+                <v-combobox
+                  v-model="newMatchData.cvars"
+                  :label="$t('CreateMatch.FormCVARS')"
+                  ref="CVARs"
+                  multiple
+                  chips
+                  deletable-chips
+                />
               </v-col>
-              <v-combobox
-                v-model="newMatchData.cvars"
-                :label="$t('CreateMatch.FormCVARS')"
-                ref="CVARs"
-                multiple
-                chips
-                deletable-chips
-              />
             </v-row>
           </div>
         </v-window-item>
@@ -331,7 +373,8 @@ export default {
       cvars: [],
       veto_first: "team1",
       spectators: [],
-      side_type: "standard"
+      side_type: "standard",
+      map_sides: [[]]
     },
     selectedTeams: [],
     newDialog: false,
@@ -508,7 +551,8 @@ export default {
             players_per_team: parseInt(this.newMatchData.players_per_team),
             min_spectators_to_ready: parseInt(
               this.newMatchData.min_spectators_to_ready
-            )
+            ),
+            map_sides: this.newMatchData.map_sides
           }
         ];
         try {
