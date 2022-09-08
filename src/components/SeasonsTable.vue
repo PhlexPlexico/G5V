@@ -375,6 +375,49 @@
                     </v-col>
                   </v-radio-group>
                 </v-row>
+                <v-row class="justify-center" v-if="seasonDefaults.skip_veto">
+                  <v-col
+                    lg="3"
+                    md="12"
+                    sm="12"
+                    v-for="(entity, index) in seasonDefaults.maps_to_win"
+                    :key="index"
+                  >
+                    <v-col class="text-left text-h6">
+                      {{
+                        $t("CreateMatch.MapSides", {
+                          map:
+                            seasonDefaults.map_pool[index] == null
+                              ? entity
+                              : seasonDefaults.map_pool[index]
+                        })
+                      }}
+                    </v-col>
+                    <v-radio-group
+                      row
+                      v-model="seasonDefaults.map_sides[index]"
+                    >
+                      <v-col lg="12" sm="12" align-self="center">
+                        <v-radio
+                          :label="$t('CreateMatch.MapSidesTeam1CT')"
+                          :value="'team1_ct'"
+                        />
+                      </v-col>
+                      <v-col lg="12" sm="12" align-self="center">
+                        <v-radio
+                          :label="$t('CreateMatch.MapSidesTeam2CT')"
+                          :value="'team1_t'"
+                        />
+                      </v-col>
+                      <v-col lg="12" sm="12" align-self="center">
+                        <v-radio
+                          :label="$t('CreateMatch.MapSidesKnife')"
+                          :value="'knife'"
+                        />
+                      </v-col>
+                    </v-radio-group>
+                  </v-col>
+                </v-row>
                 <v-row class="pt-6">
                   <v-col cols="12">
                     <v-combobox
@@ -435,7 +478,8 @@ export default {
         skip_veto: false,
         map_pool: [],
         spectators: [],
-        side_type: "standard"
+        side_type: "standard",
+        map_sides: []
       },
       datemenu: false,
       formTitle: this.$t("Seasons.NewFormTitle"),
@@ -482,7 +526,8 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "standard"
+            side_type: "standard",
+            map_sides: []
           };
           this.$refs.newSeasonForm.resetValidation();
         });
@@ -579,6 +624,8 @@ export default {
           newCvar.spectators =
             newCvar.spectators != "" ? newCvar.spectators.join(" ") : "";
           newCvar.map_pool = newCvar.map_pool.join(" ");
+          newCvar.map_sides =
+            newCvar.map_sides != "" ? newCvar.map_sides.join(" ") : "";
         }
         if (this.newSeason.id == null) {
           let serverObj = [
@@ -637,7 +684,8 @@ export default {
             skip_veto: false,
             map_pool: [],
             spectators: [],
-            side_type: "standard"
+            side_type: "standard",
+            map_sides: []
           };
           this.$refs.newSeasonForm.resetValidation();
         });
@@ -655,7 +703,6 @@ export default {
       // If our cvars are empty, make an empty object instead to allow future saving.
       if (typeof seasonCvars == "string") seasonCvars = {};
       else {
-        console.log(seasonCvars);
         for (let obj in seasonCvars) {
           if (
             obj !== "min_players_to_ready" &&
@@ -666,7 +713,8 @@ export default {
             obj !== "skip_veto" &&
             obj !== "map_pool" &&
             obj !== "spectators" &&
-            obj !== "side_type"
+            obj !== "side_type" &&
+            obj !== "map_sides"
           )
             tmpArr.push(obj + " " + seasonCvars[obj]);
           else if (
@@ -679,6 +727,8 @@ export default {
           else if (obj === "skip_veto") {
             seasonCvars[obj] = seasonCvars[obj] == 0 ? false : true;
             this.seasonDefaults[obj] = seasonCvars[obj];
+          } else if (obj === "map_sides") {
+            this.seasonDefaults[obj] = seasonCvars[obj].split(" ");
           } else this.seasonDefaults[obj] = seasonCvars[obj];
         }
       }

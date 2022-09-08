@@ -374,7 +374,7 @@ export default {
       veto_first: "team1",
       spectators: [],
       side_type: "standard",
-      map_sides: [[]]
+      map_sides: []
     },
     selectedTeams: [],
     newDialog: false,
@@ -441,6 +441,10 @@ export default {
             seasonCvars.spectators.length < 1
               ? null
               : seasonCvars.spectators.trim().split(" ");
+          this.newMatchData.map_sides =
+            seasonCvars.map_sides.length < 1
+              ? []
+              : seasonCvars.map_sides.trim().split(" ");
           //Delete all used get prepare custom CVARs.
           delete seasonCvars.min_players_to_ready;
           delete seasonCvars.min_spectators_to_ready;
@@ -450,6 +454,7 @@ export default {
           delete seasonCvars.map_pool;
           delete seasonCvars.side_type;
           delete seasonCvars.spectators;
+          delete seasonCvars.map_sides;
           // Now set Match CVARs. These will be converted back on submit.
           let tmpCvarArr = [];
           for (var obj in seasonCvars)
