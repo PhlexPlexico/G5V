@@ -552,7 +552,7 @@ export default {
             min_spectators_to_ready: parseInt(
               this.newMatchData.min_spectators_to_ready
             ),
-            map_sides: this.newMatchData.map_sides
+            map_sides: this.newMatchData.map_sides.join(",")
           }
         ];
         try {
