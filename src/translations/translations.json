@@ -108,7 +108,11 @@
       "SkipVeto": "Skip in-game veto?",
       "KnifeDefault": "Default",
       "KnifeNever": "Never Knife",
-      "KnifeAlways": "Always Knife"
+      "KnifeAlways": "Always Knife",
+      "MapSides": "Map Side For Map {map}",
+      "MapSidesTeam1CT": "Team 1 Starts CT",
+      "MapSidesTeam2CT": "Team 2 Starts CT",
+      "MapSidesKnife": "Teams Knife For Sides"
     },
     "PlayerStats": {
       "Kills": "Kills",
