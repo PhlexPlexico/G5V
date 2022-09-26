@@ -1,5 +1,5 @@
 <template>
-  <v-container class="vetoInfo" fluid v-if="vetoInfo.length > 1">
+  <v-container class="vetoInfo" fluid>
     <v-data-table
       :headers="headers"
       :items="vetoInfo"
@@ -9,6 +9,7 @@
       :no-data-text="$t('Veto.NoData')"
       :expanded.sync="expanded"
       show-expand
+      v-if="vetoInfo.length > 1"
     >
       <template v-slot:item.map="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
@@ -70,6 +71,7 @@
         </td>
       </template>
     </v-data-table>
+    <v-else />
   </v-container>
 </template>
 
