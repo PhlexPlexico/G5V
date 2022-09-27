@@ -9,7 +9,6 @@
       :no-data-text="$t('Veto.NoData')"
       :expanded.sync="expanded"
       show-expand
-      v-if="vetoInfo.length > 1"
     >
       <template v-slot:item.map="{ item }">
         <b v-if="item.pick_or_veto === 'pick'">
@@ -71,18 +70,19 @@
         </td>
       </template>
     </v-data-table>
-    <v-else />
   </v-container>
 </template>
 
 <script>
+let vetoInformation;
+let vetoSideInformation;
 export default {
   props: {
     match_id: Number
   },
-  sse: {
-    cleanup: true
-  },
+  // sse: {
+  //   cleanup: true
+  // },
   data() {
     return {
       vetoInfo: [
@@ -102,6 +102,10 @@ export default {
   created() {
     this.useStreamOrStaticData();
   },
+  beforeDestroy() {
+    vetoInformation.disconnect();
+    vetoSideInformation.disconnect();
+  },
   methods: {
     async useStreamOrStaticData() {
       // Template will contain v-rows/etc like on main Team page.
@@ -111,57 +115,50 @@ export default {
     },
     async getStreamedVetoInfo() {
       try {
-        let vetoInformation = await this.GetStreamedVetoesOfMatch(
-          this.match_id
-        );
-        let vetoSideInformation = await this.GetStreamedVetoSidesOfMatch(
+        vetoInformation = await this.GetStreamedVetoesOfMatch(this.match_id);
+        vetoSideInformation = await this.GetStreamedVetoSidesOfMatch(
           this.match_id
         );
         vetoInformation.connect();
         vetoSideInformation.connect();
         // Remove the -1 value.
         this.vetoInfo.pop();
-        vetoInformation.on("vetodata", liveVetoInfo => {
-          vetoSideInformation.on("vetosidedata", async liveSideInfo => {
-            liveVetoInfo.forEach(vetoData => {
-              if (liveSideInfo) {
-                let combinedFind = liveSideInfo.find(vetoSideChoice => {
-                  return (
-                    vetoData["id"] === vetoSideChoice["veto_id"] &&
-                    vetoData["map"] === vetoSideChoice["map"]
-                  );
-                });
-                combinedFind
-                  ? this.vetoInfo.push({
-                      id: vetoData.id,
-                      match_id: vetoData.match_id,
-                      team_name: vetoData.team_name,
-                      map: vetoData.map,
-                      pick_or_veto: vetoData.pick_or_veto,
-                      team_name_side: combinedFind.team_name,
-                      side: combinedFind.side
-                    })
-                  : this.vetoInfo.push({
-                      id: vetoData.id,
-                      match_id: vetoData.match_id,
-                      team_name: vetoData.team_name,
-                      map: vetoData.map,
-                      pick_or_veto: vetoData.pick_or_veto
-                    });
-              } else {
-                this.vetoInfo.push({
-                  id: vetoData.id,
-                  match_id: vetoData.match_id,
-                  team_name: vetoData.team_name,
-                  map: vetoData.map,
-                  pick_or_veto: vetoData.pick_or_veto
-                });
-              }
+        await vetoInformation.on("vetodata", async liveVetoInfo => {
+          await liveVetoInfo.forEach(vetoData => {
+            let isFound = this.vetoInfo.find(tmp => {
+              return tmp["id"] === vetoData.id;
             });
-            // Update veto information here.
-            let mapStatRes = await this.GetMapStats(this.match_id);
-            if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
+            if (!isFound) {
+              this.vetoInfo.push({
+                id: vetoData.id,
+                match_id: vetoData.match_id,
+                team_name: vetoData.team_name,
+                map: vetoData.map,
+                pick_or_veto: vetoData.pick_or_veto
+              });
+            }
           });
+          await vetoSideInformation.on("vetosidedata", async liveSideInfo => {
+            await liveSideInfo.forEach(liveVetoData => {
+              this.vetoInfo.forEach((vetoData, idx) => {
+                if (liveVetoData["veto_id"] === vetoData["id"]) {
+                  this.vetoInfo.splice(idx, 1);
+                  this.vetoInfo.push({
+                    id: vetoData.id,
+                    match_id: vetoData.match_id,
+                    team_name: vetoData.team_name,
+                    map: vetoData.map,
+                    pick_or_veto: vetoData.pick_or_veto,
+                    team_name_side: liveVetoData.team_name,
+                    side: liveVetoData.side
+                  });
+                }
+              });
+            });
+          });
+          // Update veto information here.
+          let mapStatRes = await this.GetMapStats(this.match_id);
+          if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
         });
       } catch (err) {
         console.error(`Error on SSE ${err}`);
