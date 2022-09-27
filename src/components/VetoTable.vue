@@ -1,5 +1,5 @@
 <template>
-  <v-container class="vetoInfo" fluid>
+  <v-container class="vetoInfo" fluid v-if="vetoInfo.length > 1">
     <v-data-table
       :headers="headers"
       :items="vetoInfo"
@@ -80,9 +80,9 @@ export default {
   props: {
     match_id: Number
   },
-  // sse: {
-  //   cleanup: true
-  // },
+  sse: {
+    cleanup: true
+  },
   data() {
     return {
       vetoInfo: [
@@ -99,12 +99,8 @@ export default {
       expanded: []
     };
   },
-  created() {
+  mounted() {
     this.useStreamOrStaticData();
-  },
-  beforeDestroy() {
-    vetoInformation.disconnect();
-    vetoSideInformation.disconnect();
   },
   methods: {
     async useStreamOrStaticData() {
@@ -119,50 +115,52 @@ export default {
         vetoSideInformation = await this.GetStreamedVetoSidesOfMatch(
           this.match_id
         );
-        vetoInformation.connect();
-        vetoSideInformation.connect();
         // Remove the -1 value.
         this.vetoInfo.pop();
-        await vetoInformation.on("vetodata", async liveVetoInfo => {
-          await liveVetoInfo.forEach(vetoData => {
-            let isFound = this.vetoInfo.find(tmp => {
-              return tmp["id"] === vetoData.id;
-            });
-            if (!isFound) {
-              this.vetoInfo.push({
-                id: vetoData.id,
-                match_id: vetoData.match_id,
-                team_name: vetoData.team_name,
-                map: vetoData.map,
-                pick_or_veto: vetoData.pick_or_veto
-              });
-            }
-          });
-          await vetoSideInformation.on("vetosidedata", async liveSideInfo => {
-            await liveSideInfo.forEach(liveVetoData => {
-              this.vetoInfo.forEach((vetoData, idx) => {
-                if (liveVetoData["veto_id"] === vetoData["id"]) {
-                  this.vetoInfo.splice(idx, 1);
-                  this.vetoInfo.push({
-                    id: vetoData.id,
-                    match_id: vetoData.match_id,
-                    team_name: vetoData.team_name,
-                    map: vetoData.map,
-                    pick_or_veto: vetoData.pick_or_veto,
-                    team_name_side: liveVetoData.team_name,
-                    side: liveVetoData.side
-                  });
-                }
-              });
-            });
-          });
-          // Update veto information here.
-          let mapStatRes = await this.GetMapStats(this.match_id);
-          if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
-        });
+        await vetoInformation.on("vetodata", this.handleVetoInfo).connect();
+        await vetoSideInformation
+          .on("vetosidedata", this.handleLiveSideInfo)
+          .connect();
       } catch (err) {
         console.error(`Error on SSE ${err}`);
       }
+    },
+    async handleVetoInfo(liveVetoInfo) {
+      await liveVetoInfo.forEach(vetoData => {
+        let isFound = this.vetoInfo.find(tmp => {
+          return tmp["id"] === vetoData.id;
+        });
+        if (!isFound) {
+          this.vetoInfo.push({
+            id: vetoData.id,
+            match_id: vetoData.match_id,
+            team_name: vetoData.team_name,
+            map: vetoData.map,
+            pick_or_veto: vetoData.pick_or_veto
+          });
+        }
+      });
+      // Update veto information here.
+      let mapStatRes = await this.GetMapStats(this.match_id);
+      if (typeof mapStatRes != "string") this.mapStats = mapStatRes;
+    },
+    async handleLiveSideInfo(liveSideInfo) {
+      await liveSideInfo.forEach(liveVetoData => {
+        this.vetoInfo.forEach((vetoData, idx) => {
+          if (liveVetoData["veto_id"] === vetoData["id"]) {
+            this.vetoInfo.splice(idx, 1);
+            this.vetoInfo.push({
+              id: vetoData.id,
+              match_id: vetoData.match_id,
+              team_name: vetoData.team_name,
+              map: vetoData.map,
+              pick_or_veto: vetoData.pick_or_veto,
+              team_name_side: liveVetoData.team_name,
+              side: liveVetoData.side
+            });
+          }
+        });
+      });
     },
     async getVetoInfo() {
       try {
