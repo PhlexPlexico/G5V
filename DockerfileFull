@@ -5,7 +5,7 @@ ENV VUE_APP_G5V_API_URL=$VUE_APP_G5V_API_URL
 
 # create folder and copy application into folder
 WORKDIR /G5V
-COPY package*.json .
+COPY package.json .
 COPY yarn.lock .
 
 # build application using yarn
