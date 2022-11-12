@@ -71,6 +71,7 @@
       "StartTime": "Start:",
       "EndTime": "End:",
       "Connect": "Connect!",
+      "ConnectButtonAt": "Connecting to ",
       "GOTVConnect": "Connect to GOTV!"
     },
     "CreateMatch": {
@@ -188,6 +189,8 @@
       "Server": "Server",
       "Owner": "Owner",
       "DeleteButton": "Delete My Cancelled Matches",
+      "ConnectButton": "Connect",
+      "ConnectButtonAt": "Connecting to ",
       "Versus": "vs"
     },
     "Metrics": {
@@ -437,7 +440,8 @@
       "StartTime": "Début : ",
       "EndTime": "Fin : ",
       "Connect": "Connexion !",
-      "GOTVConnect": "Connexion à la GOTV!"
+      "GOTVConnect": "Connexion à la GOTV!",
+      "ConnectButtonAt": "Se connecter à "
     },
     "CreateMatch": {
       "FormServer": "Selectionner un serveur",
@@ -553,6 +557,8 @@
       "Status": "Status",
       "Server": "Serveur",
       "Owner": "Propriétaire",
+      "ConnectButton": "Se connecter",
+      "ConnectButtonAt": "Se connecter au",
       "DeleteButton": "Supprimer mes matchs annulés",
       "Versus": "vs"
     },
