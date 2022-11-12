@@ -55,7 +55,7 @@
       </div>
     </template>
 
-    <template v-slot:item.connect="{ item }">
+    <template v-if="item.end_time !== null" v-slot:item.connect="{ item }">
       <div>
         <v-btn
           color="primary"

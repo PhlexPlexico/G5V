@@ -809,6 +809,8 @@
       "StartTime": "スタート:",
       "EndTime": "終り:",
       "Connect": "つなげろ！",
+      "ConnectButton": "接続",
+      "ConnectButtonAt": "に接続する ",
       "GOTVConnect": "GOTVに接続"
     },
     "CreateMatch": {
@@ -921,6 +923,8 @@
       "Status": "状態",
       "Server": "サーバ",
       "Owner": "オーナー",
+      "ConnectButton": "接続",
+      "ConnectButtonAt": "に接続する ",
       "DeleteButton": "キャンセルされたマッチを削除する",
       "Versus": "対"
     },
