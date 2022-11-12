@@ -423,7 +423,7 @@
       "AddPlayerToServer": "Ajouter un joueur au serveur",
       "ListBackups": "Liste des sauvegarde",
       "CancelMatch": "Annuler le match",
-      "ForfeitMatch": "Forfeit Match",
+      "ForfeitMatch": "Déclarer forfait pour ce Match",
       "Backup": "Sauvegarder",
       "RCONCommand": "Commande RCON",
       "RCONHint": "Travailler comme dans la console!",
