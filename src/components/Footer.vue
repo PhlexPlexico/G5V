@@ -75,6 +75,10 @@ export default {
           Code: "en"
         },
         {
+          Language: "Français",
+          Code: "fr"
+        },
+        {
           Language: "日本語",
           Code: "jp"
         }
