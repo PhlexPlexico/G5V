@@ -25,14 +25,12 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: install
       - uses: actions/setup-node@v3.5.1
         with:
           node-version: 16
           cache: 'yarn'
-          run: yarn build
+        run: yarn install
+        run: yarn build
       - uses: docker/build-push-action@v3.2.0
         with:
           context: .
