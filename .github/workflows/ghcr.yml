@@ -29,8 +29,8 @@ jobs:
         with:
           node-version: 16
           cache: 'yarn'
-        run: yarn install
-        run: yarn build
+      - run: yarn install
+      - run: yarn build
       - uses: docker/build-push-action@v3.2.0
         with:
           context: .
