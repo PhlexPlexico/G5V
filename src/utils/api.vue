@@ -1337,7 +1337,7 @@ export default {
         "AR",
         "AT",
         "AU",
-	"BD",
+        "BD",
         "BE",
         "BG",
         "BR",
