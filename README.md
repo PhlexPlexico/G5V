@@ -1,5 +1,7 @@
 # Get5Vue - Front-end website for G5API
-_**Status: Under active development.**_
+_**Status: Supported.**_
+
+After the announcement of CS2 I have decided to put this project on support. No more features will be actively developed, but supoprt will still be given if you need assistance in setting things up. Pull Requests are always welcome and will be reviewed!
 
 ---
 
