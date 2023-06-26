@@ -90,6 +90,16 @@
             />
             <v-divider />
             <v-row class="justify-center">
+              <v-col cols="2">
+                <v-switch
+                  v-model="newMatchData.wingman"
+                  :label="$t('CreateMatch.Wingman')"
+                  ref="wingman"
+                />
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row class="justify-center">
               <v-col cols="12">
                 <strong>{{ $t("CreateMatch.FormSeriesType") }}</strong>
               </v-col>
@@ -374,7 +384,8 @@ export default {
       veto_first: "team1",
       spectators: [],
       side_type: "standard",
-      map_sides: []
+      map_sides: [],
+      wingman: false
     },
     selectedTeams: [],
     newDialog: false,
@@ -445,11 +456,16 @@ export default {
             seasonCvars.map_sides.length < 1
               ? []
               : seasonCvars.map_sides.trim().split(" ");
+          this.newMatchData.wingman =
+            seasonCvars.wingman == null || seasonCvars.wingman == 0
+              ? false
+              : true;
           //Delete all used get prepare custom CVARs.
           delete seasonCvars.min_players_to_ready;
           delete seasonCvars.min_spectators_to_ready;
           delete seasonCvars.players_per_team;
           delete seasonCvars.maps_to_win;
+          delete seasonCvars.wingman;
           delete seasonCvars.skip_veto;
           delete seasonCvars.map_pool;
           delete seasonCvars.side_type;
@@ -549,6 +565,7 @@ export default {
             match_cvars: newCvar,
             veto_first: this.newMatchData.veto_first,
             skip_veto: this.newMatchData.skip_veto,
+            wingman: this.newMatchData.wingman,
             spectator_auths: this.newMatchData.spectators,
             min_players_to_ready: parseInt(
               this.newMatchData.min_players_to_ready
