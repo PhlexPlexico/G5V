@@ -22,7 +22,7 @@
         <b v-if="item.pick_or_veto === 'pick'">
           {{ $t("Veto.VetoPick") }}
         </b>
-        <div v-else-if="item.pick_or_veto === 'ban'">
+        <div v-else-if="item.pick_or_veto === 'ban' || item.pick_or_veto === 'veto'">
           {{ $t("Veto.VetoBan") }}
         </div>
       </template>
