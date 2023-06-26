@@ -112,7 +112,8 @@
       "MapSides": "Map Side For Map {map}",
       "MapSidesTeam1CT": "Team 1 Starts CT",
       "MapSidesTeam2CT": "Team 2 Starts CT",
-      "MapSidesKnife": "Teams Knife For Sides"
+      "MapSidesKnife": "Teams Knife For Sides",
+      "Wingman": "Wingman Match?"
     },
     "PlayerStats": {
       "Kills": "Kills",
@@ -478,7 +479,8 @@
       "MapSides": "Côté de la map pour la carte {map}",
       "MapSidesTeam1CT": "Equipe 1 démarre en CT",
       "MapSidesTeam2CT": "Equipe 2 démarre en CT",
-      "MapSidesKnife": "Coté décidé par un round au couteau"
+      "MapSidesKnife": "Coté décidé par un round au couteau",
+      "Wingman": "Match d'ailier ?"
     },
     "PlayerStats": {
       "Kills": "Kills",
@@ -840,7 +842,8 @@
       "SkipVeto": "ゲーム内拒否権をスキップ？",
       "KnifeDefault": "デフォルト",
       "KnifeNever": "ネバーナイフ",
-      "KnifeAlways": "常にナイフ"
+      "KnifeAlways": "常にナイフ",
+      "Wingman": "ウィングマン・マッチ？"
     },
     "PlayerStats": {
       "Kills": "キルズ",
