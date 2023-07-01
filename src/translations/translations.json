@@ -226,7 +226,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "Your server information will not be exposed to other users.",
-      "Get5Help": "Make sure your server is running and has the get5 server plugins installed first.<br>See <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">the get5 wiki</a> for help installing the get5 and <a href=\"https://github.com/phlexplexico/get5-webapi\">G5WS</a> plugins. PLEASE ENSURE sv_logecho = 1 IS SET ON THE SERVER AND 'log on'",
+      "Get5Help": "Make sure your server is online and has the latest version of get5 installed.<br>See <a href=\"http://splewis.github.io/get5/latest/installation/\">the installation guide</a> for help installing the get5. PLEASE ENSURE sv_logecho = 1 IS SET ON THE SERVER AND 'log on'",
       "FormDisplayName": "Display Name",
       "FormServerIP": "Host Name",
       "FormServerHint": "Can be a URL as well.",
@@ -593,7 +593,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "Les informations de votre serveur ne seront pas exposées aux autres utilisateurs.",
-      "Get5Help": "Assurez-vous que votre serveur est en cours d'exécution et que les plugins get5/G5API et G5WS sont installés en premier.<br>Voir <a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">le wiki get5</a> pour de l'aide à l'installation de get5 et <a href=\"https://github.com/phlexplexico/get5-webapi\">G5WS</a> plugins. ASSUREZ-VOUS que sv_logecho = 1 et 'log on' SONT CONFIGURES SUR LE SERVEUR",
+      "Get5Help": "Assurez-vous que votre serveur est en ligne et que la dernière version de get5 est installée.<br>Voir <a href=\"http://splewis.github.io/get5/latest/installation/\">le guide d'installation</a> pour l'aide à l'installation de get5. VEUILLEZ VOUS ASSURER que sv_logecho = 1 EST FIXE SUR LE SERVEUR ET que 'log on' est installé.",
       "FormDisplayName": "Nom affiché",
       "FormServerIP": "Nom d'hôte",
       "FormServerHint": "Peut aussi être une URL.",
@@ -956,7 +956,7 @@
     },
     "ServerCreate": {
       "InfoWillNotBeExposed": "あなたのサーバー情報は他のユーザーには公開されません。",
-      "Get5Help": "サーバーが稼働中でGet5プラグインがインストールされていることを確認してください。<br>Get5のインストールは<a href=\"https://github.com/splewis/get5/wiki/Step-by-step-installation-guide\">get5 wiki</a> get5 と <a href=\"https://github.com/phlexplexico/get5-webapi\">G5WS</a> プラグインをインストールする際の参考にしてください。sv_logecho = 1 がサーバに設定されていることと 'log on' が設定されていることを確認してください。",
+      "Get5Help": "サーバーがオンラインであり、最新バージョンのget5がインストールされていることを確認してください。<br>get5のインストールについては、<a href=\"http://splewis.github.io/get5/latest/installation/\">インストールガイド</a>を参照してください。 サーバーでsv_logecho = 1が設定され、'log on'が設定されていることを確認してください。",
       "FormDisplayName": "表示名",
       "FormServerIP": "ホスト名",
       "FormServerHint": "URLにすることもできます。",
