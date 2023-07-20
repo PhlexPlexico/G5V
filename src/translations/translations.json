@@ -1,7 +1,7 @@
 {
   "en": {
     "Navbar": {
-      "title": "Get5Vue",
+      "title": "LOTGaming",
       "AllMatches": "All Matches",
       "MyMatches": "My Matches",
       "MyTeams": "My Teams",
@@ -10,8 +10,8 @@
       "CreateTeam": "Create Team",
       "MyServers": "My Servers",
       "AddServer": "Add New Server",
-      "AllSeasons": "All Seasons",
-      "MySeasons": "My Seasons",
+      "AllSeasons": "All Tournament",
+      "MySeasons": "My Tournament",
       "Logout": "Logout",
       "DarkMode": "Toggle Dark Mode",
       "PlayerLeader": "Player Leaderboard",
@@ -70,7 +70,7 @@
       "MessageSendCommandSuccess": "Successfully sent command.",
       "StartTime": "Start:",
       "EndTime": "End:",
-      "Connect": "Connect!",
+      "Connect": "Connect to Sever!",
       "GOTVConnect": "Connect to GOTV!"
     },
     "CreateMatch": {
@@ -361,14 +361,14 @@
       "Import": "Import"
     },
     "Footer": {
-      "company": "Phlex Plexico",
+      "company": "LOTGaming",
       "metrics": "Metrics",
       "powered": "Powered by Steam"
     }
   },
   "fr": {
     "Navbar": {
-      "title": "Get5Vue",
+      "title": "LOTGaming",
       "AllMatches": "Tous les matchs",
       "MyMatches": "Mes matchs",
       "MyTeams": "Mon équipe",
@@ -728,14 +728,14 @@
       "Import": "Importer"
     },
     "Footer": {
-      "company": "Phlex Plexico",
+      "company": "LOTGaming",
       "metrics": "Metrics",
       "powered": "Powered by Steam"
     }
   },
   "jp": {
     "Navbar": {
-      "title": "Get5Vue",
+      "title": "LOTGaming",
       "AllMatches": "マッチリスト",
       "MyMatches": "あなたのマッチ",
       "MyTeams": "あなたのチーム",
@@ -1089,7 +1089,7 @@
       "Import": "輸入"
     },
     "Footer": {
-      "company": "Phlex Plexico",
+      "company": "LOTGaming",
       "metrics": "メトリック",
       "powered": "Powered by Steam"
     }
