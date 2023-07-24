@@ -362,8 +362,7 @@
     },
     "Footer": {
       "company": "LOTGaming",
-      "metrics": "Metrics",
-      "powered": "Powered by Steam"
+      "metrics": "Metrics"
     }
   },
   "fr": {
@@ -729,8 +728,7 @@
     },
     "Footer": {
       "company": "LOTGaming",
-      "metrics": "Metrics",
-      "powered": "Powered by Steam"
+      "metrics": "Metrics"
     }
   },
   "jp": {
@@ -1090,8 +1088,7 @@
     },
     "Footer": {
       "company": "LOTGaming",
-      "metrics": "メトリック",
-      "powered": "Powered by Steam"
+      "metrics": "メトリック"
     }
   }
 }
