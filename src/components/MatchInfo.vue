@@ -63,7 +63,7 @@
         {{ matchInfo.team2_name }}
       </div>
     </div>
-    <div class="final-score text-h4" align="center">
+    <div class="final-score text-h4" align="center" style="display: flex; align-items: center; justify-content: center; gap: 10px;">
       {{ matchInfo.team1_score }} {{ matchInfo.symbol }}
       {{ matchInfo.team2_score }}
     </div>
