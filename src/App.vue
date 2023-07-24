@@ -1,7 +1,8 @@
 <template>
   <v-app>
     <Navbar :user="user" />
-    <v-main>
+    <v-main  style=" background-image: linear-gradient(to right, #22889d, #138897, #038790, #008688, #03857f);"
+  >
       <router-view :key="$route.path" />
     </v-main>
     <Footer />
