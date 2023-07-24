@@ -146,32 +146,32 @@ export default {
         },
         {
           text: this.$t("PlayerStats.ADR"),
-          value: "adr"
+          value: "adr",
           groupable: false
         },
         {
           text: this.$t("PlayerStats.KDR"),
-          value: "kdr"
+          value: "kdr",
           groupable: false
         },
         {
           text: this.$t("PlayerStats.FPR"),
-          value: "fpr"
+          value: "fpr",
           groupable: false
         },
         {
           text: this.$t("PlayerStats.Headshot") + "%",
-          value: "hsp"
+          value: "hsp",
           groupable: false
         },
         {
           text: this.$t("PlayerStats.KAST"),
-          value: "kast"
+          value: "kast",
           groupable: false
         },
         {
           text: this.$t("PlayerStats.MVP"),
-          value: "mvp"
+          value: "mvp",
           groupable: false
         },
         {
@@ -200,19 +200,19 @@ export default {
         },
         {
           text: this.$t("PlayerStats.Assists"),
-          value: "assists",
+          value: "assists"
         },
         {
           text: this.$t("PlayerStats.FlashbangAssists"),
-          value: "flashbang_assists",
+          value: "flashbang_assists"
         },
         {
           text: this.$t("PlayerStats.EnemyFlash"),
-          value: "enemies_flashed",
+          value: "enemies_flashed"
         },
         {
           text: this.$t("PlayerStats.FriendFlash"),
-          value: "friendlies_flashed",
+          value: "friendlies_flashed"
         },
         {
           text: this.$t("PlayerStats.UtilDamage"),
