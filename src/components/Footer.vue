@@ -6,8 +6,7 @@
 
       <v-card-text class="py-2 text-center">
         {{ new Date().getFullYear() }} —
-        <strong>{{ $t("Footer.company") }}</strong> —
-        {{ $t("Footer.powered") }}
+        <strong>{{ $t("Footer.company") }}</strong>
       </v-card-text>
     </v-card>
   </v-footer>

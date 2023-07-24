@@ -1,5 +1,5 @@
 <template>
-  <v-data-table
+  <v-data-table style=" background-image: linear-gradient(to right, #229d83, #00908b, #00818f, #00728d, #036385);"
     item-key="name"
     class="elevation-1"
     :loading="isLoading"
@@ -10,7 +10,6 @@
     :server-items-length="totalMatches"
     ref="MatchesTable"
   >
-  <v-main  style=" background-image: linear-gradient(to right, #22889d, #138897, #038790, #008688, #03857f);"></v-main>
     <template v-slot:item.id="{ item }">
       <router-link
         :to="{ path: '/match/' + item.id }"
