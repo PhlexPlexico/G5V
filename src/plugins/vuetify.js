@@ -7,7 +7,7 @@ Vue.use(Vuetify);
 export default new Vuetify({
   theme: {
     themes: {
-      light: {
+      dark: {
         primary: colors.green.darken1,
         secondary: colors.blueGrey.darken1,
         accent: colors.shades.black,
@@ -15,11 +15,6 @@ export default new Vuetify({
         background: colors.lime.darken4,
         footer: colors.green.darken1
       },
-      dark: {
-        primary: colors.green.darken1,
-        background: colors.lime.darken4,
-        footer: colors.green.darken1
-      }
     },
   }
 });
