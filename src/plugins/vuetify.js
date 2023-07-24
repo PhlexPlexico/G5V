@@ -20,6 +20,7 @@ export default new Vuetify({
         background: colors.lime.darken4,
         footer: colors.green.darken1
       }
-    }
+    },
+    defaultTheme: 'dark'
   }
 });
