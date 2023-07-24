@@ -145,23 +145,33 @@ export default {
           groupable: false
         },
         {
-          text: this.$t("PlayerStats.Assists"),
-          value: "assists",
+          text: this.$t("PlayerStats.ADR"),
+          value: "adr"
           groupable: false
         },
         {
-          text: this.$t("PlayerStats.FlashbangAssists"),
-          value: "flashbang_assists",
+          text: this.$t("PlayerStats.KDR"),
+          value: "kdr"
           groupable: false
         },
         {
-          text: this.$t("PlayerStats.EnemyFlash"),
-          value: "enemies_flashed",
+          text: this.$t("PlayerStats.FPR"),
+          value: "fpr"
           groupable: false
         },
         {
-          text: this.$t("PlayerStats.FriendFlash"),
-          value: "friendlies_flashed",
+          text: this.$t("PlayerStats.Headshot") + "%",
+          value: "hsp"
+          groupable: false
+        },
+        {
+          text: this.$t("PlayerStats.KAST"),
+          value: "kast"
+          groupable: false
+        },
+        {
+          text: this.$t("PlayerStats.MVP"),
+          value: "mvp"
           groupable: false
         },
         {
@@ -189,8 +199,20 @@ export default {
           value: "suicides"
         },
         {
-          text: this.$t("PlayerStats.ADR"),
-          value: "adr"
+          text: this.$t("PlayerStats.Assists"),
+          value: "assists",
+        },
+        {
+          text: this.$t("PlayerStats.FlashbangAssists"),
+          value: "flashbang_assists",
+        },
+        {
+          text: this.$t("PlayerStats.EnemyFlash"),
+          value: "enemies_flashed",
+        },
+        {
+          text: this.$t("PlayerStats.FriendFlash"),
+          value: "friendlies_flashed",
         },
         {
           text: this.$t("PlayerStats.UtilDamage"),
@@ -209,28 +231,8 @@ export default {
           value: "bomb_defuses"
         },
         {
-          text: this.$t("PlayerStats.Headshot") + "%",
-          value: "hsp"
-        },
-        {
-          text: this.$t("PlayerStats.KDR"),
-          value: "kdr"
-        },
-        {
-          text: this.$t("PlayerStats.FPR"),
-          value: "fpr"
-        },
-        {
-          text: this.$t("PlayerStats.KAST"),
-          value: "kast"
-        },
-        {
           text: this.$t("PlayerStats.ContribScore"),
           value: "contribution_score"
-        },
-        {
-          text: this.$t("PlayerStats.MVP"),
-          value: "mvp"
         }
       ];
     }
