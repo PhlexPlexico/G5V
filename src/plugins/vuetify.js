@@ -8,17 +8,17 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: colors.red,
-        secondary: colors.red.lighten2,
-        accent: colors.red.accent4,
-        error: colors.red.lighten5,
-        background: colors.pink.lighten1,
-        footer: colors.pink.accent4
+        primary: colors.blue,
+        secondary: colors.blueGrey.darken1,
+        accent: colors.shades.black,
+        error: colors.red.accent3,
+        background: colors.lightBlue.lighten4,
+        footer: colors.lightBlue
       },
       dark: {
-        primary: colors.teal,
-        background: colors.grey.darken3,
-        footer: colors.teal
+        primary: colors.green.darken1,
+        background: colors.lime.darken4,
+        footer: colors.green.darken1
       }
     }
   }
