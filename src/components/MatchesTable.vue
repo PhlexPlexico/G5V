@@ -9,44 +9,19 @@
     :options.sync="options"
     :server-items-length="totalMatches"
     ref="MatchesTable"
+    @click:row="handleClick"
   >
     <template v-slot:item.id="{ item }" style="font-weight:bold;">
-      <router-link
-        :to="{ path: '/match/' + item.id }"
-        v-if="item.match_status != 'Cancelled'"
-      >
-        {{ "Match - " + item.id}}
-      </router-link>
-      <div v-else>
-        {{ item.id }}
-      </div>
+      {{item.id}}
     </template>
     <template v-slot:item.owner="{ item }">
-      <router-link :to="{ path: '/user/' + item.user_id }">
-        {{ item.owner }}
-      </router-link>
+      {{item.owner}}
     </template>
     <template v-slot:item.team1_string="{ item }">
-      <router-link
-        :to="{ path: '/teams/' + item.team1_id }"
-        v-if="item.team1_id !== null"
-      >
-        {{ item.team1_string + " H" }}
-      </router-link>
-      <div v-else>
-        {{ item.team1_string }}
-      </div>
+      {{item.team1_string}}
     </template>
     <template v-slot:item.team2_string="{ item }">
-      <router-link
-        :to="{ path: '/teams/' + item.team2_id }"
-        v-if="item.team2_id !== null"
-      >
-        {{ item.team2_string }}
-      </router-link>
-      <div v-else>
-        {{ item.team2_string }}
-      </div>
+      {{item.team2_string}}
     </template>
     <template v-slot:top>
       <div v-if="isMyMatches && isThereCancelledMatches">
@@ -119,6 +94,9 @@ export default {
     }
   },
   methods: {
+    handleClick(event, item) {
+    window.location.href = "/match/" + item.item.id
+    },
     async pushMatchData(resultArray) {
       this.isLoading = true;
       let matches = [];
@@ -202,4 +180,21 @@ export default {
   }
 };
 </script>
+
+<style>
+tr:hover {
+  cursor:pointer;
+  color: yellow;
+}
+</style>
+<style lang="scss">
+tbody {
+  tr:hover {
+    background: #0a9489d6 !important;
+  }
+  td:first-child {
+    color: #ffee58;
+  }
+}
+</style>
 
