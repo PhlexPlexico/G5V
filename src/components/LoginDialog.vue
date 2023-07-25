@@ -1,7 +1,7 @@
 <template>
   <v-container style="padding: 0px">
     <v-dialog shake v-model="show" max-width="800px">
-      <v-card color="lighten-4">
+      <v-card color="lighten-4"> 
         <v-card-title>
           <span class="headline">
             {{ title }}

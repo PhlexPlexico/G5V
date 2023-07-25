@@ -15,7 +15,7 @@
           :gradient="gradientCalc"
           @error="imageError(idx)"
         >
-          <v-card
+          <v-card style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
             color="rgb(128, 128, 128, 0.4)"
             :to="'/match/' + mtch.id"
             max-height="225px"
