@@ -25,7 +25,7 @@
         </template>
         <span>{{ $t("Navbar.Logout") }}</span>
       </v-tooltip>
-      <v-tooltip v-else bottom>
+      <v-tooltip v-else bottom >
         <template v-slot:activator="{ on }">
           <v-btn
             v-on="on"
@@ -45,7 +45,7 @@
         <img :src="user.small_image" style="border-radius: 15px;" />
       </v-btn>
     </v-app-bar>
-    <v-navigation-drawer v-model="drawer" temporary fixed app>
+    <v-navigation-drawer v-model="drawer" temporary fixed app style=" background-image: linear-gradient(to right, #229d83, #00908b, #00818f, #00728d, #036385);">
       <v-list nav>
         <v-list-item-group
           v-model="group"

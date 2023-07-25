@@ -1,6 +1,6 @@
 <template>
   <v-container class="PlayerLeaderboard" fluid>
-    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
+    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);border-radius:20px;"
       item-key="steamId"
       class="elevation-1"
       :loading="isLoading"
@@ -14,8 +14,8 @@
       :expanded="[]"
       show-expand
     >
-      <template v-slot:top>
-        <v-toolbar flat>
+      <template v-slot:top >
+        <v-toolbar flat style="border-top-left-radius:20px;border-top-right-radius: 20px;">
           {{ $t("misc.PLeader") }}
         </v-toolbar>
       </template>

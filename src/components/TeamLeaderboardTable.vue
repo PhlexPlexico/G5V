@@ -1,6 +1,6 @@
 <template>
   <v-container class="TeamLeaderboard" fluid>
-    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
+    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);border-radius:20px;"
       item-key="index"
       class="elevation-1"
       :loading="isLoading"
@@ -12,7 +12,7 @@
       ref="TeamLeaderboardTable"
     >
       <template v-slot:top>
-        <v-toolbar flat>
+        <v-toolbar flat style="border-top-left-radius:20px;border-top-right-radius: 20px;">
           {{ $t("Leaderboard.TTitle") }}
         </v-toolbar>
       </template>
@@ -83,3 +83,14 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+tbody {
+  tr:hover {
+    background: #0a9489d6 !important;
+  }
+  td:first-child {
+    color: #ffee58;
+  }
+}
+</style>
