@@ -1,5 +1,5 @@
 <template>
-  <v-data-table style=" background-image: linear-gradient(to right, #229d83, #00908b, #00818f, #00728d, #036385);"
+  <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
     item-key="name"
     class="elevation-1"
     :loading="isLoading"

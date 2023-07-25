@@ -1,6 +1,6 @@
 <template>
   <v-container class="vetoInfo" fluid v-if="vetoInfo.length > 1">
-    <v-data-table
+    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
       :headers="headers"
       :items="vetoInfo"
       class="elevation-1"

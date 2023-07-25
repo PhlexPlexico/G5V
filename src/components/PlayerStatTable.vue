@@ -1,7 +1,7 @@
 <template>
   <v-container class="statistics" fluid>
     <div v-if="playerstats.length > 0">
-      <v-container
+      <v-container style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
         v-for="(playerMapStats, index) in playerstats"
         :key="playerMapStats[0].id"
       >

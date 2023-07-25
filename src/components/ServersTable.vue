@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-data-table
+    <v-data-table style="background-image: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
       item-key="id"
       class="elevation-1"
       :loading="isLoading"
