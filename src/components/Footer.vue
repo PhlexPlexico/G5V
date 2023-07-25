@@ -6,7 +6,7 @@
 
       <v-card-text class="py-2 text-center">
         {{ new Date().getFullYear() }} —
-        <strong><a href="https://github.com/PhlexPlexico/G5V">{{ $t("Footer.company") }}</a></strong>
+        <strong>Developed By <a href="https://github.com/PhlexPlexico">{{ $t("Footer.company") }}</a></strong>
       </v-card-text>
     </v-card>
   </v-footer>
