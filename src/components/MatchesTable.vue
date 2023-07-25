@@ -10,12 +10,12 @@
     :server-items-length="totalMatches"
     ref="MatchesTable"
   >
-    <template v-slot:item.id="{ item }">
+    <template v-slot:item.id="{ item }" style="font-weight:bold;">
       <router-link
         :to="{ path: '/match/' + item.id }"
         v-if="item.match_status != 'Cancelled'"
       >
-        {{ item.id }}
+        {{ "Match - " + item.id}}
       </router-link>
       <div v-else>
         {{ item.id }}
@@ -31,7 +31,7 @@
         :to="{ path: '/teams/' + item.team1_id }"
         v-if="item.team1_id !== null"
       >
-        {{ item.team1_string }}
+        {{ item.team1_string + " H" }}
       </router-link>
       <div v-else>
         {{ item.team1_string }}
@@ -202,3 +202,4 @@ export default {
   }
 };
 </script>
+

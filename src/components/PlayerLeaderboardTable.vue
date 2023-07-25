@@ -24,7 +24,7 @@
           {{ item.name }}
         </router-link>
       </template>
-      <template v-slot:expanded-item="{ item }" class="text-center">
+      <template v-slot:expanded-item="{ item }" class="text-center" >
         <td :colspan="headers.length">
           <v-data-table
             item-key="steamId"
@@ -36,6 +36,7 @@
             :items="[item]"
             disable-sort
             :colspan="headers.length"
+            style="background: linear-gradient(to right top, #052437, #004254, #006364, #1a8264, #689f59);"
           />
         </td>
       </template>
