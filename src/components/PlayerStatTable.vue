@@ -360,9 +360,23 @@ export default {
     },
     async GetStreamMapStats() {
       try {
-        let mapStats = await this.GetMapStatsStream(this.match_id);
+        let sseClient = await this.GetMapStatsStream(this.match_id);
+        await sseClient.connect();
+        await sseClient.on("mapstats", async message => {
+          await this.retrieveMapStatsHelper(message, matchData);
+        });
+      } catch (error) {
+        console.log("Our error: " + error);
+      } finally {
+        this.isLoading = false;
+      }
+      return;
+    },
+    async retrieveMapStatsHelper(serverResponse, matchData) {
+       let mapStats = await this.GetMapStats(this.match_id);
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
+          console.log(mapStats);
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
             "Score: " +
@@ -383,9 +397,7 @@ export default {
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
           this.arrMapString[index].demo = singleMapStat.demoFile;
         });
-      } catch (error) {
-        console.log("String error " + error);
-      }
+      if (matchData.end_time != null) this.isFinished = true;
     }
   }
 };
