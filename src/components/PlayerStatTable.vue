@@ -375,15 +375,8 @@ export default {
     },
     async retrieveMapStatsHelper(serverResponse,matchData) {
       if (typeof serverResponse == "string") return;
-      let allMapIds = [];
-      serverResponse.filter(item => {
-        let i = allMapIds.findIndex(x => x == item.id);
-        if (i <= -1) allMapIds.push(item.map_id);
-        return null;
-      });
       console.log(serverResponse);
-      console.log(allMapIds);
-      allMapIds.forEach((singleMapStat, index) => {
+      serverResponse.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
             "Score: " +
