@@ -240,7 +240,7 @@ export default {
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
            this.GetMapPlayerStatsStream(matchData);
-           this.GetStreamMapStats();
+           this.GetStreamMapStats(matchData);
       }
       else {
            this.GetMapPlayerStats(matchData);
@@ -358,7 +358,7 @@ export default {
         console.log("String error " + error);
       }
     },
-    async GetStreamMapStats() {
+    async GetStreamMapStats(matchData) {
       try {
         let sseClient = await this.GetMapStatsStream(this.match_id);
         await sseClient.connect();
