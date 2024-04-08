@@ -238,8 +238,14 @@ export default {
     async useStreamOrStaticData() {
       // Template will contain v-rows/etc like on main Team page.
       let matchData = await this.GetMatchData(this.match_id);
-      if (matchData.end_time == null) this.GetMapPlayerStatsStream(matchData);
-      else this.GetMapPlayerStats(matchData);
+      if (matchData.end_time == null) {
+           this.GetMapPlayerStatsStream(matchData);
+           this.GetMapStatsStream(this.match_id); // Create a function helpder like the above has...
+      }
+      else {
+           this.GetMapPlayerStats(matchData);
+           this.getMapString();
+      }
     },
     async retrieveStatsHelper(serverResponse, matchData) {
       if (typeof serverResponse == "string") return;
@@ -303,7 +309,6 @@ export default {
         let sseClient = await this.GetEventPlayerStats(this.match_id);
         await sseClient.connect();
         await sseClient.on("playerstats", async message => {
-          await this.getMapString();
           await this.retrieveStatsHelper(message, matchData);
         });
       } catch (error) {
@@ -316,7 +321,6 @@ export default {
     async GetMapPlayerStats(matchData) {
       try {
         let res = await this.GetPlayerStats(this.match_id);
-        await this.getMapString();
         await this.retrieveStatsHelper(res, matchData);
       } catch (error) {
         console.log("Our error: " + error);
