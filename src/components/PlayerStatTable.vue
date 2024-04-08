@@ -240,7 +240,7 @@ export default {
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
            this.GetMapPlayerStatsStream(matchData);
-           this.GetMapStatsStream(this.match_id); // Create a function helpder like the above has...
+           this.GetStreamMapStats(this.match_id);
       }
       else {
            this.GetMapPlayerStats(matchData);
@@ -332,6 +332,35 @@ export default {
     async getMapString() {
       try {
         let mapStats = await this.GetMapStats(this.match_id);
+        if (typeof mapStats == "string") return;
+        mapStats.forEach((singleMapStat, index) => {
+          this.arrMapString[index] = {};
+          this.arrMapString[index].score =
+            "Score: " +
+            singleMapStat.team1_score +
+            " " +
+            this.GetScoreSymbol(
+              singleMapStat.team1_score,
+              singleMapStat.team2_score
+            ) +
+            " " +
+            singleMapStat.team2_score;
+          this.arrMapString[index].start =
+            "Map Start: " + new Date(singleMapStat.start_time).toLocaleString();
+          this.arrMapString[index].end =
+            singleMapStat.end_time == null
+              ? null
+              : "Map End: " + new Date(singleMapStat.end_time).toLocaleString();
+          this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
+          this.arrMapString[index].demo = singleMapStat.demoFile;
+        });
+      } catch (error) {
+        console.log("String error " + error);
+      }
+    },
+    async GetStreamMapStats(match_id) {
+      try {
+        let mapStats = await this.GetMapStatsStream(this.match_id);
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
