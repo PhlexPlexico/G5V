@@ -239,12 +239,12 @@ export default {
       // Template will contain v-rows/etc like on main Team page.
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
+           this.GetMapStatsStream(matchData);
            this.GetMapPlayerStatsStream(matchData);
-           this.GetMapStatsStream(matchData); // Create a function helpder like the above has...
       }
       else {
-           this.GetMapPlayerStats(matchData);
            this.getMapString();
+           this.GetMapPlayerStats(matchData);
       }
     },
     async retrieveStatsHelper(serverResponse, matchData) {
