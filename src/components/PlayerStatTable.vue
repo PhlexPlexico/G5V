@@ -381,6 +381,7 @@ export default {
         if (i <= -1) allMapIds.push(item.map_id);
         return null;
       });
+      console.log(serverResponse);
       console.log(allMapIds);
       allMapIds.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
@@ -403,6 +404,7 @@ export default {
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
           this.arrMapString[index].demo = singleMapStat.demoFile;
         });
+        if (matchData.end_time != null) this.isFinished = true;
     }
   }
 };
