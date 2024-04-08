@@ -326,7 +326,9 @@ export default {
     },
     async getMapString() {
       try {
-        let mapStats = await this.GetMapStats(this.match_id);
+        let matchData = await this.GetMatchData(this.match_id);
+        if (matchData.end_time == null) let mapStats = await this.GetMapStatsStream(this.match_id);
+        else let mapStats = await this.GetMapStats(this.match_id);
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
