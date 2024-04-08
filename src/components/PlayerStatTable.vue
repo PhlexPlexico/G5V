@@ -122,6 +122,7 @@ export default {
   },
   created() {
     this.useStreamOrStaticData();
+    this.getMapString();
   },
   computed: {
     headers() {
@@ -240,7 +241,7 @@ export default {
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
            this.GetMapPlayerStatsStream(matchData);
-           this.GetStreamMapStats(matchData);
+           this.GetStreamMapStats(); // Create a function helpder like the above has...
       }
       else {
            this.GetMapPlayerStats(matchData);
@@ -358,12 +359,12 @@ export default {
         console.log("String error " + error);
       }
     },
-    async GetStreamMapStats(matchData) {
+    async GetStreamMapStats() {
       try {
         let sseClient = await this.GetMapStatsStream(this.match_id);
         await sseClient.connect();
         await sseClient.on("mapstats", async message => {
-          await this.retrieveMapStatsHelper(message, matchData);
+          await this.retrieveMapStatsHelper(message);
         });
       } catch (error) {
         console.log("Our error: " + error);
@@ -372,11 +373,15 @@ export default {
       }
       return;
     },
-    async retrieveMapStatsHelper(serverResponse, matchData) {
-       let mapStats = await this.GetMapStats(this.match_id);
-        if (typeof mapStats == "string") return;
-        mapStats.forEach((singleMapStat, index) => {
-          console.log(mapStats);
+    async retrieveMapStatsHelper(serverResponse) {
+      if (typeof serverResponse == "string") return;
+      let allMapIds = [];
+      serverResponse.filter(item => {
+        let i = allMapIds.findIndex(x => x == item.id);
+        if (i <= -1) allMapIds.push(item.map_id);
+        return null;
+      });
+      allMapIds.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
             "Score: " +
@@ -397,7 +402,6 @@ export default {
           this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
           this.arrMapString[index].demo = singleMapStat.demoFile;
         });
-      if (matchData.end_time != null) this.isFinished = true;
     }
   }
 };
