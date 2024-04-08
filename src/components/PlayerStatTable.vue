@@ -122,7 +122,6 @@ export default {
   },
   created() {
     this.useStreamOrStaticData();
-    this.getMapString();
   },
   computed: {
     headers() {
