@@ -376,6 +376,8 @@ export default {
       if (typeof serverResponse == "string") return;
       console.log(serverResponse);
       serverResponse.forEach((singleMapStat, index) => {
+        console.log(array);
+        console.log(singleMapStat);
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
             "Score: " +
