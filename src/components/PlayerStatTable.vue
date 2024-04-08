@@ -381,6 +381,7 @@ export default {
         if (i <= -1) allMapIds.push(item.map_id);
         return null;
       });
+      console.log(allMapIds);
       allMapIds.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
