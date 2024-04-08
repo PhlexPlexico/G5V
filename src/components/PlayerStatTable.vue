@@ -122,7 +122,6 @@ export default {
   },
   created() {
     this.useStreamOrStaticData();
-    this.getMapString();
   },
   computed: {
     headers() {
@@ -304,6 +303,7 @@ export default {
         let sseClient = await this.GetEventPlayerStats(this.match_id);
         await sseClient.connect();
         await sseClient.on("playerstats", async message => {
+          await this.getMapString();
           await this.retrieveStatsHelper(message, matchData);
         });
       } catch (error) {
@@ -316,6 +316,7 @@ export default {
     async GetMapPlayerStats(matchData) {
       try {
         let res = await this.GetPlayerStats(this.match_id);
+        await this.getMapString();
         await this.retrieveStatsHelper(res, matchData);
       } catch (error) {
         console.log("Our error: " + error);
@@ -326,9 +327,7 @@ export default {
     },
     async getMapString() {
       try {
-        let matchData = await this.GetMatchData(this.match_id);
-        if (matchData.end_time == null) let mapStats = await this.GetMapStatsStream(this.match_id);
-        else let mapStats = await this.GetMapStats(this.match_id);
+        let mapStats = await this.GetMapStats(this.match_id);
         if (typeof mapStats == "string") return;
         mapStats.forEach((singleMapStat, index) => {
           this.arrMapString[index] = {};
