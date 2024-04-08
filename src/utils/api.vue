@@ -894,6 +894,19 @@ export default {
       }
       return message;
     },
+    async GetMapStatsStream(matchid) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/mapstats/${matchid}/stream`
+        );
+        message = res.data.mapstats;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
     // END MAP STATS
     // BEGIN MATCH ADMIN CALLS
     async PauseMatch(matchid) {
