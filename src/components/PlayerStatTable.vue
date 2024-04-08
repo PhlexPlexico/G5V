@@ -239,7 +239,7 @@ export default {
       // Template will contain v-rows/etc like on main Team page.
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
-           await this.GetMapStatsStream(matchData);
+           this.GetMapStatsStream(matchData);
            this.GetMapPlayerStatsStream(matchData);
       }
       else {
@@ -375,7 +375,7 @@ export default {
     async retrieveMapStatsHelper(serverResponse,matchData) {
       if (typeof serverResponse == "string") return;
       console.log(serverResponse);
-      serverResponse.forEach((singleMapStat, index) => {
+      await serverResponse.forEach((singleMapStat, index) => {
         console.log(index);
         console.log(singleMapStat);
           this.arrMapString[index] = {};
