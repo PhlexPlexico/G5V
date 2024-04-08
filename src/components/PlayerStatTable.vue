@@ -241,7 +241,7 @@ export default {
       let matchData = await this.GetMatchData(this.match_id);
       if (matchData.end_time == null) {
            this.GetMapPlayerStatsStream(matchData);
-           this.GetStreamMapStats(); // Create a function helpder like the above has...
+           this.GetMapStatsStream(); // Create a function helpder like the above has...
       }
       else {
            this.GetMapPlayerStats(matchData);
@@ -359,9 +359,9 @@ export default {
         console.log("String error " + error);
       }
     },
-    async GetStreamMapStats() {
+    async GetMapStatsStream() {
       try {
-        let sseClient = await this.GetMapStatsStream(this.match_id);
+        let sseClient = await this.GetEventMapStats(this.match_id);
         await sseClient.connect();
         await sseClient.on("mapstats", async message => {
           await this.retrieveMapStatsHelper(message);
