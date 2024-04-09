@@ -356,7 +356,6 @@ export default {
     },
     async retrieveMapStatsHelper(serverResponse, matchData) {
       if (typeof serverResponse == "string") return;
-      console.log('start helper', serverResponse);
       await serverResponse.forEach((singleMapStat, index) => {
         this.$set(this.arrMapString[index], 'score', "Score: " +
           singleMapStat.team1_score +
