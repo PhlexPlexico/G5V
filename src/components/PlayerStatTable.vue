@@ -373,33 +373,30 @@ export default {
       }
       return;
     },
-    async retrieveMapStatsHelper(serverResponse,matchData) {
+    async retrieveMapStatsHelper(serverResponse, matchData) {
       if (typeof serverResponse == "string") return;
       console.log('start helper', serverResponse);
       await serverResponse.forEach((singleMapStat, index) => {
         console.log(this.arrMapString[index].score);
-        console.log(singleMapStat.team1_score,singleMapStat.team2_score);
-          this.arrMapString[index] = {};
-          this.arrMapString[index].score =
-            "Score: " +
-            singleMapStat.team1_score +
-            " " +
-            this.GetScoreSymbol(
-              singleMapStat.team1_score,
-              singleMapStat.team2_score
-            ) +
-            " " +
-            singleMapStat.team2_score;
-          this.arrMapString[index].start =
-            "Map Start: " + new Date(singleMapStat.start_time).toLocaleString();
-          this.arrMapString[index].end =
-            singleMapStat.end_time == null
-              ? null
-              : "Map End: " + new Date(singleMapStat.end_time).toLocaleString();
-          this.arrMapString[index].map = "Map: " + singleMapStat.map_name;
-          this.arrMapString[index].demo = singleMapStat.demoFile;
-        });
-        if (matchData.end_time != null) this.isFinished = true;
+        console.log(singleMapStat.team1_score, singleMapStat.team2_score);
+        // Update properties of arrMapString[index] instead of reassigning it
+        this.$set(this.arrMapString[index], 'score', "Score: " +
+          singleMapStat.team1_score +
+          " " +
+          this.GetScoreSymbol(
+            singleMapStat.team1_score,
+            singleMapStat.team2_score
+          ) +
+          " " +
+          singleMapStat.team2_score);
+        this.$set(this.arrMapString[index], 'start', "Map Start: " + new Date(singleMapStat.start_time).toLocaleString());
+        this.$set(this.arrMapString[index], 'end', singleMapStat.end_time == null ?
+          null :
+          "Map End: " + new Date(singleMapStat.end_time).toLocaleString());
+        this.$set(this.arrMapString[index], 'map', "Map: " + singleMapStat.map_name);
+        this.$set(this.arrMapString[index], 'demo', singleMapStat.demoFile);
+      });
+      if (matchData.end_time != null) this.isFinished = true;
     }
   }
 };
