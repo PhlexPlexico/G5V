@@ -243,7 +243,7 @@ export default {
            this.GetMapPlayerStatsStream(matchData);
       }
       else {
-           this.getMapString();
+           this.getMapString(matchData);
            this.GetMapPlayerStats(matchData);
       }
     },
@@ -343,7 +343,7 @@ export default {
       }
       return;
     },
-    async getMapString() {
+    async getMapString(matchData) {
       try {
         let res = await this.GetMapStats(this.match_id);
         await this.retrieveMapStatsHelper(res, matchData);
