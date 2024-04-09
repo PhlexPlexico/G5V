@@ -363,6 +363,7 @@ export default {
         let sseClient = await this.GetEventMapStats(this.match_id);
         await sseClient.connect();
         await sseClient.on("mapstats", async message => {
+          console.log('TOP Event', message );
           await this.retrieveMapStatsHelper(message,matchData);
         });
       } catch (error) {
@@ -374,10 +375,10 @@ export default {
     },
     async retrieveMapStatsHelper(serverResponse,matchData) {
       if (typeof serverResponse == "string") return;
-      console.log(serverResponse);
+      console.log('start helper', serverResponse);
       await serverResponse.forEach((singleMapStat, index) => {
-        console.log(index);
-        console.log(singleMapStat);
+        console.log(this.arrMapString[index].score);
+        console.log(singleMapStat.team1_score,singleMapStat.team2_score);
           this.arrMapString[index] = {};
           this.arrMapString[index].score =
             "Score: " +
