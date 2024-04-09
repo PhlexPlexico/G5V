@@ -894,6 +894,19 @@ export default {
       }
       return message;
     },
+    async GetEventMapStats(matchid) {
+      return this.$sse
+        .create({
+          url: `${process.env?.VUE_APP_G5V_API_URL ||
+            "/api"}/mapstats/${matchid}/stream`,
+          format: "json",
+          withCredentials: true,
+          polyfill: true
+        })
+        .on("error", err =>
+          console.error("Failed to parse or lost connection:", err)
+        );
+    },
     // END MAP STATS
     // BEGIN MATCH ADMIN CALLS
     async PauseMatch(matchid) {
