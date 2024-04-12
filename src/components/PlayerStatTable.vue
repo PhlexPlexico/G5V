@@ -113,7 +113,7 @@ export default {
     return {
       playerstats: [],
       isLoading: true,
-      arrMapString: [{}],
+      arrMapString: [],
       allowRefresh: false,
       timeoutId: -1,
       isFinished: false,
@@ -357,6 +357,10 @@ export default {
     async retrieveMapStatsHelper(serverResponse, matchData) {
       if (typeof serverResponse == "string") return;
       await serverResponse.forEach((singleMapStat, index) => {
+        if (!this.arrMapString[index]) {
+          this.$set(this.arrMapString, index, {});
+        }
+
         this.$set(this.arrMapString[index], 'score', "Score: " +
           singleMapStat.team1_score +
           " " +
