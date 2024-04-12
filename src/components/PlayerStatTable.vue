@@ -8,40 +8,40 @@
         <v-container class="mapinfo" fluid>
           <div
             class="text-subtitle-2 mapInfo"
-            v-if="arrMapString[index] != null"
+            v-if="mapStats[index] != null"
             align="center"
           >
-            {{ arrMapString[index].score }} - {{ arrMapString[index].map }}
+            {{ mapStats[index].score }} - {{ mapStats[index].map }}
           </div>
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].start != null
+              mapStats[index] != null && mapStats[index].start != null
             "
             align="center"
           >
-            {{ arrMapString[index].start }}
+            {{ mapStats[index].start }}
           </div>
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].end != null
+              mapStats[index] != null && mapStats[index].end != null
             "
             align="center"
           >
-            {{ arrMapString[index].end }}
+            {{ mapStats[index].end }}
           </div>
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].demo != null
+              mapStats[index] != null && mapStats[index].demo != null
             "
             align="center"
           >
             <v-btn
               small
               color="secondary"
-              :href="apiUrl + '/demo/' + arrMapString[index].demo"
+              :href="apiUrl + '/demo/' + mapStats[index].demo"
             >
               {{ $t("PlayerStats.Download") }}
             </v-btn>
@@ -49,7 +49,7 @@
           <div
             class="text-subtitle-2 mapInfo"
             v-if="
-              arrMapString[index] != null && arrMapString[index].end == null
+              mapStats[index] != null && mapStats[index].end == null
             "
             align="left"
           ></div>
@@ -113,7 +113,7 @@ export default {
     return {
       playerstats: [],
       isLoading: true,
-      arrMapString: [{}],
+      mapStats: [],
       allowRefresh: false,
       timeoutId: -1,
       isFinished: false,
@@ -357,7 +357,11 @@ export default {
     async retrieveMapStatsHelper(serverResponse, matchData) {
       if (typeof serverResponse == "string") return;
       await serverResponse.forEach((singleMapStat, index) => {
-        this.$set(this.arrMapString[index], 'score', "Score: " +
+        if (!this.mapStats[index]) {
+          this.$set(this.mapStats, index, {});
+        }
+
+        this.$set(this.mapStats[index], 'score', "Score: " +
           singleMapStat.team1_score +
           " " +
           this.GetScoreSymbol(
@@ -366,12 +370,12 @@ export default {
           ) +
           " " +
           singleMapStat.team2_score);
-        this.$set(this.arrMapString[index], 'start', "Map Start: " + new Date(singleMapStat.start_time).toLocaleString());
-        this.$set(this.arrMapString[index], 'end', singleMapStat.end_time == null ?
+        this.$set(this.mapStats[index], 'start', "Map Start: " + new Date(singleMapStat.start_time).toLocaleString());
+        this.$set(this.mapStats[index], 'end', singleMapStat.end_time == null ?
           null :
           "Map End: " + new Date(singleMapStat.end_time).toLocaleString());
-        this.$set(this.arrMapString[index], 'map', "Map: " + singleMapStat.map_name);
-        this.$set(this.arrMapString[index], 'demo', singleMapStat.demoFile);
+        this.$set(this.mapStats[index], 'map', "Map: " + singleMapStat.map_name);
+        this.$set(this.mapStats[index], 'demo', singleMapStat.demoFile);
       });
       if (matchData.end_time != null) this.isFinished = true;
     }
