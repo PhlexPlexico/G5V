@@ -251,12 +251,10 @@ export default {
       if (typeof serverResponse == "string") return;
       let allMapIds = [];
       let totalMatchTeam = [];
-      let allTeamIds = [];
+      let allTeamNames = [];
       serverResponse.filter(item => {
         let i = allMapIds.findIndex(x => x == item.map_id);
-        let j = allTeamIds.findIndex(x => x == item.team_id);
         if (i <= -1) allMapIds.push(item.map_id);
-        if (j <= -1) allTeamIds.push(item.team_id);
         return null;
       });
       allMapIds.forEach(map_id => {
@@ -284,11 +282,23 @@ export default {
             let hsp = this.GetHSP(player);
             let kdr = this.GetKDR(player);
             let fpr = this.GetFPR(player);
-            let teamNum = player.team_id == matchData.team1_id ? 1 : 2;
-            let newName =
-              player.team_id == matchData.team1_id
-                ? matchData.team1_string
-                : matchData.team2_string;
+            let teamNum;
+            let newName;
+            if (player.team_id) {
+              teamNum = player.team_id == matchData.team1_id ? 1 : 2;
+              newName =
+                player.team_id == matchData.team1_id
+                  ? matchData.team1_string
+                  : matchData.team2_string;
+            } else {
+              // If we don't have a team ID, we must be pugging. Go based on
+              // Team strings alone.
+              teamNum = player.team_name == matchData.team1_string ? 1 : 2;
+              newName = 
+                player.team_name == matchData.team1_string
+                  ? matchData.team1_string
+                  : matchData.team2_string;
+            }
             this.$set(
               this.playerstats[idx][pIdx],
               "Team",
