@@ -251,7 +251,6 @@ export default {
       if (typeof serverResponse == "string") return;
       let allMapIds = [];
       let totalMatchTeam = [];
-      let allTeamNames = [];
       serverResponse.filter(item => {
         let i = allMapIds.findIndex(x => x == item.map_id);
         if (i <= -1) allMapIds.push(item.map_id);
