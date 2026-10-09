@@ -21,7 +21,7 @@ Vue.use(VueSSE);
 const translations = require("./translations/translations.json");
 
 const i18n = new VueI18n({
-  locale: "ru", // Use Russian by default
+  locale: "en", // Use English by default
   messages: translations
 });
 
