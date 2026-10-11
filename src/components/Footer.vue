@@ -75,6 +75,10 @@ export default {
           Code: "en"
         },
         {
+          Language: "Русский",
+          Code: "ru"
+        },
+        {
           Language: "Français",
           Code: "fr"
         },
