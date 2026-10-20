@@ -48,6 +48,32 @@
         {{ item.team2_string }}
       </div>
     </template>
+
+    <template v-slot:item.ip_string="{ item }">
+      <div>
+          {{item.display_name}}
+      </div>
+    </template>
+
+    <template v-slot:item.connect="{ item }">
+      <div v-if="item.end_time === null">
+        <v-btn
+          color="primary"
+          small
+          :href="
+            'steam://rungame/730/' +
+              user.steam_id +
+              '/+connect%20' +
+              item.ip_string +
+              ':' +
+              item.port
+          "
+        >
+          {{ $t("Match.Connect") }}
+        </v-btn>
+      </div>
+    </template>
+
     <template v-slot:top>
       <div v-if="isMyMatches && isThereCancelledMatches">
         <v-toolbar flat>
@@ -103,7 +129,15 @@ export default {
         {
           text: this.$t("Matches.Owner"),
           value: "owner"
-        }
+        },
+        {
+          text: this.$t("Matches.Server"),
+          value: "ip_string"
+        },   
+        {
+          //text: this.$t("Matches.ConnectButton"),
+          value: "connect"
+        }     
       ];
     },
     isMyMatches() {
@@ -140,11 +174,11 @@ export default {
           (match.cancelled == 0 || match.cancelled == null) &&
           match.start_time != null
         ) {
-          matchString = `Live, ${team1Score}:${team2Score} vs ${match.team2_string}`;
+          matchString = `Live, ${team1Score}:${team2Score} - ${match.team1_string} vs ${match.team2_string}`;
         } else if (team1Score < team2Score) {
-          matchString = `Lost, ${team1Score}:${team2Score} vs ${match.team2_string}`;
+          matchString = `Lost, ${team1Score}:${team2Score} - ${match.team1_string} vs ${match.team2_string}`;
         } else if (team1Score > team2Score) {
-          matchString = `Won, ${team1Score}:${team2Score} vs ${match.team2_string}`;
+          matchString = `Won, ${team1Score}:${team2Score} - ${match.team1_string} vs ${match.team2_string}`;
         } else if (match.cancelled == 1) {
           matchString = "Cancelled";
         } else if (team1Score == team2Score && match.forfeit != 1) {

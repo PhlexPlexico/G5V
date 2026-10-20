@@ -9,10 +9,10 @@
             {{ seasonData.name }}
             <v-spacer />
             {{ isStarted }}:
-            {{ new Date(seasonData.start_date).toLocaleDateString("en-CA") }}
+            {{ new Date(seasonData.start_date).toLocaleDateString() }}
             <br />
             {{ isEnding }}:
-            {{ new Date(seasonData.end_date).toLocaleDateString("en-CA") }}
+            {{ new Date(seasonData.end_date).toLocaleDateString() }}
           </v-card-title>
           <v-card-title
             v-else-if="
@@ -22,7 +22,7 @@
             {{ seasonData.name }}
             <v-spacer />
             {{ isStarted }}:
-            {{ new Date(seasonData.start_date).toLocaleDateString("en-CA") }}
+            {{ new Date(seasonData.start_date).toLocaleDateString() }}
           </v-card-title>
           <v-card-title v-else>
             {{ seasonData.name }}
