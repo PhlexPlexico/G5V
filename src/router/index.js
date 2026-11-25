@@ -141,6 +141,12 @@ const routes = [
       import(/* webpackChunkName: "Metrics" */ "../views/Metrics.vue")
   },
   {
+    path: "/roles",
+    name: "Roles",
+    component: () =>
+      import(/* webpackChunkName: "Roles" */ "../views/Roles.vue")
+  },
+  {
     path: "/leaderboard",
     name: "Leaderboard",
     // route level code-splitting

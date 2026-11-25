@@ -41,6 +41,15 @@
           {{ item.owner }}
         </router-link>
       </template>
+      <template v-slot:item.name="{ item }">
+        {{ item.name }}
+        <v-chip v-if="item.is_toornament" x-small color="deep-purple" dark>
+          Toornament
+        </v-chip>
+        <v-chip v-else-if="item.is_challonge" x-small color="orange" dark>
+          Challonge
+        </v-chip>
+      </template>
       <template v-slot:item.end_date="{ item }">
         <div v-if="item.end_date == null">
           {{ $t("Seasons.NotFinished") }}
@@ -112,20 +121,82 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t("Seasons.Import") }}
+            {{
+              importProvider === "toornament"
+                ? $t("Seasons.ImportToornament")
+                : $t("Seasons.Import")
+            }}
           </span>
         </v-card-title>
-        <v-card-text v-html="$t('Seasons.ImportExplanation')" />
+        <v-card-text>
+          <v-btn-toggle
+            v-model="importProvider"
+            mandatory
+            color="primary"
+            class="mb-4"
+          >
+            <v-btn value="challonge">Challonge</v-btn>
+            <v-btn value="toornament" v-if="isAdmin">Toornament</v-btn>
+          </v-btn-toggle>
+        </v-card-text>
+        <v-card-text
+          v-if="importProvider === 'challonge'"
+          v-html="$t('Seasons.ImportExplanation')"
+        />
+        <v-card-text
+          v-else
+          v-html="$t('Seasons.ImportToornamentExplanation')"
+        />
         <v-card-text>
           <v-form ref="newImportForm">
             <v-container>
               <v-row>
-                <v-col cols="10">
+                <v-col cols="10" v-if="importProvider === 'challonge'">
                   <v-text-field
                     v-model="challongeInfo.tournament_id"
                     ref="ChallongeUrl"
                     :label="$t('Seasons.ImportUrl')"
                     required
+                  />
+                </v-col>
+                <v-col cols="10" v-else>
+                  <v-autocomplete
+                    v-model="challongeInfo.tournament_id"
+                    :items="toornamentTournaments"
+                    :loading="toornamentLoading"
+                    :label="$t('Seasons.ImportToornamentSelect')"
+                    :no-data-text="
+                      toornamentError || $t('Seasons.ImportToornamentNone')
+                    "
+                    :error-messages="toornamentError ? [toornamentError] : []"
+                    item-value="id"
+                    item-text="name"
+                    :item-disabled="t => t.imported"
+                  >
+                    <template v-slot:item="{ item }">
+                      <v-list-item-avatar v-if="item.logo" size="28">
+                        <img :src="item.logo" />
+                      </v-list-item-avatar>
+                      <v-list-item-content>
+                        <v-list-item-title>{{ item.name }}</v-list-item-title>
+                        <v-list-item-subtitle>
+                          {{ item.scheduled_date_start || "-" }}
+                          <span v-if="item.status"> · {{ item.status }}</span>
+                          <span v-if="toornamentShowAll && item.discipline">
+                            · {{ item.discipline }}
+                          </span>
+                          <span v-if="item.imported">
+                            · {{ $t("Seasons.ImportToornamentAlready") }}
+                          </span>
+                        </v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-autocomplete>
+                  <v-checkbox
+                    v-model="toornamentShowAll"
+                    dense
+                    hide-details
+                    :label="$t('Seasons.ImportToornamentAll')"
                   />
                 </v-col>
                 <v-col cols="2">
@@ -144,7 +215,7 @@
           <v-btn color="red darken-1" text @click="newImportDialog = false">
             {{ $t("misc.Cancel") }}
           </v-btn>
-          <v-btn color="blue darken-1" text @click="importChallongeSeason()">
+          <v-btn color="blue darken-1" text @click="importSeason()">
             {{ $t("misc.Import") }}
           </v-btn>
         </v-card-actions>
@@ -506,13 +577,25 @@ export default {
       challongeInfo: {
         tournament_id: "",
         import_teams: true
-      }
+      },
+      importProvider: "challonge",
+      toornamentTournaments: [],
+      toornamentLoading: false,
+      toornamentError: "",
+      toornamentShowAll: false
     };
   },
   mounted() {
     this.GetSeasons();
   },
   watch: {
+    importProvider(val) {
+      this.challongeInfo.tournament_id = "";
+      if (val === "toornament") this.loadToornamentTournaments();
+    },
+    toornamentShowAll() {
+      if (this.importProvider === "toornament") this.loadToornamentTournaments();
+    },
     newDialog(val) {
       if (!val) {
         this.formTitle = this.$t("Seasons.NewFormTitle");
@@ -547,6 +630,8 @@ export default {
     newImportDialog(val) {
       if (!val) {
         this.$refs.newImportForm.resetValidation();
+      } else if (this.importProvider === "toornament") {
+        this.loadToornamentTournaments();
       }
     }
   },
@@ -576,6 +661,19 @@ export default {
         this.isLoading = false;
       }
       return;
+    },
+    async loadToornamentTournaments() {
+      this.toornamentLoading = true;
+      this.toornamentError = "";
+      const res = await this.GetToornamentTournaments(this.toornamentShowAll);
+      this.toornamentTournaments = res.tournaments.map(t => ({
+        ...t,
+        scheduled_date_start: t.scheduled_date_start
+          ? new Date(t.scheduled_date_start).toLocaleDateString("en-CA")
+          : null
+      }));
+      if (res.error) this.toornamentError = res.message;
+      this.toornamentLoading = false;
     },
     deleteSelectedSeason(item) {
       if (item != null) {
@@ -753,15 +851,18 @@ export default {
       };
       this.newDialog = true;
     },
-    async importChallongeSeason() {
+    async importSeason() {
       let importData = [this.challongeInfo];
-      let isImport = await this.ImportSeason(importData);
+      let isImport =
+        this.importProvider === "toornament"
+          ? await this.ImportToornamentSeason(importData)
+          : await this.ImportSeason(importData);
       if (isImport.id) {
         this.seasons = [];
         this.GetSeasons();
         this.newImportDialog = false;
       } else {
-        this.response = this.$t("Seasons.ImportError");
+        this.response = isImport?.message || this.$t("Seasons.ImportError");
         this.responseSheet = true;
         this.$nextTick(() => {
           this.challongeInfo = {
@@ -774,6 +875,11 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return Boolean(
+        this.user && (this.user.admin == 1 || this.user.super_admin == 1)
+      );
+    },
     dateRangeText() {
       return this.newSeason.dates.join(" ~ ");
     },

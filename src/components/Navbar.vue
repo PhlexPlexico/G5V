@@ -109,6 +109,9 @@
               {{ $t("Navbar.PlayerLeader") }}
             </v-list-item-title>
           </v-list-item>
+          <v-list-item v-if="user.super_admin" :to="'/roles'">
+            <v-list-item-title>{{ $t("Navbar.Roles") }}</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

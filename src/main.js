@@ -7,6 +7,7 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import api from "./utils/api.vue";
+import "./utils/theme";
 
 Vue.config.productionTip = false;
 Vue.mixin(api);
@@ -22,6 +23,7 @@ const translations = require("./translations/translations.json");
 
 const i18n = new VueI18n({
   locale: "en", // Use English by default
+  fallbackLocale: "en",
   messages: translations
 });
 

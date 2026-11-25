@@ -65,8 +65,13 @@
   </v-footer>
 </template>
 <script>
+import { setThemePreference } from "@/utils/theme";
+
 export default {
   name: "Footer",
+  props: {
+    user: { type: Object, default: () => ({}) }
+  },
   data() {
     return {
       languages: [
@@ -94,22 +99,18 @@ export default {
       this.ChangeLanguage(command);
       // Bottom bar with timeout.
     },
-    darkMode() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-      localStorage.setItem("theme", this.$vuetify.theme.dark.toString());
+    async darkMode() {
+      const pref = this.$vuetify.theme.dark ? "light" : "dark";
+      setThemePreference(pref);
+      if (this.user && this.user.id) {
+        await this.UpdateUserPreferences(this.user.id, { theme: pref });
+        this.user.theme = pref;
+      }
     }
   },
   mounted() {
     const language = localStorage.getItem("language");
-    const theme = localStorage.getItem("theme");
     if (language) this.$i18n.locale = language;
-    if (theme) {
-      if (theme == "true") {
-        this.$vuetify.theme.dark = true;
-      } else {
-        this.$vuetify.theme.dark = false;
-      }
-    }
   }
 };
 </script>

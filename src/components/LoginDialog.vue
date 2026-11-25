@@ -171,7 +171,7 @@ export default {
           password: this.userInfo.password,
           steam_id: this.userInfo.steam_id
         };
-        userResponse = await this.register(userObject);
+        userResponse = await this.registerUser(userObject);
         if (!userResponse.includes("Success")) {
           this.response = userResponse;
           this.responseSheet = true;

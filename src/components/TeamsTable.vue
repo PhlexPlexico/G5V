@@ -47,10 +47,27 @@
       <v-card>
         <v-card-title>
           <span class="headline">
-            {{ $t("Seasons.Import") }}
+            {{
+              importProvider === "toornament"
+                ? $t("Seasons.ImportToornament")
+                : $t("Seasons.Import")
+            }}
           </span>
         </v-card-title>
-        <v-card-text v-html="$t('Seasons.ImportExplanation')" />
+        <v-card-text>
+          <v-btn-toggle v-model="importProvider" mandatory color="primary">
+            <v-btn value="challonge">Challonge</v-btn>
+            <v-btn value="toornament" v-if="isAdmin">Toornament</v-btn>
+          </v-btn-toggle>
+        </v-card-text>
+        <v-card-text
+          v-if="importProvider === 'challonge'"
+          v-html="$t('Seasons.ImportExplanation')"
+        />
+        <v-card-text
+          v-else
+          v-html="$t('Seasons.ImportToornamentExplanation')"
+        />
         <v-card-text>
           <v-form ref="newImportForm">
             <v-container>
@@ -59,7 +76,11 @@
                   <v-text-field
                     v-model="challongeInfo.tournament_id"
                     ref="ChallongeUrl"
-                    :label="$t('Seasons.ImportUrl')"
+                    :label="
+                      importProvider === 'challonge'
+                        ? $t('Seasons.ImportUrl')
+                        : $t('Seasons.ImportToornamentUrl')
+                    "
                     required
                   />
                 </v-col>
@@ -72,7 +93,7 @@
           <v-btn color="red darken-1" text @click="newImportDialog = false">
             {{ $t("misc.Cancel") }}
           </v-btn>
-          <v-btn color="blue darken-1" text @click="importChallongeTeams()">
+          <v-btn color="blue darken-1" text @click="importTeams()">
             {{ $t("misc.Import") }}
           </v-btn>
         </v-card-actions>
@@ -112,6 +133,7 @@ export default {
       challongeInfo: {
         tournament_id: ""
       },
+      importProvider: "challonge",
       responseSheet: false,
       response: "",
       options: {},
@@ -135,6 +157,11 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      return Boolean(
+        this.user && (this.user.admin == 1 || this.user.super_admin == 1)
+      );
+    },
     headers() {
       return [
         {
@@ -204,17 +231,21 @@ export default {
       this.isLoading = false;
       return;
     },
-    async importChallongeTeams() {
+    async importTeams() {
       let importData = [this.challongeInfo];
-      let isImport = await this.ImportChallongeTeams(importData);
-      if (isImport.message.includes("successfully")) {
+      let isImport =
+        this.importProvider === "toornament"
+          ? await this.ImportToornamentTeams(importData)
+          : await this.ImportChallongeTeams(importData);
+      // Errors come back as a plain message string.
+      if (typeof isImport === "object" && isImport?.message) {
         this.teams = [];
         this.GetTeams();
         this.response = isImport.message;
         this.responseSheet = true;
         this.newImportDialog = false;
       } else {
-        this.response = this.$t("Seasons.ImportError");
+        this.response = isImport || this.$t("Seasons.ImportError");
         this.responseSheet = true;
         this.$nextTick(() => {
           this.challongeInfo = {

@@ -168,6 +168,80 @@ export default {
       }
       return message;
     },
+    async GetUserRoles() {
+      try {
+        const res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/roles`
+        );
+        return res.data.users;
+      } catch (error) {
+        return [];
+      }
+    },
+    async UpdateUserRole(userid, role) {
+      try {
+        const res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}/role`,
+          { role }
+        );
+        return { ok: true, message: res.data.message };
+      } catch (error) {
+        return { ok: false, message: error.response?.data?.message };
+      }
+    },
+    async CreateUser(userInfo) {
+      try {
+        const res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/new`,
+          userInfo
+        );
+        return { ok: true, message: res.data.message };
+      } catch (error) {
+        return { ok: false, message: error.response?.data?.message };
+      }
+    },
+    async DeleteUser(userid) {
+      try {
+        const res = await this.axioCall.delete(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}`
+        );
+        return { ok: true, message: res.data.message };
+      } catch (error) {
+        return { ok: false, message: error.response?.data?.message };
+      }
+    },
+    async UpdateUserPreferences(userid, preferences) {
+      try {
+        const res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}/preferences`,
+          preferences
+        );
+        return { error: false, message: res.data.message };
+      } catch (error) {
+        return { error: true, message: error.response?.data?.message };
+      }
+    },
+    async UpdateToornamentCredentials(userid, credentials) {
+      try {
+        const res = await this.axioCall.put(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}/toornament`,
+          credentials
+        );
+        return { error: false, message: res.data.message };
+      } catch (error) {
+        return { error: true, message: error.response?.data?.message };
+      }
+    },
+    async TestToornamentCredentials(userid) {
+      try {
+        const res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/users/${userid}/toornament/test`
+        );
+        return { error: false, message: res.data.message };
+      } catch (error) {
+        return { error: true, message: error.response?.data?.message };
+      }
+    },
     // END USER CALLS
     // BEGIN TEAM CALLS
     async GetTeamData(teamid) {
@@ -326,6 +400,20 @@ export default {
       try {
         res = await this.axioCall.post(
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/challonge`,
+          tournamentInfo
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data.message;
+      }
+      return message;
+    },
+    async ImportToornamentTeams(tournamentInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/teams/toornament`,
           tournamentInfo
         );
         message = res.data;
@@ -775,6 +863,72 @@ export default {
         res = await this.axioCall.post(
           `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/challonge`,
           challongeInfo
+        );
+        message = res.data;
+      } catch (error) {
+        message = error.response.data;
+      }
+      return message;
+    },
+    async GetToornamentSeasonBoard(seasonId) {
+      try {
+        const res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/${seasonId}/toornament/matches`
+        );
+        return { error: false, board: res.data };
+      } catch (error) {
+        return {
+          error: true,
+          board: { old: [], current: [], to_launch: [] },
+          message: error.response?.data?.message
+        };
+      }
+    },
+    async GetToornamentMatchGames(seasonId, matchId) {
+      try {
+        const res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/${seasonId}/toornament/matches/${matchId}/games`
+        );
+        return { error: false, games: res.data.games };
+      } catch (error) {
+        return {
+          error: true,
+          games: [],
+          message: error.response?.data?.message
+        };
+      }
+    },
+    async PrepareToornamentMatch(seasonId, matchId) {
+      try {
+        const res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/${seasonId}/toornament/matches/${matchId}/prepare`
+        );
+        return { error: false, match: res.data.match };
+      } catch (error) {
+        return { error: true, message: error.response?.data?.message };
+      }
+    },
+    async GetToornamentTournaments(all = false) {
+      try {
+        const res = await this.axioCall.get(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/toornament/tournaments${all ? "?all=1" : ""}`
+        );
+        return { error: false, tournaments: res.data.tournaments };
+      } catch (error) {
+        return {
+          error: true,
+          tournaments: [],
+          message: error.response?.data?.message
+        };
+      }
+    },
+    async ImportToornamentSeason(toornamentInfo) {
+      let res;
+      let message;
+      try {
+        res = await this.axioCall.post(
+          `${process.env?.VUE_APP_G5V_API_URL || "/api"}/seasons/toornament`,
+          toornamentInfo
         );
         message = res.data;
       } catch (error) {
@@ -1249,7 +1403,8 @@ export default {
       }
       return message;
     },
-    async register(userinfo) {
+    // Not named `register`: this mixin is global and would shadow Vuetify's group register().
+    async registerUser(userinfo) {
       let message;
       let res;
       try {

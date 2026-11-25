@@ -1,5 +1,7 @@
 {
   "en": {
+    "ToornamentBoard": { "TabMatches": "G5 matches", "TabOld": "Old matches", "TabCurrent": "Current matches", "TabToLaunch": "Matches to launch", "Empty": "No match", "Round": "Round", "Team1": "Team 1", "Team2": "Team 2", "Score": "Score", "Format": "Format", "Date": "Date", "Tbd": "TBD", "Game": "Game", "Map": "Map", "Status": "Status", "NoGames": "No game reported on Toornament", "CreateMatch": "Create match", "CreateTitle": "Create the match", "Server": "Server", "NoServer": "No available server", "NoVeto": "no veto", "VetoInGame": "In-game veto (MatchZy)", "VetoManual": "Set maps and sides", "MapPool": "Map pool", "VetoFirst": "First to ban", "Random": "Random", "MapN": "Map {n}", "MapTwice": "Map already picked", "StartSide": "Starting side", "SideCT": "{team} starts CT", "SideKnife": "Knife round", "NoMapPool": "No map pool: set map_pool in the season settings or enable maps on your profile." },
+    "Roles": { "Delete": "Delete", "Deleted": "User deleted", "DeleteTitle": "Delete this user?", "DeleteExplain": "{name} will be deleted along with their servers, seasons and maps. Their matches and teams are kept.", "Create": "Add a user", "Created": "User created", "SteamIDHelp": "Steam ID (steam64, STEAM_x:y:z or profile URL)", "Required": "Required", "DisplayName": "Display name", "DisplayNameHint": "Optional, fetched from Steam if empty", "Username": "Local username", "Password": "Local password", "LocalHint": "Optional, only for local logins", "Both": "Username and password go together", "Cancel": "Cancel", "Title": "Role management", "Name": "Name", "SteamID": "Steam ID", "Role": "Role", "User": "User", "Admin": "Admin", "SuperAdmin": "Super Admin", "Search": "Search", "Updated": "Role updated", "Error": "Could not update the role" },
     "Navbar": {
       "title": "Get5Vue",
       "AllMatches": "All Matches",
@@ -15,7 +17,8 @@
       "Logout": "Logout",
       "DarkMode": "Toggle Dark Mode",
       "PlayerLeader": "Player Leaderboard",
-      "Home": "Home"
+      "Home": "Home",
+      "Roles": "Role management"
     },
     "Login": {
       "title": "Login/Register",
@@ -176,6 +179,13 @@
       "Import": "Import From Challonge",
       "ImportExplanation": "Tournament ID (e.g. 10230) or URL (e.g. 'single_elim' for challonge.com/single_elim). If assigned to a subdomain, URL format must be :subdomain-:tournament_url (e.g. 'test-mytourney' for test.challonge.com/mytourney)",
       "ImportUrl": "Challonge URL",
+      "ImportToornamentUrl": "Toornament tournament ID or URL",
+      "ImportToornament": "Import From Toornament",
+      "ImportToornamentSelect": "Counter-Strike 2 tournament",
+      "ImportToornamentNone": "No tournament found for your Toornament application.",
+      "ImportToornamentAll": "Show tournaments of every discipline",
+      "ImportToornamentAlready": "already imported",
+      "ImportToornamentExplanation": "Paste the ID or URL of a Toornament tournament belonging to your Toornament application. Your Toornament credentials must be set on your profile page. Only team names are imported; rosters must be filled in manually.",
       "ImportTeams": "Import Teams?",
       "ImportError": "Error importing season. Please ensure the Challonge URL is correct."
     },
@@ -299,7 +309,21 @@
       "MapNew": "New Map",
       "ResetPass": "Reset Password",
       "Challonge": "Challonge API Key",
-      "ChallongeSave": "Save Challonge Key"
+      "ChallongeSave": "Save Challonge Key",
+      "Toornament": "Toornament",
+      "ToornamentHint": "Credentials of your Toornament application (organizer API), available on",
+      "ToornamentApiKey": "API key",
+      "ToornamentClientId": "Client ID",
+      "ToornamentClientSecret": "Client secret",
+      "ToornamentSecretSaved": "Saved - leave empty to keep it",
+      "ToornamentSave": "Save Toornament credentials",
+      "ToornamentTest": "Test connection",
+      "Appearance": "Appearance",
+      "ThemeSystem": "System",
+      "ThemeLight": "Light",
+      "ThemeDark": "Dark",
+      "ThemeSaved": "Theme saved to your profile",
+      "ThemeError": "Could not save the theme"
     },
     "TeamCreate": {
       "FormTeamName": "Team Name",
@@ -734,6 +758,8 @@
     }
   },
   "fr": {
+    "ToornamentBoard": { "TabMatches": "Matchs G5", "TabOld": "Matchs terminés", "TabCurrent": "Matchs en cours", "TabToLaunch": "Matchs à lancer", "Empty": "Aucun match", "Round": "Tour", "Team1": "Équipe 1", "Team2": "Équipe 2", "Score": "Score", "Format": "Format", "Date": "Date", "Tbd": "À définir", "Game": "Game", "Map": "Map", "Status": "Statut", "NoGames": "Aucune game renseignée sur Toornament", "CreateMatch": "Créer le match", "CreateTitle": "Créer le match", "Server": "Serveur", "NoServer": "Aucun serveur disponible", "NoVeto": "sans veto", "VetoInGame": "Veto en jeu (MatchZy)", "VetoManual": "Imposer les maps et côtés", "MapPool": "Map pool", "VetoFirst": "Premier à bannir", "Random": "Aléatoire", "MapN": "Map {n}", "MapTwice": "Map déjà choisie", "StartSide": "Côté de départ", "SideCT": "{team} commence CT", "SideKnife": "Round au couteau", "NoMapPool": "Aucun map pool : renseignez map_pool dans les paramètres de la saison ou activez des maps sur votre profil." },
+    "Roles": { "Delete": "Supprimer", "Deleted": "Utilisateur supprimé", "DeleteTitle": "Supprimer cet utilisateur ?", "DeleteExplain": "{name} sera supprimé avec ses serveurs, saisons et maps. Ses matchs et équipes sont conservés.", "Create": "Ajouter un utilisateur", "Created": "Utilisateur créé", "SteamIDHelp": "Steam ID (steam64, STEAM_x:y:z ou URL de profil)", "Required": "Obligatoire", "DisplayName": "Nom affiché", "DisplayNameHint": "Optionnel, récupéré depuis Steam si vide", "Username": "Identifiant local", "Password": "Mot de passe local", "LocalHint": "Optionnel, uniquement pour les connexions locales", "Both": "Identifiant et mot de passe vont ensemble", "Cancel": "Annuler", "Title": "Gestion des rôles", "Name": "Nom", "SteamID": "Steam ID", "Role": "Rôle", "User": "Utilisateur", "Admin": "Admin", "SuperAdmin": "Super Admin", "Search": "Rechercher", "Updated": "Rôle mis à jour", "Error": "Impossible de modifier le rôle" },
     "Navbar": {
       "title": "Get5Vue",
       "AllMatches": "Tous les matchs",
@@ -749,7 +775,8 @@
       "Logout": "Déconnexion",
       "DarkMode": "Action le mode sombre",
       "PlayerLeader": "Classement des joueurs",
-      "Home": "Accueil"
+      "Home": "Accueil",
+      "Roles": "Gestion des rôles"
     },
     "Login": {
       "title": "S'identifier / S'incrire",
@@ -910,6 +937,13 @@
       "Import": "Importer depuis Challonge",
       "ImportExplanation": "Tournament ID (e.g. 10230) ou URL (e.g. 'single_elim' for challonge.com/single_elim). Si assigné à un sous-domaine, le format de l'URL doit être :sousdomaine-:tournament_url (e.g. 'test-mytourney' pour test.challonge.com/mytourney)",
       "ImportUrl": "URL Challonge",
+      "ImportToornamentUrl": "ID ou URL du tournoi Toornament",
+      "ImportToornament": "Importer depuis Toornament",
+      "ImportToornamentSelect": "Tournoi Counter-Strike 2",
+      "ImportToornamentNone": "Aucun tournoi trouvé pour votre application Toornament.",
+      "ImportToornamentAll": "Afficher les tournois de toutes les disciplines",
+      "ImportToornamentAlready": "déjà importé",
+      "ImportToornamentExplanation": "Collez l'ID ou l'URL d'un tournoi Toornament appartenant à votre application Toornament. Vos identifiants Toornament doivent être renseignés sur votre page de profil. Seuls les noms d'équipes sont importés ; les rosters sont à compléter manuellement.",
       "ImportTeams": "Importer les équipes ?",
       "ImportError": "Erreur durant l'import de la saison. Assurez-vous que l'URL Challonge est correcte."
     },
@@ -1033,7 +1067,21 @@
       "MapNew": "Nouvelle Map",
       "ResetPass": "Réinitialiser Mot de passe",
       "Challonge": "Clé API Challonge",
-      "ChallongeSave": "Sauver la clé Challonge"
+      "ChallongeSave": "Sauver la clé Challonge",
+      "Toornament": "Toornament",
+      "ToornamentHint": "Identifiants de votre application Toornament (API organizer), disponibles sur",
+      "ToornamentApiKey": "Clé API",
+      "ToornamentClientId": "Client ID",
+      "ToornamentClientSecret": "Client secret",
+      "ToornamentSecretSaved": "Enregistré - laisser vide pour le conserver",
+      "ToornamentSave": "Sauver les identifiants Toornament",
+      "ToornamentTest": "Tester la connexion",
+      "Appearance": "Apparence",
+      "ThemeSystem": "Système",
+      "ThemeLight": "Clair",
+      "ThemeDark": "Sombre",
+      "ThemeSaved": "Thème enregistré dans votre profil",
+      "ThemeError": "Impossible d'enregistrer le thème"
     },
     "TeamCreate": {
       "FormTeamName": "Nom de l'équipe",
